@@ -1,0 +1,79 @@
+{
+    "name": "bakame/laravel-domain-parser",
+    "description": "Laravel extension using PHP Domain parser.",
+    "homepage": "https://github.com/bakame-php/laravel-domain-parser",
+    "license": "MIT",
+    "keywords": [
+        "laravel",
+        "icann",
+        "iana",
+        "domain parser"
+    ],
+    "authors": [
+        {
+            "name": "Ignace Nyamagana Butera",
+            "homepage": "http://nyamsprod.com",
+            "role": "Developer"
+        },
+        {
+            "name": "Contributors",
+            "homepage": "https://github.com/bakame-php/laravel-domain-parser/graphs/contributors"
+        }
+    ],
+    "require": {
+        "php": "^7.1",
+        "jeremykendall/php-domain-parser": "^5.4",
+        "illuminate/support": "^5.7",
+        "illuminate/config": "^5.7"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^2.13",
+        "orchestra/testbench": "^3.7",
+        "phpstan/phpstan": "^0.10.6",
+        "phpstan/phpstan-phpunit": "^0.10.0",
+        "phpstan/phpstan-strict-rules": "^0.10.1",
+        "phpunit/phpunit": "^7.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "Bakame\\Laravel\\Pdp\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "BakameTest\\Laravel\\Pdp\\": "tests/"
+        }
+    },
+    "scripts": {
+        "phpcs": "php-cs-fixer fix -vv --diff --dry-run --allow-risky=yes",
+        "phpstan-src": "phpstan analyse -l max -c phpstan.src.neon src",
+        "phpstan-tests": "phpstan analyse -l max -c phpstan.tests.neon tests",
+        "phpstan": [
+            "@phpstan-src",
+            "@phpstan-tests"
+        ],
+        "phpunit": "phpunit --coverage-text",
+        "test": [
+            "@phpcs",
+            "@phpstan",
+            "@phpunit"
+        ]
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.x-dev"
+        },
+        "laravel": {
+            "providers": [
+                "Bakame\\Laravel\\Pdp\\ServiceProvider"
+            ],
+            "aliases": {
+                "Rules": "Bakame\\Laravel\\Pdp\\RulesFacade",
+                "TopLevelDomains": "Bakame\\Laravel\\Pdp\\TopLevelDomainsFacade"
+            }
+        }
+    },
+    "config": {
+        "sort-packages": true
+    }
+}

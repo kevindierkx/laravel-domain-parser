@@ -1,0 +1,9 @@
+includes:
+    - vendor/phpstan/phpstan-strict-rules/rules.neon
+    - vendor/phpstan/phpstan-phpunit/extension.neon
+    - vendor/phpstan/phpstan-phpunit/rules.neon
+parameters:
+    ignoreErrors:
+        - '#Call to static method resolve\(\) on an unknown class (Rules|TopLevelDomains).#'
+        - '#Call to static method make\(\) on an unknown class (Validator).#'
+    reportUnmatchedIgnoredErrors: true

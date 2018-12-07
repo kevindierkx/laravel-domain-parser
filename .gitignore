@@ -1,0 +1,9 @@
+tags
+composer.lock
+vendor
+*.swp
+docs
+*~
+build
+.idea
+.php_cs.cache
