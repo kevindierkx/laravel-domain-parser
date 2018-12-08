@@ -11,6 +11,7 @@
 
 namespace BakameTest\Laravel\Pdp;
 
+use Artisan;
 use Bakame\Laravel\Pdp\RulesFacade;
 use Bakame\Laravel\Pdp\ServiceProvider;
 use Bakame\Laravel\Pdp\TopLevelDomainsFacade;
@@ -19,6 +20,13 @@ use Orchestra\Testbench\TestCase as Orchestra;
 
 abstract class TestCase extends Orchestra
 {
+    public function setUp(): void
+    {
+        parent::setUp();
+        Artisan::call('view:clear');
+        Artisan::call('cache:clear');
+    }
+
     /**
      * @param Application $app
      */
@@ -36,5 +44,18 @@ abstract class TestCase extends Orchestra
             'Rules' => RulesFacade::class,
             'TopLevelDomains' => TopLevelDomainsFacade::class,
         ];
+    }
+
+    /**
+     * @param Application $app
+     */
+    protected function getEnvironmentSetUp($app): void
+    {
+        $app['config']->set('view.paths', [__DIR__.'/resources/views']);
+    }
+
+    public function renderView(string $viewName, array $withParameters = []): string
+    {
+        return view($viewName)->with($withParameters)->render();
     }
 }

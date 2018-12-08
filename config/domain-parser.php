@@ -10,12 +10,13 @@ return [
      */
     'url_rzd' => 'https://data.iana.org/TLD/tlds-alpha-by-domain.txt',
     /**
-     * Name of the cache store to use. One of the store listed in the stores listed
-     * `stores` configuration array in your `cache` configuration file.
+     * Name of the cache to use. If a string is given it will be one of
+     * the store listed in the `stores` configuration array in 
+     * your `cache` configuration file.
      */
-    'cache_store' => 'file',
+    'cache_client' => 'file',
     /**
-     * Cache TTL
+     * Cache TTL  Can be a string, an int, a DateInterval or a DateTimeInterface object
      */
     'cache_ttl' => '1 DAY',
     /**
@@ -23,5 +24,5 @@ return [
      * correctly retrieving the PSL and RZD data. the options takes a array
      * usable by curl_setopt_array
      */
-    'curl_options' => [],
+    'http_client' => [],
 ];

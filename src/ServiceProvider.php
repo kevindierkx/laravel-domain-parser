@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Bakame\Laravel\Pdp;
 
 use Closure;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ServiceProvider as LaraverServiceProvider;
 use Pdp\Domain;
@@ -34,34 +35,34 @@ final class ServiceProvider extends LaraverServiceProvider
             dirname(__DIR__).'/config/domain-parser.php' => config_path('domain-parser'),
         ], 'config');
 
-        $isDomain = static function (string $attribute, $value, array $params = [], $validator): bool {
+        $isDomain = static function ($domain): bool {
             try {
-                new Domain($value);
+                new Domain($domain);
                 return true;
             } catch (Throwable $e) {
                 return false;
             }
         };
 
-        $isKnownDomain = function (string $attribute, $value, array $params, $validator): bool {
-            return $this->app->make(Rules::class)->resolve($value)->isKnown();
+        $isKnown = function ($domain): bool {
+            return $this->app->make(Rules::class)->resolve($domain)->isKnown();
         };
 
-        $isICANNDomain = function (string $attribute, $value, array $params, $validator): bool {
-            return $this->app->make(Rules::class)->resolve($value)->isICANN();
+        $isICANN = function ($domain): bool {
+            return $this->app->make(Rules::class)->resolve($domain)->isICANN();
         };
 
-        $isPrivateDomain = function (string $attribute, $value, array $params, $validator): bool {
-            return $this->app->make(Rules::class)->resolve($value)->isPrivate();
+        $isPrivate = function ($domain): bool {
+            return $this->app->make(Rules::class)->resolve($domain)->isPrivate();
         };
 
-        $isTopLevelDomain = function (string $attribute, $value, array $params, $validator): bool {
-            return $this->app->make(TopLevelDomains::class)->contains($value);
+        $isTLD = function ($domain): bool {
+            return $this->app->make(TopLevelDomains::class)->contains($domain);
         };
 
-        $containsTopLevelDomain = function (string $attribute, $value, array $params, $validator): bool {
+        $containsTLD = function ($domain): bool {
             try {
-                $domain = new Domain($value);
+                $domain = new Domain($domain);
 
                 return $this->app->make(TopLevelDomains::class)->contains($domain->getLabel(0));
             } catch (Throwable $e) {
@@ -69,12 +70,60 @@ final class ServiceProvider extends LaraverServiceProvider
             }
         };
 
-        Validator::extend('is_domain_name', $isDomain, 'The :attribute field is not a valid domain name.');
-        Validator::extend('is_known_domain_name', $isKnownDomain, 'The :attribute field is not a known domain name.');
-        Validator::extend('is_icann_domain_name', $isICANNDomain, 'The :attribute field is not a ICANN domain name.');
-        Validator::extend('is_private_domain_name', $isPrivateDomain, 'The :attribute field is not a private domain name.');
-        Validator::extend('is_toplevel_domain', $isTopLevelDomain, 'The :attribute field is not a top level domain.');
-        Validator::extend('endswith_toplevel_domain', $containsTopLevelDomain, 'The :attribute field does end with a top level domain.');
+        Blade::if('domain_name', $isDomain);
+        Blade::if('known_domain_name', $isKnown);
+        Blade::if('icann_domain_name', $isICANN);
+        Blade::if('private_domain_name', $isPrivate);
+        Blade::if('toplevel_domain', $isTLD);
+        Blade::if('endswith_toplevel_domain', $containsTLD);
+
+        Validator::extend(
+            'is_domain_name',
+            function (string $attribute, $value, array $params = [], $validator) use ($isDomain) : bool {
+                return $isDomain($value);
+            },
+            'The :attribute field is not a valid domain name.'
+        );
+
+        Validator::extend(
+            'is_known_domain_name',
+            function (string $attribute, $value, array $params = [], $validator) use ($isKnown) : bool {
+                return $isKnown($value);
+            },
+            'The :attribute field is not a known domain name.'
+        );
+
+        Validator::extend(
+            'is_icann_domain_name',
+            function (string $attribute, $value, array $params = [], $validator) use ($isICANN) : bool {
+                return $isICANN($value);
+            },
+            'The :attribute field is not a ICANN domain name.'
+        );
+
+        Validator::extend(
+            'is_private_domain_name',
+            function (string $attribute, $value, array $params = [], $validator) use ($isPrivate) : bool {
+                return $isPrivate($value);
+            },
+            'The :attribute field is not a private domain name.'
+        );
+
+        Validator::extend(
+            'is_toplevel_domain',
+            function (string $attribute, $value, array $params = [], $validator) use ($isTLD) : bool {
+                return $isTLD($value);
+            },
+            'The :attribute field is not a top level domain.'
+        );
+
+        Validator::extend(
+            'endswith_toplevel_domain',
+            function (string $attribute, $value, array $params = [], $validator) use ($containsTLD) : bool {
+                return $containsTLD($value);
+            },
+            'The :attribute field does end with a top level domain.'
+        );
     }
 
     /**
@@ -83,9 +132,11 @@ final class ServiceProvider extends LaraverServiceProvider
     public function register(): void
     {
         $this->mergeConfigFrom(dirname(__DIR__).'/config/domain-parser.php', 'domain-parser');
+
         $this->app->singleton('domain-rules', Closure::fromCallable([Factory::class, 'newRules']));
-        $this->app->alias('domain-rules', Rules::class);
         $this->app->singleton('domain-toplevel', Closure::fromCallable([Factory::class, 'newTopLevelDomains']));
+
+        $this->app->alias('domain-rules', Rules::class);
         $this->app->alias('domain-toplevel', TopLevelDomains::class);
     }
 }

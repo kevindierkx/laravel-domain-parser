@@ -14,44 +14,65 @@ namespace BakameTest\Laravel\Pdp;
 use Bakame\Laravel\Pdp\MisconfiguredExtension;
 use InvalidArgumentException;
 use Pdp\Cache as PdpCache;
+use Pdp\CurlHttpClient;
 use Pdp\Domain;
 use Rules;
+use TypeError;
 use function date_create;
 
 final class ServiceProviderTest extends TestCase
 {
-    public function testMisconfiguredCurlOptions(): void
+    public function testMissingHttpClientConfigurationKey(): void
     {
         self::expectException(MisconfiguredExtension::class);
-        $this->app['config']->set('domain-parser.cache_store', 'array');
-        $this->app['config']->set('domain-parser.curl_options', 1.3);
+        $this->app['config']->set('domain-parser.http_client', null);
         Rules::resolve('bbc.co.uk');
     }
 
-    public function testSwitchingCache(): void
+    public function testMisconfiguredHttpClientConfiguration(): void
     {
-        $this->app['config']->set('domain-parser.cache_store', new PdpCache());
+        self::expectException(TypeError::class);
+        $this->app['config']->set('domain-parser.http_client', 1.3);
+        Rules::resolve('bbc.co.uk');
+    }
+
+    public function testHttpClienteWithInvalidType(): void
+    {
+        self::expectException(TypeError::class);
+        $this->app['config']->set('domain-parser.http_client', date_create());
         self::assertInstanceOf(Domain::class, Rules::resolve('bbc.co.uk'));
     }
 
-    public function testInvalidCacheStore(): void
+    public function testUsingAnHttpClientObject(): void
+    {
+        $this->app['config']->set('domain-parser.http_client', new CurlHttpClient());
+        self::assertInstanceOf(Domain::class, Rules::resolve('bbc.co.uk'));
+    }
+
+    public function testUsingACacheObject(): void
+    {
+        $this->app['config']->set('domain-parser.cache_client', new PdpCache());
+        self::assertInstanceOf(Domain::class, Rules::resolve('bbc.co.uk'));
+    }
+
+    public function testUsingAnInvalidCacheStore(): void
     {
         self::expectException(InvalidArgumentException::class);
-        $this->app['config']->set('domain-parser.cache_store', 'foobar');
+        $this->app['config']->set('domain-parser.cache_client', 'foobar');
         self::assertInstanceOf(Domain::class, Rules::resolve('bbc.co.uk'));
     }
 
-    public function testCacheStoreMissing(): void
+    public function testMissingCacheConfigurationKey(): void
     {
         self::expectException(MisconfiguredExtension::class);
-        $this->app['config']->set('domain-parser.cache_store', null);
+        $this->app['config']->set('domain-parser.cache_client', null);
         self::assertInstanceOf(Domain::class, Rules::resolve('bbc.co.uk'));
     }
 
-    public function testCacheStoreWithInvalidType(): void
+    public function testCacheWithInvalidType(): void
     {
-        self::expectException(MisconfiguredExtension::class);
-        $this->app['config']->set('domain-parser.cache_store', date_create());
+        self::expectException(TypeError::class);
+        $this->app['config']->set('domain-parser.cache_client', date_create());
         self::assertInstanceOf(Domain::class, Rules::resolve('bbc.co.uk'));
     }
 }

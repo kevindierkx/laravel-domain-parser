@@ -14,11 +14,12 @@ declare(strict_types=1);
 namespace Bakame\Laravel\Pdp;
 
 use Illuminate\Support\Facades\Facade;
+use Pdp\Rules;
 
 final class RulesFacade extends Facade
 {
     protected static function getFacadeAccessor()
     {
-        return 'domain-rules';
+        return Rules::class;
     }
 }
