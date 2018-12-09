@@ -15,7 +15,7 @@ final class BladeTest extends TestCase
 {
     /**
      * @dataProvider isDomainNameProvider
-     */ 
+     */
     public function testIsDomainName(string $domain, string $expected): void
     {
         self::assertSame($expected, $this->renderView('domain_name', ['domain' => $domain]));
@@ -37,7 +37,7 @@ final class BladeTest extends TestCase
 
     /**
      * @dataProvider isKnownDomainNameProvider
-     */ 
+     */
     public function testIsKnownDomainName(string $domain, string $expected): void
     {
         self::assertSame($expected, $this->renderView('known_domain_name', ['domain' => $domain]));
@@ -59,7 +59,7 @@ final class BladeTest extends TestCase
 
     /**
      * @dataProvider isICANNDomainNameProvider
-     */ 
+     */
     public function testIsICANNDomainName(string $domain, string $expected): void
     {
         self::assertSame($expected, $this->renderView('icann_domain_name', ['domain' => $domain]));
@@ -81,7 +81,7 @@ final class BladeTest extends TestCase
 
     /**
      * @dataProvider isPrivateDomainNameProvider
-     */ 
+     */
     public function testIsPrivateDomainName(string $domain, string $expected): void
     {
         self::assertSame($expected, $this->renderView('private_domain_name', ['domain' => $domain]));
@@ -103,7 +103,7 @@ final class BladeTest extends TestCase
 
     /**
      * @dataProvider isTopLevelDomainProvider
-     */ 
+     */
     public function testIsTopLevelDomain(string $domain, string $expected): void
     {
         self::assertSame($expected, $this->renderView('toplevel_domain', ['domain' => $domain]));
@@ -125,7 +125,7 @@ final class BladeTest extends TestCase
 
     /**
      * @dataProvider endsWithTopLevelDomainProvider
-     */ 
+     */
     public function testEndsWithTopLevelDomain(string $domain, string $expected): void
     {
         self::assertSame($expected, $this->renderView('endswith_toplevel_domain', ['domain' => $domain]));

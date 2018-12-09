@@ -17,6 +17,7 @@ use Pdp\Cache as PdpCache;
 use Pdp\CurlHttpClient;
 use Pdp\Domain;
 use Rules;
+use TopLevelDomains;
 use TypeError;
 use function date_create;
 
@@ -36,6 +37,13 @@ final class ServiceProviderTest extends TestCase
         Rules::resolve('bbc.co.uk');
     }
 
+    public function testUnknownHttpClientConfiguration(): void
+    {
+        self::expectException(MisconfiguredExtension::class);
+        $this->app['config']->set('domain-parser.http_client', 'foobar');
+        Rules::resolve('bbc.co.uk');
+    }
+
     public function testHttpClienteWithInvalidType(): void
     {
         self::expectException(TypeError::class);
@@ -47,6 +55,14 @@ final class ServiceProviderTest extends TestCase
     {
         $this->app['config']->set('domain-parser.http_client', new CurlHttpClient());
         self::assertInstanceOf(Domain::class, Rules::resolve('bbc.co.uk'));
+    }
+
+    public function testUsingGuzzleClientObject(): void
+    {
+        $this->app['config']->set('domain-parser.cache_client', 'array');
+        $this->app['config']->set('domain-parser.http_client', 'guzzle');
+        self::assertInstanceOf(Domain::class, Rules::resolve('bbc.co.uk'));
+        self::assertTrue(TopLevelDomains::contains('uk'));
     }
 
     public function testUsingACacheObject(): void
@@ -73,6 +89,13 @@ final class ServiceProviderTest extends TestCase
     {
         self::expectException(TypeError::class);
         $this->app['config']->set('domain-parser.cache_client', date_create());
+        self::assertInstanceOf(Domain::class, Rules::resolve('bbc.co.uk'));
+    }
+
+    public function testCacheWithInvalidTypeTTL(): void
+    {
+        self::expectException(TypeError::class);
+        $this->app['config']->set('domain-parser.cache_ttl', []);
         self::assertInstanceOf(Domain::class, Rules::resolve('bbc.co.uk'));
     }
 }

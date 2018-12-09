@@ -79,7 +79,7 @@ final class ServiceProvider extends LaraverServiceProvider
 
         Validator::extend(
             'is_domain_name',
-            function (string $attribute, $value, array $params = [], $validator) use ($isDomain) : bool {
+            function (string $attribute, $value, array $params = [], $validator) use ($isDomain): bool {
                 return $isDomain($value);
             },
             'The :attribute field is not a valid domain name.'
@@ -87,7 +87,7 @@ final class ServiceProvider extends LaraverServiceProvider
 
         Validator::extend(
             'is_known_domain_name',
-            function (string $attribute, $value, array $params = [], $validator) use ($isKnown) : bool {
+            function (string $attribute, $value, array $params = [], $validator) use ($isKnown): bool {
                 return $isKnown($value);
             },
             'The :attribute field is not a known domain name.'
@@ -95,7 +95,7 @@ final class ServiceProvider extends LaraverServiceProvider
 
         Validator::extend(
             'is_icann_domain_name',
-            function (string $attribute, $value, array $params = [], $validator) use ($isICANN) : bool {
+            function (string $attribute, $value, array $params = [], $validator) use ($isICANN): bool {
                 return $isICANN($value);
             },
             'The :attribute field is not a ICANN domain name.'
@@ -103,7 +103,7 @@ final class ServiceProvider extends LaraverServiceProvider
 
         Validator::extend(
             'is_private_domain_name',
-            function (string $attribute, $value, array $params = [], $validator) use ($isPrivate) : bool {
+            function (string $attribute, $value, array $params = [], $validator) use ($isPrivate): bool {
                 return $isPrivate($value);
             },
             'The :attribute field is not a private domain name.'
@@ -111,7 +111,7 @@ final class ServiceProvider extends LaraverServiceProvider
 
         Validator::extend(
             'is_toplevel_domain',
-            function (string $attribute, $value, array $params = [], $validator) use ($isTLD) : bool {
+            function (string $attribute, $value, array $params = [], $validator) use ($isTLD): bool {
                 return $isTLD($value);
             },
             'The :attribute field is not a top level domain.'
@@ -119,7 +119,7 @@ final class ServiceProvider extends LaraverServiceProvider
 
         Validator::extend(
             'endswith_toplevel_domain',
-            function (string $attribute, $value, array $params = [], $validator) use ($containsTLD) : bool {
+            function (string $attribute, $value, array $params = [], $validator) use ($containsTLD): bool {
                 return $containsTLD($value);
             },
             'The :attribute field does end with a top level domain.'
@@ -133,8 +133,8 @@ final class ServiceProvider extends LaraverServiceProvider
     {
         $this->mergeConfigFrom(dirname(__DIR__).'/config/domain-parser.php', 'domain-parser');
 
-        $this->app->singleton('domain-rules', Closure::fromCallable([Factory::class, 'newRules']));
-        $this->app->singleton('domain-toplevel', Closure::fromCallable([Factory::class, 'newTopLevelDomains']));
+        $this->app->singleton('domain-rules', Closure::fromCallable([Factory::class, 'getRules']));
+        $this->app->singleton('domain-toplevel', Closure::fromCallable([Factory::class, 'getTLDs']));
 
         $this->app->alias('domain-rules', Rules::class);
         $this->app->alias('domain-toplevel', TopLevelDomains::class);

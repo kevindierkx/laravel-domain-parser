@@ -28,6 +28,7 @@
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^2.13",
+        "guzzlehttp/guzzle": "^6.3",
         "orchestra/testbench": "^3.7",
         "phpstan/phpstan": "^0.10.6",
         "phpstan/phpstan-phpunit": "^0.10.0",
@@ -58,6 +59,9 @@
             "@phpstan",
             "@phpunit"
         ]
+    },
+    "suggest": {
+        "guzzlehttp/guzzle": "To use a better HTTP Client"
     },
     "extra": {
         "branch-alias": {

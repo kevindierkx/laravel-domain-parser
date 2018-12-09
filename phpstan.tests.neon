@@ -4,7 +4,7 @@ includes:
     - vendor/phpstan/phpstan-phpunit/rules.neon
 parameters:
     ignoreErrors:
-        - '#Call to static method resolve\(\) on an unknown class (Rules|TopLevelDomains).#'
+        - '#Call to static method (contains|resolve)\(\) on an unknown class (Rules|TopLevelDomains).#'
         - '#Call to static method make\(\) on an unknown class (Validator).#'
         - '#Call to static method call\(\) on an unknown class Artisan.#'
         - '#Call to an undefined method Illuminate\\Contracts\\View\\Factory\|Illuminate\\View\\View::with\(\).#'
