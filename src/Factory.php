@@ -106,7 +106,7 @@ final class Factory
     }
 
     /**
-     * Refresh the IANA Root Zone Domain List cache.
+     * Refresh the IANA Root Zone Database cache.
      */
     public static function refreshTLDs(): bool
     {

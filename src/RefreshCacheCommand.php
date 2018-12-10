@@ -51,15 +51,16 @@ final class RefreshCacheCommand extends Command
             $this->info('The Public Suffix List is refreshed.');
         }
 
-        if ($refreshTLDs) {
-            if (!Factory::refreshTLDs()) {
-                $this->error('The IANA Root Zone Domain could not be refreshed. Please review your settings.');
-                return 1;
-            }
-
-            $this->info('The IANA Root Zone Domain is refreshed.');
+        if (!$refreshTLDs) {
+            return 0;
         }
 
-        return 0;
+        if (Factory::refreshTLDs()) {
+            $this->info('The IANA Root Zone Database is refreshed.');
+            return 0;
+        }
+
+        $this->error('The IANA Root Zone Database could not be refreshed. Please review your settings.');
+        return 1;
     }
 }

@@ -151,15 +151,15 @@ Maintenance
 
 ### Refresh Cache Command
 
-You can warm the cache using the bundled refresh cache command manually. You can choose to refresh
+You can warm and/or update the cache information using the bundled refresh cache command manually. You can choose to refresh:
 
-- the Public Suffix List data
+- the Public Suffix List
 
 ```bash
 php artisan domain-parser:refresh --rules
 ```
 
-- the IANA Root Domain informations
+- the IANA Root Zone Database
 
 ```bash
 php artisan domain-parser:refresh --tlds
