@@ -16,7 +16,7 @@ namespace Bakame\Laravel\Pdp;
 use Closure;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\ServiceProvider as LaraverServiceProvider;
+use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 use Pdp\Domain;
 use Pdp\Rules;
 use Pdp\TopLevelDomains;
@@ -24,7 +24,7 @@ use Throwable;
 use function config_path;
 use function dirname;
 
-final class ServiceProvider extends LaraverServiceProvider
+final class ServiceProvider extends BaseServiceProvider
 {
     /**
      * {@inheritdoc}

@@ -33,9 +33,13 @@ final class Factory
     ];
 
     /**
-     * Errors for Laravel 5.8- where PSR SimpleCache is buggy.
+     * Catch Illuminate Cache PSR SimpleCache contract violation.
+     *
+     * We use 2 messages because TypeError reports types as bool instead of boolean starting with PHP7.3
+     *
+     * @see https://github.com/laravel/framework/issues/26674
      */
-    private const LARAVEL_CACHE_ERROR = [
+    private const ILLUMINATE_CACHE_ERROR = [
         'tlds' => [
             "Return value of Pdp\Manager::refreshTLDs() must be of the type boolean, null returned",
             "Return value of Pdp\Manager::refreshTLDs() must be of the type bool, null returned",
@@ -59,7 +63,7 @@ final class Factory
         try {
             return $manager->getRules($url, $ttl);
         } catch (TypeError $e) {
-            if (in_array($e->getMessage(), self::LARAVEL_CACHE_ERROR['rules'], true)) {
+            if (in_array($e->getMessage(), self::ILLUMINATE_CACHE_ERROR['rules'], true)) {
                 return $manager->getRules($url, $ttl);
             }
 
@@ -80,7 +84,7 @@ final class Factory
         try {
             return $manager->getTLDs($url, $ttl);
         } catch (TypeError $e) {
-            if (in_array($e->getMessage(), self::LARAVEL_CACHE_ERROR['tlds'], true)) {
+            if (in_array($e->getMessage(), self::ILLUMINATE_CACHE_ERROR['tlds'], true)) {
                 return $manager->getTLDs($url, $ttl);
             }
 
@@ -89,7 +93,7 @@ final class Factory
     }
 
     /**
-     * Refresh the cache.
+     * Refresh the Public Suffix List cache.
      */
     public static function refreshRules(): bool
     {
@@ -101,7 +105,7 @@ final class Factory
         try {
             return $manager->refreshRules($url, $ttl);
         } catch (TypeError $e) {
-            if (in_array($e->getMessage(), self::LARAVEL_CACHE_ERROR['rules'], true)) {
+            if (in_array($e->getMessage(), self::ILLUMINATE_CACHE_ERROR['rules'], true)) {
                 return true;
             }
 
@@ -110,7 +114,7 @@ final class Factory
     }
 
     /**
-     * Refresh the cache.
+     * Refresh the IANA Root Zone Domain List cache.
      */
     public static function refreshTLDs(): bool
     {
@@ -122,7 +126,7 @@ final class Factory
         try {
             return $manager->refreshTLDs($url, $ttl);
         } catch (TypeError $e) {
-            if (in_array($e->getMessage(), self::LARAVEL_CACHE_ERROR['tlds'], true)) {
+            if (in_array($e->getMessage(), self::ILLUMINATE_CACHE_ERROR['tlds'], true)) {
                 return true;
             }
 
@@ -131,15 +135,11 @@ final class Factory
     }
 
     /**
-     * Returns a Manager instance.
+     * Returns a Pdp\Manager instance.
      */
     private static function getManager(array $config): Manager
     {
-        return new Manager(
-            self::getCache($config),
-            self::getHttpClient($config),
-            $config['cache_ttl'] ?? null
-        );
+        return new Manager(self::getCache($config), self::getHttpClient($config), $config['cache_ttl'] ?? null);
     }
 
     /**

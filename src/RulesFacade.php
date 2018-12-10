@@ -18,7 +18,10 @@ use Pdp\Rules;
 
 final class RulesFacade extends Facade
 {
-    protected static function getFacadeAccessor()
+    /**
+     * {@inheritdoc}
+     */
+    protected static function getFacadeAccessor(): string
     {
         return Rules::class;
     }

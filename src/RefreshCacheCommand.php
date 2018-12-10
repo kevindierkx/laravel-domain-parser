@@ -30,7 +30,7 @@ final class RefreshCacheCommand extends Command
     /**
      * {@inheritdoc}
      */
-    public function handle()
+    public function handle(): int
     {
         $this->info('Starting refreshing the Domain Parser Cache');
 
@@ -45,7 +45,7 @@ final class RefreshCacheCommand extends Command
         if ($refreshRules) {
             if (!Factory::refreshRules()) {
                 $this->error('The Public Suffix List could not be refreshed. Please review your settings.');
-                return;
+                return 1;
             }
 
             $this->info('The Public Suffix List is refreshed.');
@@ -54,10 +54,12 @@ final class RefreshCacheCommand extends Command
         if ($refreshTLDs) {
             if (!Factory::refreshTLDs()) {
                 $this->error('The IANA Root Zone Domain could not be refreshed. Please review your settings.');
-                return;
+                return 1;
             }
 
             $this->info('The IANA Root Zone Domain is refreshed.');
         }
+
+        return 0;
     }
 }

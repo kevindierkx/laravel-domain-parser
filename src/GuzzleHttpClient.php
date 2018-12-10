@@ -27,14 +27,15 @@ final class GuzzleHttpClient implements HttpClient
 
     /**
      * New instance.
-     *
-     * @param Client $client [description]
      */
     public function __construct(Client $client)
     {
         $this->client = $client;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getContent(string $url): string
     {
         try {

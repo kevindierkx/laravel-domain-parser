@@ -46,7 +46,7 @@ OK
 @else
 KO
 @endcontains_tld
-// display KO
+{{-- KO --}}
 ```
 
 System Requirements
@@ -214,7 +214,7 @@ Credits
 -------
 
 - [ignace nyamagana butera](https://github.com/nyamsprod)
-- [All Contributors](https://github.com/thephpleague/uri-query-parser/contributors)
+- [All Contributors](https://github.com/bakame-php/laravel-domain-parser/contributors)
 
 License
 -------
@@ -224,7 +224,7 @@ The MIT License (MIT). Please see [License File](LICENSE) for more information.
 
 [ico-travis]: https://img.shields.io/travis/bakame-php/laravel-domain-parser/master.svg?style=flat-square
 [ico-packagist]: https://img.shields.io/packagist/dt/bakame/laravel-domain-parser.svg?style=flat-square
-[ico-release]: https://img.shields.io/github/release/bakame-php/laravel-domain-parser.svg?style=flat-square
+[ico-release]: https://img.shields.io/github/release/bakame/laravel-domain-parser.svg?style=flat-square
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
 
 [link-travis]: https://travis-ci.org/bakame-php/laravel-domain-parser

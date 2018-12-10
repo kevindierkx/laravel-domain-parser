@@ -18,7 +18,10 @@ use Pdp\TopLevelDomains;
 
 final class TopLevelDomainsFacade extends Facade
 {
-    protected static function getFacadeAccessor()
+    /**
+     * {@inheritdoc}
+     */
+    protected static function getFacadeAccessor(): string
     {
         return TopLevelDomains::class;
     }
