@@ -1,6 +1,6 @@
 {
     "name": "bakame/laravel-domain-parser",
-    "description": "Laravel extension using PHP Domain parser.",
+    "description": "Laravel package to integrate PHP Domain parser.",
     "homepage": "https://github.com/bakame-php/laravel-domain-parser",
     "license": "MIT",
     "keywords": [
