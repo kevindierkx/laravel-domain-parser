@@ -40,7 +40,7 @@ final class BladeTest extends TestCase
      */
     public function testIsKnownDomainName(string $domain, string $expected): void
     {
-        self::assertSame($expected, $this->renderView('known_domain_name', ['domain' => $domain]));
+        self::assertSame($expected, $this->renderView('known_suffix', ['domain' => $domain]));
     }
 
     public function isKnownDomainNameProvider(): iterable
@@ -62,7 +62,7 @@ final class BladeTest extends TestCase
      */
     public function testIsICANNDomainName(string $domain, string $expected): void
     {
-        self::assertSame($expected, $this->renderView('icann_domain_name', ['domain' => $domain]));
+        self::assertSame($expected, $this->renderView('icann_suffix', ['domain' => $domain]));
     }
 
     public function isICANNDomainNameProvider(): iterable
@@ -84,7 +84,7 @@ final class BladeTest extends TestCase
      */
     public function testIsPrivateDomainName(string $domain, string $expected): void
     {
-        self::assertSame($expected, $this->renderView('private_domain_name', ['domain' => $domain]));
+        self::assertSame($expected, $this->renderView('private_suffix', ['domain' => $domain]));
     }
 
     public function isPrivateDomainNameProvider(): iterable
@@ -106,7 +106,7 @@ final class BladeTest extends TestCase
      */
     public function testIsTopLevelDomain(string $domain, string $expected): void
     {
-        self::assertSame($expected, $this->renderView('toplevel_domain', ['domain' => $domain]));
+        self::assertSame($expected, $this->renderView('tld', ['domain' => $domain]));
     }
 
     public function isTopLevelDomainProvider(): iterable
@@ -128,7 +128,7 @@ final class BladeTest extends TestCase
      */
     public function testEndsWithTopLevelDomain(string $domain, string $expected): void
     {
-        self::assertSame($expected, $this->renderView('endswith_toplevel_domain', ['domain' => $domain]));
+        self::assertSame($expected, $this->renderView('contains_tld', ['domain' => $domain]));
     }
 
     public function endsWithTopLevelDomainProvider(): iterable

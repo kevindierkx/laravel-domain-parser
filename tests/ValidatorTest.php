@@ -31,15 +31,15 @@ final class ValidatorTest extends TestCase
     public function validatorProvider(): array
     {
         return [
-            'is_toplevel_domain success' => [
+            'is_tld success' => [
                 'input' => ['tld' => 'uk'],
-                'constraints' => ['tld' => 'is_toplevel_domain'],
+                'constraints' => ['tld' => 'is_tld'],
                 'method' => 'fails',
                 'expected' => false,
             ],
-            'is_toplevel_domain fails' => [
+            'is_tld fails' => [
                 'input' => ['tld' => 'bbc.co.uk'],
-                'constraints' => ['tld' => 'is_toplevel_domain'],
+                'constraints' => ['tld' => 'is_tld'],
                 'method' => 'fails',
                 'expected' => true,
             ],
@@ -55,57 +55,57 @@ final class ValidatorTest extends TestCase
                 'method' => 'fails',
                 'expected' => true,
             ],
-            'is_known_domain_name success' => [
+            'is_known_suffix success' => [
                 'input' => ['domain' => 'bbc.co.uk'],
-                'constraints' => ['domain' => 'is_known_domain_name'],
+                'constraints' => ['domain' => 'is_known_suffix'],
                 'method' => 'fails',
                 'expected' => false,
             ],
-            'is_known_domain_name fails' => [
+            'is_known_suffix fails' => [
                 'input' => ['domain' => 'bbc.co.localhost'],
-                'constraints' => ['domain' => 'is_known_domain_name'],
+                'constraints' => ['domain' => 'is_known_suffix'],
                 'method' => 'fails',
                 'expected' => true,
             ],
-            'is_icann_domain_name success' => [
+            'is_icann_suffix success' => [
                 'input' => ['domain' => 'bbc.co.uk'],
-                'constraints' => ['domain' => 'is_icann_domain_name'],
+                'constraints' => ['domain' => 'is_icann_suffix'],
                 'method' => 'fails',
                 'expected' => false,
             ],
-            'is_icann_domain_name fails' => [
+            'is_icann_suffix fails' => [
                 'input' => ['domain' => 'thephpleague.github.io'],
-                'constraints' => ['domain' => 'is_icann_domain_name'],
+                'constraints' => ['domain' => 'is_icann_suffix'],
                 'method' => 'fails',
                 'expected' => true,
             ],
-            'is_private_domain_name success' => [
+            'is_private_suffix success' => [
                 'input' => ['domain' => 'thephpleague.github.io'],
-                'constraints' => ['domain' => 'is_private_domain_name'],
+                'constraints' => ['domain' => 'is_private_suffix'],
                 'method' => 'fails',
                 'expected' => false,
             ],
-            'is_private_domain_name fails' => [
+            'is_private_suffix fails' => [
                 'input' => ['domain' => 'bbc.co.uk'],
-                'constraints' => ['domain' => 'is_private_domain_name'],
+                'constraints' => ['domain' => 'is_private_suffix'],
                 'method' => 'fails',
                 'expected' => true,
             ],
-            'endswith_toplevel_domain success' => [
+            'contains_tld success' => [
                 'input' => ['domain' => 'bbc.co.uk'],
-                'constraints' => ['domain' => 'endswith_toplevel_domain'],
+                'constraints' => ['domain' => 'contains_tld'],
                 'method' => 'fails',
                 'expected' => false,
             ],
-            'endswith_toplevel_domain fails (1)' => [
+            'contains_tld fails (1)' => [
                 'input' => ['domain' => 'bbc.co.localhost'],
-                'constraints' => ['domain' => 'endswith_toplevel_domain'],
+                'constraints' => ['domain' => 'contains_tld'],
                 'method' => 'fails',
                 'expected' => true,
             ],
-            'endswith_toplevel_domain fails (2)' => [
+            'contains_tld fails (2)' => [
                 'input' => ['domain' => '％００.com'],
-                'constraints' => ['domain' => 'endswith_toplevel_domain'],
+                'constraints' => ['domain' => 'contains_tld'],
                 'method' => 'fails',
                 'expected' => true,
             ],

@@ -17,12 +17,10 @@ use GuzzleHttp\Client as GuzzleClient;
 use Illuminate\Support\Facades\Cache;
 use Pdp\CurlHttpClient;
 use Pdp\HttpClient;
-use Pdp\HttpClientException;
 use Pdp\Manager;
 use Pdp\Rules;
 use Pdp\TopLevelDomains;
 use Psr\SimpleCache\CacheInterface;
-use Throwable;
 use TypeError;
 use function config;
 use function is_string;
@@ -32,6 +30,20 @@ final class Factory
     private const SUPPORTED_HTTP_CLIENT = [
         'curl' => 'getCurlClient',
         'guzzle' => 'getGuzzleClient',
+    ];
+
+    /**
+     * Errors for Laravel 5.8- where PSR SimpleCache is buggy.
+     */
+    private const LARAVEL_CACHE_ERROR = [
+        'tlds' => [
+            "Return value of Pdp\Manager::refreshTLDs() must be of the type boolean, null returned",
+            "Return value of Pdp\Manager::refreshTLDs() must be of the type bool, null returned",
+        ],
+        'rules' =>[
+            "Return value of Pdp\Manager::refreshRules() must be of the type boolean, null returned",
+            "Return value of Pdp\Manager::refreshRules() must be of the type bool, null returned",
+        ],
     ];
 
     /**
@@ -47,7 +59,7 @@ final class Factory
         try {
             return $manager->getRules($url, $ttl);
         } catch (TypeError $e) {
-            if ("Return value of Pdp\Manager::refreshRules() must be of the type bool, null returned" === $e->getMessage()) {
+            if (in_array($e->getMessage(), self::LARAVEL_CACHE_ERROR['rules'], true)) {
                 return $manager->getRules($url, $ttl);
             }
 
@@ -64,11 +76,54 @@ final class Factory
         $manager = self::getManager($config);
         $url = $config['url_rzd'] ?? Manager::RZD_URL;
         $ttl = $config['cache_ttl'] ?? null;
+
         try {
             return $manager->getTLDs($url, $ttl);
         } catch (TypeError $e) {
-            if ("Return value of Pdp\Manager::refreshTLDs() must be of the type bool, null returned" === $e->getMessage()) {
+            if (in_array($e->getMessage(), self::LARAVEL_CACHE_ERROR['tlds'], true)) {
                 return $manager->getTLDs($url, $ttl);
+            }
+
+            throw $e;
+        }
+    }
+
+    /**
+     * Refresh the cache.
+     */
+    public static function refreshRules(): bool
+    {
+        $config = config('domain-parser');
+        $manager = self::getManager($config);
+        $url = $config['url_psl'] ?? Manager::PSL_URL;
+        $ttl = $config['cache_ttl'] ?? null;
+
+        try {
+            return $manager->refreshRules($url, $ttl);
+        } catch (TypeError $e) {
+            if (in_array($e->getMessage(), self::LARAVEL_CACHE_ERROR['rules'], true)) {
+                return true;
+            }
+
+            throw $e;
+        }
+    }
+
+    /**
+     * Refresh the cache.
+     */
+    public static function refreshTLDs(): bool
+    {
+        $config = config('domain-parser');
+        $manager = self::getManager($config);
+        $url = $config['url_rzd'] ?? Manager::RZD_URL;
+        $ttl = $config['cache_ttl'] ?? null;
+
+        try {
+            return $manager->refreshTLDs($url, $ttl);
+        } catch (TypeError $e) {
+            if (in_array($e->getMessage(), self::LARAVEL_CACHE_ERROR['tlds'], true)) {
+                return true;
             }
 
             throw $e;
@@ -142,31 +197,19 @@ final class Factory
         ));
     }
 
+    /**
+     * Returns a Curl implementation of the HttpClient.
+     */
     private static function getCurlClient(array $options): HttpClient
     {
         return new CurlHttpClient($options);
     }
 
+    /**
+     * Returns a Guzzle 6 implementation of the HttpClient.
+     */
     private static function getGuzzleClient(array $options): HttpClient
     {
-        $guzzle = new GuzzleClient($options);
-
-        return new class($guzzle) implements HttpClient {
-            private $client;
-
-            public function __construct(GuzzleClient $client)
-            {
-                $this->client = $client;
-            }
-
-            public function getContent(string $url): string
-            {
-                try {
-                    return $this->client->get($url)->getBody()->getContents();
-                } catch (Throwable $e) {
-                    throw new HttpClientException($e->getMessage(), $e->getCode(), $e);
-                }
-            }
-        };
+        return new GuzzleHttpClient(new GuzzleClient($options));
     }
 }

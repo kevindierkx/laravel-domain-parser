@@ -71,11 +71,11 @@ final class ServiceProvider extends LaraverServiceProvider
         };
 
         Blade::if('domain_name', $isDomain);
-        Blade::if('known_domain_name', $isKnown);
-        Blade::if('icann_domain_name', $isICANN);
-        Blade::if('private_domain_name', $isPrivate);
-        Blade::if('toplevel_domain', $isTLD);
-        Blade::if('endswith_toplevel_domain', $containsTLD);
+        Blade::if('known_suffix', $isKnown);
+        Blade::if('icann_suffix', $isICANN);
+        Blade::if('private_suffix', $isPrivate);
+        Blade::if('tld', $isTLD);
+        Blade::if('contains_tld', $containsTLD);
 
         Validator::extend(
             'is_domain_name',
@@ -86,7 +86,7 @@ final class ServiceProvider extends LaraverServiceProvider
         );
 
         Validator::extend(
-            'is_known_domain_name',
+            'is_known_suffix',
             function (string $attribute, $value, array $params = [], $validator) use ($isKnown): bool {
                 return $isKnown($value);
             },
@@ -94,7 +94,7 @@ final class ServiceProvider extends LaraverServiceProvider
         );
 
         Validator::extend(
-            'is_icann_domain_name',
+            'is_icann_suffix',
             function (string $attribute, $value, array $params = [], $validator) use ($isICANN): bool {
                 return $isICANN($value);
             },
@@ -102,7 +102,7 @@ final class ServiceProvider extends LaraverServiceProvider
         );
 
         Validator::extend(
-            'is_private_domain_name',
+            'is_private_suffix',
             function (string $attribute, $value, array $params = [], $validator) use ($isPrivate): bool {
                 return $isPrivate($value);
             },
@@ -110,7 +110,7 @@ final class ServiceProvider extends LaraverServiceProvider
         );
 
         Validator::extend(
-            'is_toplevel_domain',
+            'is_tld',
             function (string $attribute, $value, array $params = [], $validator) use ($isTLD): bool {
                 return $isTLD($value);
             },
@@ -118,12 +118,16 @@ final class ServiceProvider extends LaraverServiceProvider
         );
 
         Validator::extend(
-            'endswith_toplevel_domain',
+            'contains_tld',
             function (string $attribute, $value, array $params = [], $validator) use ($containsTLD): bool {
                 return $containsTLD($value);
             },
             'The :attribute field does end with a top level domain.'
         );
+
+        if ($this->app->runningInConsole()) {
+            $this->commands([RefreshCacheCommand::class]);
+        }
     }
 
     /**

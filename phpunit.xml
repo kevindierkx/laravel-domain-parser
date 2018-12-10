@@ -12,7 +12,7 @@
          stopOnFailure="false">
 
     <testsuites>
-        <testsuite name="Twig Domain Parser Extension Test Suite">
+        <testsuite name="Laravel Domain Parser Package Test Suite">
             <directory>tests</directory>
         </testsuite>
     </testsuites>
