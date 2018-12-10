@@ -22,8 +22,11 @@ use Pdp\Rules;
 use Pdp\TopLevelDomains;
 use Psr\SimpleCache\CacheInterface;
 use TypeError;
+use function array_keys;
 use function config;
+use function implode;
 use function is_string;
+use function preg_match;
 
 final class Factory
 {
@@ -35,20 +38,9 @@ final class Factory
     /**
      * Catch Illuminate Cache PSR SimpleCache contract violation.
      *
-     * We use 2 messages because TypeError reports types as bool instead of boolean starting with PHP7.3
-     *
      * @see https://github.com/laravel/framework/issues/26674
      */
-    private const ILLUMINATE_CACHE_ERROR = [
-        'tlds' => [
-            "Return value of Pdp\Manager::refreshTLDs() must be of the type boolean, null returned",
-            "Return value of Pdp\Manager::refreshTLDs() must be of the type bool, null returned",
-        ],
-        'rules' =>[
-            "Return value of Pdp\Manager::refreshRules() must be of the type boolean, null returned",
-            "Return value of Pdp\Manager::refreshRules() must be of the type bool, null returned",
-        ],
-    ];
+    private const REGEXP_ILLUMINATE_CACHE_ERROR = "#^Return value of Pdp\\\\Manager\:\:(refreshRules|refreshTLDs)\(\) must be of the type bool(ean)?, null returned$#";
 
     /**
      * Returns a Rules instance.
@@ -63,7 +55,7 @@ final class Factory
         try {
             return $manager->getRules($url, $ttl);
         } catch (TypeError $e) {
-            if (in_array($e->getMessage(), self::ILLUMINATE_CACHE_ERROR['rules'], true)) {
+            if (1 === preg_match(self::REGEXP_ILLUMINATE_CACHE_ERROR, $e->getMessage())) {
                 return $manager->getRules($url, $ttl);
             }
 
@@ -84,7 +76,7 @@ final class Factory
         try {
             return $manager->getTLDs($url, $ttl);
         } catch (TypeError $e) {
-            if (in_array($e->getMessage(), self::ILLUMINATE_CACHE_ERROR['tlds'], true)) {
+            if (1 === preg_match(self::REGEXP_ILLUMINATE_CACHE_ERROR, $e->getMessage())) {
                 return $manager->getTLDs($url, $ttl);
             }
 
@@ -105,7 +97,7 @@ final class Factory
         try {
             return $manager->refreshRules($url, $ttl);
         } catch (TypeError $e) {
-            if (in_array($e->getMessage(), self::ILLUMINATE_CACHE_ERROR['rules'], true)) {
+            if (1 === preg_match(self::REGEXP_ILLUMINATE_CACHE_ERROR, $e->getMessage())) {
                 return true;
             }
 
@@ -126,7 +118,7 @@ final class Factory
         try {
             return $manager->refreshTLDs($url, $ttl);
         } catch (TypeError $e) {
-            if (in_array($e->getMessage(), self::ILLUMINATE_CACHE_ERROR['tlds'], true)) {
+            if (1 === preg_match(self::REGEXP_ILLUMINATE_CACHE_ERROR, $e->getMessage())) {
                 return true;
             }
 
@@ -143,7 +135,7 @@ final class Factory
     }
 
     /**
-     * Returns a CacheInterface instance.
+     * Returns a Psr\SimpleCache\CacheInterface instance.
      *
      * @throws MisconfiguredExtension if the cache_client index is missing
      */
@@ -165,7 +157,7 @@ final class Factory
     }
 
     /**
-     * Returns a HttpClient instance.
+     * Returns a Pdp\HttpClient instance.
      *
      * @throws MisconfiguredExtension if the http_client index are missing
      */
@@ -198,7 +190,7 @@ final class Factory
     }
 
     /**
-     * Returns a Curl implementation of the HttpClient.
+     * Returns a Curl implementation of the Pdp\HttpClient.
      */
     private static function getCurlClient(array $options): HttpClient
     {
@@ -206,7 +198,7 @@ final class Factory
     }
 
     /**
-     * Returns a Guzzle 6 implementation of the HttpClient.
+     * Returns a Guzzle 6 implementation of the Pdp\HttpClient.
      */
     private static function getGuzzleClient(array $options): HttpClient
     {
