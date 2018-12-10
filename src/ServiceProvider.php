@@ -44,6 +44,10 @@ final class ServiceProvider extends LaraverServiceProvider
             }
         };
 
+        $isTLD = function ($domain): bool {
+            return $this->app->make(TopLevelDomains::class)->contains($domain);
+        };
+
         $isKnown = function ($domain): bool {
             return $this->app->make(Rules::class)->resolve($domain)->isKnown();
         };
@@ -54,10 +58,6 @@ final class ServiceProvider extends LaraverServiceProvider
 
         $isPrivate = function ($domain): bool {
             return $this->app->make(Rules::class)->resolve($domain)->isPrivate();
-        };
-
-        $isTLD = function ($domain): bool {
-            return $this->app->make(TopLevelDomains::class)->contains($domain);
         };
 
         $containsTLD = function ($domain): bool {
@@ -71,11 +71,11 @@ final class ServiceProvider extends LaraverServiceProvider
         };
 
         Blade::if('domain_name', $isDomain);
+        Blade::if('tld', $isTLD);
+        Blade::if('contains_tld', $containsTLD);
         Blade::if('known_suffix', $isKnown);
         Blade::if('icann_suffix', $isICANN);
         Blade::if('private_suffix', $isPrivate);
-        Blade::if('tld', $isTLD);
-        Blade::if('contains_tld', $containsTLD);
 
         Validator::extend(
             'is_domain_name',
@@ -83,6 +83,22 @@ final class ServiceProvider extends LaraverServiceProvider
                 return $isDomain($value);
             },
             'The :attribute field is not a valid domain name.'
+        );
+
+        Validator::extend(
+            'is_tld',
+            function (string $attribute, $value, array $params = [], $validator) use ($isTLD): bool {
+                return $isTLD($value);
+            },
+            'The :attribute field is not a top level domain.'
+        );
+
+        Validator::extend(
+            'contains_tld',
+            function (string $attribute, $value, array $params = [], $validator) use ($containsTLD): bool {
+                return $containsTLD($value);
+            },
+            'The :attribute field does end with a top level domain.'
         );
 
         Validator::extend(
@@ -107,22 +123,6 @@ final class ServiceProvider extends LaraverServiceProvider
                 return $isPrivate($value);
             },
             'The :attribute field is not a private domain name.'
-        );
-
-        Validator::extend(
-            'is_tld',
-            function (string $attribute, $value, array $params = [], $validator) use ($isTLD): bool {
-                return $isTLD($value);
-            },
-            'The :attribute field is not a top level domain.'
-        );
-
-        Validator::extend(
-            'contains_tld',
-            function (string $attribute, $value, array $params = [], $validator) use ($containsTLD): bool {
-                return $containsTLD($value);
-            },
-            'The :attribute field does end with a top level domain.'
         );
 
         if ($this->app->runningInConsole()) {

@@ -6,7 +6,7 @@ Laravel Domain Parser
 [![Latest Stable Version][ico-release]][link-release]
 [![Software License][ico-license]][link-license]
 
-A Laravel package to ease [PHP Domain Parser](https://github.com/jeremykendall/php-domain-parser) integration in your Laravel application.
+A Laravel package to ease [PHP Domain Parser](https://github.com/jeremykendall/php-domain-parser) v5.4+ integration in your Laravel application.
 
 Usage
 -------
@@ -34,7 +34,7 @@ Access additional validation rules:
 ```php
 $validator = Validator::make($request->all(), [
     'tld' => 'is_tld',
-    'domain' => 'contains_icann_suffix',
+    'domain' => 'is_icann_suffix',
 ]);
 ```
 
@@ -46,6 +46,7 @@ OK
 @else
 KO
 @endcontains_tld
+// display KO
 ```
 
 System Requirements
@@ -120,51 +121,51 @@ Documentation
 
 ### Validation rules
 
-| Rules               | Description |
-| --------------------| :----       |
-| `is_domain_name`    | Tells whether the submitted value represents a Domain Name |
-| `is_known_suffix`   | Tells whether the submitted value is a Domain Name with a Known Public Suffix |
-| `is_icann_suffix`   | Tells whether the submitted value is a Domain Name with a ICANN Public Suffix |
-| `is_private_suffix` | Tells whether the submitted value is a Domain Name with a Private Public Suffix |
-| `is_tld`            | Tells whether the submitted value is a TLD |
-| `contains_tld`      | Tells whether the submitted value is a Domain Name with a known TLD |
+| Rules            | Description |
+| ---------------- | :----       |
+| `is_domain_name` | Tells whether the submitted value represents a Domain Name |
+| `is_tld` | Tells whether the submitted value is a TLD |
+| `contains_tld` | Tells whether the submitted value is a Domain Name with a known TLD |
+| `is_known_suffix` | Tells whether the submitted value is a Domain Name with a known suffix |
+| `is_icann_suffix` | Tells whether the submitted value is a Domain Name with an ICANN suffix |
+| `is_private_suffix` | Tells whether the submitted value is a Domain Name with a Private suffix |
 
 ### Blade if statement directives
 
 | If statement     | Description |
-| -----------------| :----       |
-| `domain_name`    | Tells whether the submitted value represents a Domain Name |
-| `known_suffix`   | Tells whether the submitted value is a Domain Name with a Known Public Suffix |
-| `icann_suffix`   | Tells whether the submitted value is a Domain Name with a ICANN Public Suffix |
-| `private_suffix` | Tells whether the submitted value is a Domain Name with a Private Public Suffix |
-| `tld`            | Tells whether the submitted value is a TLD |
-| `contains_tld`   | Tells whether the submitted value is a Domain Name with a known TLD |
+| ---------------- | :----       |
+| `domain_name` | Tells whether the submitted value represents a Domain Name |
+| `tld` | Tells whether the submitted value is a TLD |
+| `contains_tld` | Tells whether the submitted value is a Domain Name with a known TLD |
+| `known_suffix` | Tells whether the submitted value is a Domain Name with a Known suffix |
+| `icann_suffix` | Tells whether the submitted value is a Domain Name with an ICANN suffix |
+| `private_suffix` | Tells whether the submitted value is a Domain Name with a Private suffix |
 
 ### Facades
 
-- `Rules` is a proxy for `Pdp\Rules` loaded using the configuration files settings.
-- `TopLevelDomains` is a proxy for `Pdp\TopLevelDomains` loaded using the configuration files settings.
+- `Rules` is a Laravel Facade for `Pdp\Rules` loaded using the configuration files settings.
+- `TopLevelDomains` is a Laravel Facade for `Pdp\TopLevelDomains` loaded using the configuration files settings.
 
 Maintenance
 -------
 
 ### Refresh Cache Command
 
-You can proceed to make a cache warming setup using the bundle refresh cache command manually.
+You can warm the cache using the bundled refresh cache command manually. You can choose to refresh
 
-You can choose to refresh the Public suffix List data
+- the Public Suffix List data
 
 ```bash
 php artisan domain-parser:refresh --rules
 ```
 
-or the IANA Root Domain informations
+- the IANA Root Domain informations
 
 ```bash
 php artisan domain-parser:refresh --tlds
 ```
 
-By default both informations will be updated
+- both set of data in a single call (default action)
 
 ```bash
 php artisan domain-parser:refresh
@@ -172,7 +173,7 @@ php artisan domain-parser:refresh
 
 ### Scheduling
 
-It is, however, recommended to schedule this command so you don't have to manually run `domain-parser:resfresh` everytime you need to update your cache.
+It is, however, recommended to schedule this command so you don't have to manually run `domain-parser:resfresh` everytime you need to update your cache or directly when a user interact with your application on production.
 
 The command can be scheduled in Laravel's console kernel, just like any other command.
 

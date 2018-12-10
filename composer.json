@@ -61,7 +61,8 @@
         ]
     },
     "suggest": {
-        "guzzlehttp/guzzle": "To use a better HTTP Client"
+        "curl": "To use the default HTTP client",
+        "guzzlehttp/guzzle": "To use an alternate HTTP Client"
     },
     "extra": {
         "branch-alias": {
