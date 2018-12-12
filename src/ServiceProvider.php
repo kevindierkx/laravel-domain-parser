@@ -137,8 +137,8 @@ final class ServiceProvider extends BaseServiceProvider
     {
         $this->mergeConfigFrom(dirname(__DIR__).'/config/domain-parser.php', 'domain-parser');
 
-        $this->app->singleton('domain-rules', Closure::fromCallable([Factory::class, 'getRules']));
-        $this->app->singleton('domain-toplevel', Closure::fromCallable([Factory::class, 'getTLDs']));
+        $this->app->singleton('domain-rules', Closure::fromCallable([Adapter::class, 'getRules']));
+        $this->app->singleton('domain-toplevel', Closure::fromCallable([Adapter::class, 'getTLDs']));
 
         $this->app->alias('domain-rules', Rules::class);
         $this->app->alias('domain-toplevel', TopLevelDomains::class);

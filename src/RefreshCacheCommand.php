@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Bakame\Laravel\Pdp;
 
 use Illuminate\Console\Command;
+use Throwable;
 
 final class RefreshCacheCommand extends Command
 {
@@ -25,14 +26,14 @@ final class RefreshCacheCommand extends Command
     /**
      * @var string
      */
-    protected $description = 'Refresh the Domain Parser Cache.';
+    protected $description = 'Refresh and update PHP Domain Parser Local Database.';
 
     /**
      * {@inheritdoc}
      */
     public function handle(): int
     {
-        $this->info('Starting refreshing the Domain Parser Cache');
+        $this->info('Starting refreshing PHP Domain Parser Local Database.');
 
         $refreshTLDs = $this->option('tlds');
         $refreshRules = $this->option('rules');
@@ -42,25 +43,41 @@ final class RefreshCacheCommand extends Command
             $refreshTLDs = true;
         }
 
-        if ($refreshRules) {
-            if (!Factory::refreshRules()) {
-                $this->error('The Public Suffix List could not be refreshed. Please review your settings.');
-                return 1;
+        try {
+            if ($refreshRules) {
+                $this->info('Updating your Public Suffix List copy.');
+                if (!Adapter::refreshRules()) {
+                    $this->error('😓 😓 😓 Your Public Suffix List copy could not be updated. 😓 😓 😓');
+                    $this->error('Please review your settings.');
+
+                    return 1;
+                }
+
+                $this->info('💪 💪 💪 Your Public Suffix List copy is updated. 💪 💪 💪');
             }
 
-            $this->info('The Public Suffix List is refreshed.');
-        }
+            if (!$refreshTLDs) {
+                return 0;
+            }
 
-        if (!$refreshTLDs) {
-            return 0;
-        }
+            $this->info('Updating your IANA Root Zone Database copy.');
+            if (Adapter::refreshTLDs()) {
+                $this->info('💪 💪 💪 Your IANA Root Zone Database copy is updated. 💪 💪 💪');
 
-        if (Factory::refreshTLDs()) {
-            $this->info('The IANA Root Zone Database is refreshed.');
-            return 0;
-        }
+                return 0;
+            }
 
-        $this->error('The IANA Root Zone Database could not be refreshed. Please review your settings.');
-        return 1;
+            $this->error('😓 😓 😓 Your IANA Root Zone Database copy could not be updated. 😓 😓 😓');
+            $this->error('Please review your settings.');
+
+            return 1;
+        } catch (Throwable $e) {
+            $this->error('😓 😓 😓 Your PHP Domain Parser Local Database could not be updated. 😓 😓 😓');
+            $this->error('An error occurred during the update.');
+            $this->error('----- Error Message ----');
+            $this->error($e->getMessage());
+
+            return 1;
+        }
     }
 }

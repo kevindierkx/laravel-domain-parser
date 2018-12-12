@@ -95,6 +95,7 @@ final class ServiceProviderTest extends TestCase
     public function testCacheWithInvalidTypeTTL(): void
     {
         self::expectException(TypeError::class);
+        $this->app['config']->set('domain-parser.http_client', 'guzzle');
         $this->app['config']->set('domain-parser.cache_ttl', []);
         self::assertInstanceOf(Domain::class, Rules::resolve('bbc.co.uk'));
     }

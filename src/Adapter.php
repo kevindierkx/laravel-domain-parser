@@ -26,9 +26,8 @@ use function array_keys;
 use function config;
 use function implode;
 use function is_string;
-use function preg_match;
 
-final class Factory
+final class Adapter
 {
     private const SUPPORTED_HTTP_CLIENT = [
         'curl' => 'getCurlClient',
@@ -36,14 +35,9 @@ final class Factory
     ];
 
     /**
-     * Catch Illuminate Cache PSR SimpleCache contract violation.
-     *
-     * @see https://github.com/laravel/framework/issues/26674
-     */
-    private const REGEXP_ILLUMINATE_CACHE_ERROR = "#^Return value of Pdp\\\\Manager\:\:(refreshRules|refreshTLDs)\(\) must be of the type bool(ean)?, null returned$#";
-
-    /**
      * Returns a Rules instance.
+     *
+     * The try..catch constrcut is used as a workaround for https://github.com/laravel/framework/issues/26674
      */
     public static function getRules(): Rules
     {
@@ -55,16 +49,14 @@ final class Factory
         try {
             return $manager->getRules($url, $ttl);
         } catch (TypeError $e) {
-            if (1 === preg_match(self::REGEXP_ILLUMINATE_CACHE_ERROR, $e->getMessage())) {
-                return $manager->getRules($url, $ttl);
-            }
-
-            throw $e;
+            return $manager->getRules($url, $ttl);
         }
     }
 
     /**
      * Returns a TopLevelDomains instance.
+     *
+     * The try..catch constrcut is used as a workaround for https://github.com/laravel/framework/issues/26674
      */
     public static function getTLDs(): TopLevelDomains
     {
@@ -76,16 +68,14 @@ final class Factory
         try {
             return $manager->getTLDs($url, $ttl);
         } catch (TypeError $e) {
-            if (1 === preg_match(self::REGEXP_ILLUMINATE_CACHE_ERROR, $e->getMessage())) {
-                return $manager->getTLDs($url, $ttl);
-            }
-
-            throw $e;
+            return $manager->getTLDs($url, $ttl);
         }
     }
 
     /**
      * Refresh the Public Suffix List cache.
+     *
+     * The try..catch constrcut is used as a workaround for https://github.com/laravel/framework/issues/26674
      */
     public static function refreshRules(): bool
     {
@@ -97,16 +87,14 @@ final class Factory
         try {
             return $manager->refreshRules($url, $ttl);
         } catch (TypeError $e) {
-            if (1 === preg_match(self::REGEXP_ILLUMINATE_CACHE_ERROR, $e->getMessage())) {
-                return true;
-            }
-
-            throw $e;
+            return true;
         }
     }
 
     /**
      * Refresh the IANA Root Zone Database cache.
+     *
+     * The try..catch constrcut is used as a workaround for https://github.com/laravel/framework/issues/26674
      */
     public static function refreshTLDs(): bool
     {
@@ -118,11 +106,7 @@ final class Factory
         try {
             return $manager->refreshTLDs($url, $ttl);
         } catch (TypeError $e) {
-            if (1 === preg_match(self::REGEXP_ILLUMINATE_CACHE_ERROR, $e->getMessage())) {
-                return true;
-            }
-
-            throw $e;
+            return true;
         }
     }
 
