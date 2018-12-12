@@ -1,6 +1,7 @@
 Laravel Domain Parser
 ============
 
+[![Author][ico-author]][link-author]
 [![Build Status][ico-travis]][link-travis]
 [![Total Downloads][ico-packagist]][link-packagist]
 [![Latest Stable Version][ico-release]][link-release]
@@ -226,12 +227,13 @@ License
 
 The MIT License (MIT). Please see [License File](LICENSE) for more information.
 
-
+[ico-author]: https://img.shields.io/badge/author-@nyamsprod-blue.svg?style=flat-square
 [ico-travis]: https://img.shields.io/travis/bakame-php/laravel-domain-parser/master.svg?style=flat-square
 [ico-packagist]: https://img.shields.io/packagist/dt/bakame/laravel-domain-parser.svg?style=flat-square
-[ico-release]: https://img.shields.io/github/release/bakame/laravel-domain-parser.svg?style=flat-square
+[ico-release]: https://img.shields.io/github/release/bakame-php/laravel-domain-parser.svg?style=flat-square
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
 
+[link-author]: https://twitter.com/nyamsprod
 [link-travis]: https://travis-ci.org/bakame-php/laravel-domain-parser
 [link-packagist]: https://packagist.org/packages/bakame/laravel-domain-parser
 [link-release]: https://github.com/bakame-php/laravel-domain-parser/releases
