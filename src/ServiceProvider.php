@@ -13,14 +13,13 @@ declare(strict_types=1);
 
 namespace Bakame\Laravel\Pdp;
 
+use App;
 use Closure;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
-use Pdp\Domain;
 use Pdp\Rules;
 use Pdp\TopLevelDomains;
-use Throwable;
 use function config_path;
 use function dirname;
 
@@ -35,99 +34,59 @@ final class ServiceProvider extends BaseServiceProvider
             dirname(__DIR__).'/config/domain-parser.php' => config_path('domain-parser'),
         ], 'config');
 
-        $isDomain = static function ($domain): bool {
-            try {
-                new Domain($domain);
-                return true;
-            } catch (Throwable $e) {
-                return false;
-            }
-        };
+        if (App::runningInConsole()) {
+            $this->commands([RefreshCacheCommand::class]);
+        }
 
-        $isTLD = function ($domain): bool {
-            return $this->app->make(TopLevelDomains::class)->contains($domain);
-        };
+        $is_domain = [Constraints::class, 'isDomain'];
+        $is_tld = [Constraints::class, 'isTLD'];
+        $contains_tld = [Constraints::class, 'containsTLD'];
+        $is_known_suffix = [Constraints::class, 'isKnownSuffix'];
+        $is_icann_suffix = [Constraints::class, 'isICANNSuffix'];
+        $is_private_suffix = [Constraints::class, 'isPrivateSuffix'];
 
-        $isKnown = function ($domain): bool {
-            return $this->app->make(Rules::class)->resolve($domain)->isKnown();
-        };
-
-        $isICANN = function ($domain): bool {
-            return $this->app->make(Rules::class)->resolve($domain)->isICANN();
-        };
-
-        $isPrivate = function ($domain): bool {
-            return $this->app->make(Rules::class)->resolve($domain)->isPrivate();
-        };
-
-        $containsTLD = function ($domain): bool {
-            try {
-                $domain = new Domain($domain);
-
-                return $this->app->make(TopLevelDomains::class)->contains($domain->getLabel(0));
-            } catch (Throwable $e) {
-                return false;
-            }
-        };
-
-        Blade::if('domain_name', $isDomain);
-        Blade::if('tld', $isTLD);
-        Blade::if('contains_tld', $containsTLD);
-        Blade::if('known_suffix', $isKnown);
-        Blade::if('icann_suffix', $isICANN);
-        Blade::if('private_suffix', $isPrivate);
+        Blade::if('domain_name', Closure::fromCallable($is_domain));
+        Blade::if('tld', Closure::fromCallable($is_tld));
+        Blade::if('contains_tld', Closure::fromCallable($contains_tld));
+        Blade::if('known_suffix', Closure::fromCallable($is_known_suffix));
+        Blade::if('icann_suffix', Closure::fromCallable($is_icann_suffix));
+        Blade::if('private_suffix', Closure::fromCallable($is_private_suffix));
 
         Validator::extend(
             'is_domain_name',
-            function (string $attribute, $value, array $params = [], $validator) use ($isDomain): bool {
-                return $isDomain($value);
-            },
+            Closure::fromCallable(new ValidatorWrapper($is_domain)),
             'The :attribute field is not a valid domain name.'
         );
 
         Validator::extend(
             'is_tld',
-            function (string $attribute, $value, array $params = [], $validator) use ($isTLD): bool {
-                return $isTLD($value);
-            },
+            Closure::fromCallable(new ValidatorWrapper($is_tld)),
             'The :attribute field is not a top level domain.'
         );
 
         Validator::extend(
             'contains_tld',
-            function (string $attribute, $value, array $params = [], $validator) use ($containsTLD): bool {
-                return $containsTLD($value);
-            },
+            Closure::fromCallable(new ValidatorWrapper($contains_tld)),
             'The :attribute field does end with a top level domain.'
         );
 
         Validator::extend(
             'is_known_suffix',
-            function (string $attribute, $value, array $params = [], $validator) use ($isKnown): bool {
-                return $isKnown($value);
-            },
-            'The :attribute field is not a known domain name.'
+            Closure::fromCallable(new ValidatorWrapper($is_known_suffix)),
+            'The :attribute field is not a domain with an known suffix.'
         );
 
         Validator::extend(
             'is_icann_suffix',
-            function (string $attribute, $value, array $params = [], $validator) use ($isICANN): bool {
-                return $isICANN($value);
-            },
-            'The :attribute field is not a ICANN domain name.'
+            Closure::fromCallable(new ValidatorWrapper($is_icann_suffix)),
+            'The :attribute field is not a domain with an ICANN suffix.'
         );
 
         Validator::extend(
             'is_private_suffix',
-            function (string $attribute, $value, array $params = [], $validator) use ($isPrivate): bool {
-                return $isPrivate($value);
-            },
-            'The :attribute field is not a private domain name.'
+            Closure::fromCallable(new ValidatorWrapper($is_private_suffix)),
+            'The :attribute field iis not a domain with a private suffix.'
         );
-
-        if ($this->app->runningInConsole()) {
-            $this->commands([RefreshCacheCommand::class]);
-        }
     }
 
     /**
@@ -137,10 +96,10 @@ final class ServiceProvider extends BaseServiceProvider
     {
         $this->mergeConfigFrom(dirname(__DIR__).'/config/domain-parser.php', 'domain-parser');
 
-        $this->app->singleton('domain-rules', Closure::fromCallable([Adapter::class, 'getRules']));
-        $this->app->singleton('domain-toplevel', Closure::fromCallable([Adapter::class, 'getTLDs']));
+        App::singleton('domain-rules', Closure::fromCallable([Adapter::class, 'getRules']));
+        App::singleton('domain-toplevel', Closure::fromCallable([Adapter::class, 'getTLDs']));
 
-        $this->app->alias('domain-rules', Rules::class);
-        $this->app->alias('domain-toplevel', TopLevelDomains::class);
+        App::alias('domain-rules', Rules::class);
+        App::alias('domain-toplevel', TopLevelDomains::class);
     }
 }
