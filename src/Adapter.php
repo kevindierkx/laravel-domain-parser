@@ -37,7 +37,7 @@ final class Adapter
     /**
      * Returns a Rules instance.
      *
-     * The try..catch constrcut is used as a workaround for https://github.com/laravel/framework/issues/26674
+     * The try..catch construct is used as a workaround for https://github.com/laravel/framework/issues/26674
      */
     public static function getRules(): Rules
     {
@@ -56,7 +56,7 @@ final class Adapter
     /**
      * Returns a TopLevelDomains instance.
      *
-     * The try..catch constrcut is used as a workaround for https://github.com/laravel/framework/issues/26674
+     * The try..catch construct is used as a workaround for https://github.com/laravel/framework/issues/26674
      */
     public static function getTLDs(): TopLevelDomains
     {
@@ -75,7 +75,7 @@ final class Adapter
     /**
      * Refresh the Public Suffix List cache.
      *
-     * The try..catch constrcut is used as a workaround for https://github.com/laravel/framework/issues/26674
+     * The try..catch construct is used as a workaround for https://github.com/laravel/framework/issues/26674
      */
     public static function refreshRules(): bool
     {
@@ -94,7 +94,7 @@ final class Adapter
     /**
      * Refresh the IANA Root Zone Database cache.
      *
-     * The try..catch constrcut is used as a workaround for https://github.com/laravel/framework/issues/26674
+     * The try..catch construct is used as a workaround for https://github.com/laravel/framework/issues/26674
      */
     public static function refreshTLDs(): bool
     {
