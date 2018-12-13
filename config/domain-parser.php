@@ -6,7 +6,7 @@ return [
      * the store listed in the `stores` configuration array in
      * your `cache` configuration file.
      */
-    'cache_client' => 'file',
+    'cache_client' => env('CACHE_DRIVER', 'file'),
     /**
      * Cache TTL.
      * - Can be a DateInterval object
