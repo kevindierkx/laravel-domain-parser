@@ -148,4 +148,34 @@ final class BladeTest extends TestCase
             ],
         ];
     }
+
+    /**
+     * @dataProvider domainConversionProvider
+     */
+    public function testDomainToUnicodeDirective(string $domain, string $expected): void
+    {
+        self::assertSame($expected, $this->renderView('domain_to_unicode', ['domain' => $domain]));
+    }
+
+    public function domainConversionProvider(): iterable
+    {
+        return [
+            'ascii domain' => [
+                'domain' => 'ulb.ac.be',
+                'expected' => "Domain to Unicode: ulb.ac.be\nDomain to Ascii: ulb.ac.be",
+            ],
+            'unicode domain in ascii form' => [
+                'domain' => 'www.xn--85x722f.xn--55qx5d.cn',
+                'expected' => "Domain to Unicode: www.食狮.公司.cn\nDomain to Ascii: www.xn--85x722f.xn--55qx5d.cn",
+            ],
+            'unicode domain' => [
+                'domain' => 'www.食狮.公司.cn',
+                'expected' => "Domain to Unicode: www.食狮.公司.cn\nDomain to Ascii: www.xn--85x722f.xn--55qx5d.cn",
+            ],
+            'invalid domain name' => [
+                'domain' => '[::1]',
+                'expected' => "Domain to Unicode: [::1]\nDomain to Ascii: [::1]",
+            ],
+        ];
+    }
 }

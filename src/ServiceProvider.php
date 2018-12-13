@@ -38,50 +38,50 @@ final class ServiceProvider extends BaseServiceProvider
             $this->commands([RefreshCacheCommand::class]);
         }
 
-        $is_domain = [Constraints::class, 'isDomain'];
-        $is_tld = [Constraints::class, 'isTLD'];
-        $contains_tld = [Constraints::class, 'containsTLD'];
-        $is_known_suffix = [Constraints::class, 'isKnownSuffix'];
-        $is_icann_suffix = [Constraints::class, 'isICANNSuffix'];
-        $is_private_suffix = [Constraints::class, 'isPrivateSuffix'];
+        $is_domain = [Directives::class, 'isDomain'];
+        $is_tld = [Directives::class, 'isTLD'];
+        $contains_tld = [Directives::class, 'containsTLD'];
+        $is_known_suffix = [Directives::class, 'isKnownSuffix'];
+        $is_icann_suffix = [Directives::class, 'isICANNSuffix'];
+        $is_private_suffix = [Directives::class, 'isPrivateSuffix'];
 
+        Blade::directive('domain_to_unicode', function ($expression) {
+            return '<?php echo '.Directives::class.'::toUnicode('.$expression.'); ?>';
+        });
+        Blade::directive('domain_to_ascii', function ($expression) {
+            return '<?php echo '.Directives::class.'::toAscii('.$expression.'); ?>';
+        });
         Blade::if('domain_name', Closure::fromCallable($is_domain));
         Blade::if('tld', Closure::fromCallable($is_tld));
         Blade::if('contains_tld', Closure::fromCallable($contains_tld));
         Blade::if('known_suffix', Closure::fromCallable($is_known_suffix));
         Blade::if('icann_suffix', Closure::fromCallable($is_icann_suffix));
         Blade::if('private_suffix', Closure::fromCallable($is_private_suffix));
-
         Validator::extend(
             'is_domain_name',
             Closure::fromCallable(new ValidatorWrapper($is_domain)),
             'The :attribute field is not a valid domain name.'
         );
-
         Validator::extend(
             'is_tld',
             Closure::fromCallable(new ValidatorWrapper($is_tld)),
             'The :attribute field is not a top level domain.'
         );
-
         Validator::extend(
             'contains_tld',
             Closure::fromCallable(new ValidatorWrapper($contains_tld)),
             'The :attribute field does end with a top level domain.'
         );
-
         Validator::extend(
             'is_known_suffix',
             Closure::fromCallable(new ValidatorWrapper($is_known_suffix)),
             'The :attribute field is not a domain with an known suffix.'
         );
-
         Validator::extend(
             'is_icann_suffix',
             Closure::fromCallable(new ValidatorWrapper($is_icann_suffix)),
             'The :attribute field is not a domain with an ICANN suffix.'
         );
-
         Validator::extend(
             'is_private_suffix',
             Closure::fromCallable(new ValidatorWrapper($is_private_suffix)),
