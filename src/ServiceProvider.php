@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Bakame\Laravel\Pdp;
 
-use App;
 use Closure;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Validator;
@@ -34,7 +33,7 @@ final class ServiceProvider extends BaseServiceProvider
             dirname(__DIR__).'/config/domain-parser.php' => config_path('domain-parser'),
         ], 'config');
 
-        if (App::runningInConsole()) {
+        if ($this->app->runningInConsole()) {
             $this->commands([RefreshCacheCommand::class]);
         }
 
@@ -44,13 +43,15 @@ final class ServiceProvider extends BaseServiceProvider
         $is_known_suffix = [Directives::class, 'isKnownSuffix'];
         $is_icann_suffix = [Directives::class, 'isICANNSuffix'];
         $is_private_suffix = [Directives::class, 'isPrivateSuffix'];
-
-        Blade::directive('domain_to_unicode', function ($expression) {
+        $domain_to_unicode = static function ($expression) {
             return '<?php echo '.Directives::class.'::toUnicode('.$expression.'); ?>';
-        });
-        Blade::directive('domain_to_ascii', function ($expression) {
+        };
+        $domain_to_ascii = static function ($expression) {
             return '<?php echo '.Directives::class.'::toAscii('.$expression.'); ?>';
-        });
+        };
+
+        Blade::directive('domain_to_unicode', $domain_to_unicode);
+        Blade::directive('domain_to_ascii', $domain_to_ascii);
         Blade::if('domain_name', Closure::fromCallable($is_domain));
         Blade::if('tld', Closure::fromCallable($is_tld));
         Blade::if('contains_tld', Closure::fromCallable($contains_tld));
@@ -96,10 +97,10 @@ final class ServiceProvider extends BaseServiceProvider
     {
         $this->mergeConfigFrom(dirname(__DIR__).'/config/domain-parser.php', 'domain-parser');
 
-        App::singleton('domain-rules', Closure::fromCallable([Adapter::class, 'getRules']));
-        App::singleton('domain-toplevel', Closure::fromCallable([Adapter::class, 'getTLDs']));
+        $this->app->singleton('domain-rules', Closure::fromCallable([Adapter::class, 'getRules']));
+        $this->app->singleton('domain-toplevel', Closure::fromCallable([Adapter::class, 'getTLDs']));
 
-        App::alias('domain-rules', Rules::class);
-        App::alias('domain-toplevel', TopLevelDomains::class);
+        $this->app->alias('domain-rules', Rules::class);
+        $this->app->alias('domain-toplevel', TopLevelDomains::class);
     }
 }
