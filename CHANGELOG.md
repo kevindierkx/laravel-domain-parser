@@ -2,9 +2,13 @@
 
 All Notable changes to Laravel Domain Parser will be documented in this file
 
-## Next - TBD
+## 0.3.0 - 2018-12-13
 
+- Added Blade directive `domain_to_ascii`
+- Added Blade directive `domain_to_unicode`
+- Rename `Constraints` to `Directives`
 - Bug fix validation error messages.
+- Improve `ServiceProvider`
 
 ## 0.2.0 - 2018-12-12
 
