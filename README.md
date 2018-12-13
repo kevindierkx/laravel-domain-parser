@@ -37,6 +37,13 @@ $validator = Validator::make($request->all(), [
     'tld' => 'is_tld',
     'domain' => 'is_icann_suffix',
 ]);
+
+//or
+
+$request->validate([
+    'tld' => 'required|is_tld',
+    'domain' => 'required|is_icann_suffix',
+]);
 ```
 
 Use conditionnal Blade directives:
@@ -110,7 +117,7 @@ return [
      */
     'url_psl' => 'https://publicsuffix.org/list/public_suffix_list.dat',
     /**
-     * External Root Zone Domain URL (optional)
+     * External Root Zone Database URL (optional)
      * If not present or equals to `null` the package will default to the official URL
      */
     'url_rzd' => 'https://data.iana.org/TLD/tlds-alpha-by-domain.txt',

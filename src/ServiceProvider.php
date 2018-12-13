@@ -85,7 +85,7 @@ final class ServiceProvider extends BaseServiceProvider
         Validator::extend(
             'is_private_suffix',
             Closure::fromCallable(new ValidatorWrapper($is_private_suffix)),
-            'The :attribute field iis not a domain with a private suffix.'
+            'The :attribute field is not a domain with a private suffix.'
         );
     }
 

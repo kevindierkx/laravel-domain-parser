@@ -29,6 +29,6 @@ final class GuzzleHttpClientTest extends TestCase
     public function testThrowsException(): void
     {
         self::expectException(HttpClientException::class);
-        (new GuzzleHttpClient(new Client()))->getContent('https://qsfsdfqdf.dfsf');
+        (new GuzzleHttpClient(new Client()))->getContent('https://qsfsdfqdf.localhost');
     }
 }

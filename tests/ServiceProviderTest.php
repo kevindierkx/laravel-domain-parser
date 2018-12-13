@@ -16,6 +16,8 @@ use InvalidArgumentException;
 use Pdp\Cache as PdpCache;
 use Pdp\CurlHttpClient;
 use Pdp\Domain;
+use Pdp\Rules as PdpRules;
+use Pdp\TopLevelDomains as PdpTLD;
 use Rules;
 use TopLevelDomains;
 use TypeError;
@@ -23,6 +25,15 @@ use function date_create;
 
 final class ServiceProviderTest extends TestCase
 {
+    public function testExpectedServicesArePopulated(): void
+    {
+        self::assertTrue($this->app->bound('domain-rules'));
+        self::assertInstanceOf(PdpRules::class, $this->app->make('domain-rules'));
+
+        self::assertTrue($this->app->bound('domain-toplevel'));
+        self::assertInstanceOf(PdpTLD::class, $this->app->make('domain-toplevel'));
+    }
+
     public function testMissingHttpClientConfigurationKey(): void
     {
         self::expectException(MisconfiguredExtension::class);
