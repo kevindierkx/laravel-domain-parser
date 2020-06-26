@@ -23,7 +23,7 @@ final class GuzzleHttpClientTest extends TestCase
     public function testGetContent(): void
     {
         $content = (new GuzzleHttpClient(new Client()))->getContent('https://www.google.com');
-        self::assertContains('google', $content);
+        self::assertStringContainsString('google', $content);
     }
 
     public function testThrowsException(): void
