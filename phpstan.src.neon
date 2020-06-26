@@ -1,7 +1,7 @@
 includes:
+    - vendor/nunomaduro/larastan/extension.neon
     - vendor/phpstan/phpstan-phpunit/extension.neon
     - vendor/phpstan/phpstan-phpunit/rules.neon
 parameters:
-    ignoreErrors:
-        - '#Call to static method [a-zA-Z0-9\\_]+\(\) on an unknown class [a-zA-Z0-9_]+.#'
     reportUnmatchedIgnoredErrors: true
+    checkMissingIterableValueType: false

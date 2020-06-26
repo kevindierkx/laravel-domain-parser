@@ -33,8 +33,9 @@ final class ValidatorWrapper
     }
 
     /**
-     * @param mixed $value evaluate using the callable argument
-     *                     and Laravel Validator::extend method
+     * @param mixed                                      $value     evaluate using the callable argument
+     *                                                              and Laravel Validator::extend method
+     * @param \Illuminate\Contracts\Validation\Validator $validator
      */
     public function __invoke(string $attribute, $value, array $params = [], $validator): bool
     {
