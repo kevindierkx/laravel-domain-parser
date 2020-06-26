@@ -11,9 +11,9 @@
 
 namespace BakameTest\Laravel\Pdp;
 
+use Bakame\Laravel\Pdp\RulesFacade as Rules;
+use Bakame\Laravel\Pdp\TopLevelDomainsFacade as TopLevelDomains;
 use Pdp\Domain;
-use Rules;
-use TopLevelDomains;
 
 final class FacadeTest extends TestCase
 {

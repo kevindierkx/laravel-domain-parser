@@ -13,10 +13,10 @@ declare(strict_types=1);
 
 namespace Bakame\Laravel\Pdp;
 
+use Bakame\Laravel\Pdp\RulesFacade as Rules;
+use Bakame\Laravel\Pdp\TopLevelDomainsFacade as TopLevelDomains;
 use Pdp\Domain;
-use Rules;
 use Throwable;
-use TopLevelDomains;
 
 final class Directives
 {
