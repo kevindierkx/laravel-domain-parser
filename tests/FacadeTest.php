@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Laravel Domain Parser Package (https://github.com/bakame-php/laravel-domain-parser).
+ * Laravel Domain Parser Package (https://github.com/bakame-php/laravel-domain-parser)
  *
  * (c) Ignace Nyamagana Butera <nyamsprod@gmail.com>
  *
@@ -11,9 +11,9 @@
 
 namespace BakameTest\Laravel\Pdp;
 
+use Bakame\Laravel\Pdp\RulesFacade as Rules;
+use Bakame\Laravel\Pdp\TopLevelDomainsFacade as TopLevelDomains;
 use Pdp\Domain;
-use Rules;
-use TopLevelDomains;
 
 final class FacadeTest extends TestCase
 {

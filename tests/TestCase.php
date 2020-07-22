@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Laravel Domain Parser Package (https://github.com/bakame-php/laravel-domain-parser).
+ * Laravel Domain Parser Package (https://github.com/bakame-php/laravel-domain-parser)
  *
  * (c) Ignace Nyamagana Butera <nyamsprod@gmail.com>
  *
@@ -54,7 +54,10 @@ abstract class TestCase extends Orchestra
         $app['config']->set('view.paths', [__DIR__.'/resources/views']);
     }
 
-    public function renderView(string $viewName, array $withParameters = []): string
+    /**
+     * @return array|string
+     */
+    public function renderView(string $viewName, array $withParameters = [])
     {
         return view($viewName)->with($withParameters)->render();
     }

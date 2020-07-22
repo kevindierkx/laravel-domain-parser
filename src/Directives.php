@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Laravel Domain Parser Package (https://github.com/bakame-php/laravel-domain-parser).
+ * Laravel Domain Parser Package (https://github.com/bakame-php/laravel-domain-parser)
  *
  * (c) Ignace Nyamagana Butera <nyamsprod@gmail.com>
  *
@@ -13,16 +13,18 @@ declare(strict_types=1);
 
 namespace Bakame\Laravel\Pdp;
 
+use Bakame\Laravel\Pdp\RulesFacade as Rules;
+use Bakame\Laravel\Pdp\TopLevelDomainsFacade as TopLevelDomains;
 use Pdp\Domain;
-use Rules;
 use Throwable;
-use TopLevelDomains;
 
 final class Directives
 {
     /**
      * Tells whether the submitted tld is a Top Level Domain
      * according to the IANA Root Database.
+     *
+     * @param mixed $tld
      */
     public static function isTLD($tld): bool
     {
@@ -31,6 +33,8 @@ final class Directives
 
     /**
      * Tells whether the submitted domain is a domain name.
+     *
+     * @param mixed $domain
      */
     public static function isDomain($domain): bool
     {
@@ -45,6 +49,8 @@ final class Directives
 
     /**
      * Tells whether the submitted domain contains a known suffix.
+     *
+     * @param mixed $domain
      */
     public static function isKnownSuffix($domain): bool
     {
@@ -53,6 +59,8 @@ final class Directives
 
     /**
      * Tells whether the submitted domain contains an ICANN suffix.
+     *
+     * @param mixed $domain
      */
     public static function isICANNSuffix($domain): bool
     {
@@ -61,6 +69,8 @@ final class Directives
 
     /**
      * Tells whether the submitted domain contains an private suffix.
+     *
+     * @param mixed $domain
      */
     public static function isPrivateSuffix($domain): bool
     {
@@ -69,6 +79,8 @@ final class Directives
 
     /**
      * Tells whether the submitted domain contains an a Top Level Domain.
+     *
+     * @param mixed $domain
      */
     public static function containsTLD($domain): bool
     {
@@ -85,6 +97,9 @@ final class Directives
      * If the domain is not a valid domain name it will be
      * returned as is otherwise the domain name is normalized
      * into its lowercased ascii representation.
+     *
+     * @param  mixed $domain
+     * @return mixed
      */
     public static function toAscii($domain)
     {
@@ -101,6 +116,9 @@ final class Directives
      * If the domain is not a valid domain name it will be
      * returned as is otherwise the domain name is normalized
      * into its lowercased unicode representation.
+     *
+     * @param  mixed $domain
+     * @return mixed
      */
     public static function toUnicode($domain)
     {

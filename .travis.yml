@@ -12,13 +12,6 @@ env:
 
 matrix:
   include:
-    - php: 7.1
-      env:
-        - COLLECT_COVERAGE=true
-        - IGNORE_PLATFORMS=false
-        - RUN_PHPSTAN=false
-        - RUN_INFECTION=false
-        - VALIDATE_CODING_STYLE=false
     - php: 7.2
       env:
         - COLLECT_COVERAGE=true

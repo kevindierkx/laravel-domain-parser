@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Laravel Domain Parser Package (https://github.com/bakame-php/laravel-domain-parser).
+ * Laravel Domain Parser Package (https://github.com/bakame-php/laravel-domain-parser)
  *
  * (c) Ignace Nyamagana Butera <nyamsprod@gmail.com>
  *
@@ -23,7 +23,7 @@ final class GuzzleHttpClientTest extends TestCase
     public function testGetContent(): void
     {
         $content = (new GuzzleHttpClient(new Client()))->getContent('https://www.google.com');
-        self::assertContains('google', $content);
+        self::assertStringContainsString('google', $content);
     }
 
     public function testThrowsException(): void

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Laravel Domain Parser Package (https://github.com/bakame-php/laravel-domain-parser).
+ * Laravel Domain Parser Package (https://github.com/bakame-php/laravel-domain-parser)
  *
  * (c) Ignace Nyamagana Butera <nyamsprod@gmail.com>
  *
@@ -12,14 +12,14 @@
 namespace BakameTest\Laravel\Pdp;
 
 use Bakame\Laravel\Pdp\MisconfiguredExtension;
+use Bakame\Laravel\Pdp\RulesFacade as Rules;
+use Bakame\Laravel\Pdp\TopLevelDomainsFacade as TopLevelDomains;
 use InvalidArgumentException;
 use Pdp\Cache as PdpCache;
 use Pdp\CurlHttpClient;
 use Pdp\Domain;
 use Pdp\Rules as PdpRules;
 use Pdp\TopLevelDomains as PdpTLD;
-use Rules;
-use TopLevelDomains;
 use TypeError;
 use function date_create;
 

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Laravel Domain Parser Package (https://github.com/bakame-php/laravel-domain-parser).
+ * Laravel Domain Parser Package (https://github.com/bakame-php/laravel-domain-parser)
  *
  * (c) Ignace Nyamagana Butera <nyamsprod@gmail.com>
  *
@@ -33,8 +33,9 @@ final class ValidatorWrapper
     }
 
     /**
-     * @param mixed $value evaluate using the callable argument
-     *                     and Laravel Validator::extend method
+     * @param mixed                                      $value     evaluate using the callable argument
+     *                                                              and Laravel Validator::extend method
+     * @param \Illuminate\Contracts\Validation\Validator $validator
      */
     public function __invoke(string $attribute, $value, array $params = [], $validator): bool
     {
