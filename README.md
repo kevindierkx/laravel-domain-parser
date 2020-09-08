@@ -170,11 +170,9 @@ $ composer test
 
 If you discover a security vulnerability within this package, please send an e-mail to Kevin Dierkx via kevin@distortedfusion.com. All security vulnerabilities will be promptly addressed.
 
-## Credits
+## Contributing
 
-- [ignace nyamagana butera](https://github.com/nyamsprod)
-- [Kevin Dierkx](https://github.com/kevindierkx)
-- [All Contributors](https://github.com/kevindierkx/laravel-domain-parser/contributors)
+Contributions are welcome and will be [fully credited](https://github.com/kevindierkx/laravel-domain-parser/graphs/contributors). Please see [CONTRIBUTING](.github/CONTRIBUTING.md) for details.
 
 ## License
 

@@ -1,23 +1,5 @@
 <?php
 
-/**
- * Laravel Domain Parser Package (https://github.com/bakame-php/laravel-domain-parser)
- *
- * (c) Ignace Nyamagana Butera <nyamsprod@gmail.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
-$header = <<<EOF
-Laravel Domain Parser Package (https://github.com/bakame-php/laravel-domain-parser)
-
-(c) Ignace Nyamagana Butera <nyamsprod@gmail.com>
-
-For the full copyright and license information, please view the LICENSE
-file that was distributed with this source code.
-EOF;
-
 $finder = PhpCsFixer\Finder::create()
     ->in(__DIR__.'/src')
     ->in(__DIR__.'/tests')
@@ -62,14 +44,6 @@ return PhpCsFixer\Config::create()
         'phpdoc_add_missing_param_annotation' => ['only_untyped' => false],
         'no_superfluous_phpdoc_tags' => false,
         'no_blank_lines_after_phpdoc' => true,
-
-        // Header config...
-        'header_comment' => [
-            'commentType' => 'PHPDoc',
-            'header' => $header,
-            'location' => 'after_open',
-            'separate' => 'both',
-        ],
     ])
     ->setFinder($finder)
 ;
