@@ -27,6 +27,8 @@ final class GuzzleHttpClient implements HttpClient
 
     /**
      * New instance.
+     *
+     * @param Client $client
      */
     public function __construct(Client $client)
     {

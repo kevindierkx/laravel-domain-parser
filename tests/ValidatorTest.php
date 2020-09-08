@@ -17,6 +17,11 @@ final class ValidatorTest extends TestCase
 {
     /**
      * @dataProvider validatorProvider
+     *
+     * @param array  $input
+     * @param array  $contraints
+     * @param bool   $expected
+     * @param string $errorMessage
      */
     public function testValidator(
         array $input,

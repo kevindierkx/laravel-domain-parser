@@ -13,8 +13,12 @@ declare(strict_types=1);
 
 namespace Bakame\Laravel\Pdp;
 
+use function array_keys;
+use function config;
 use GuzzleHttp\Client as GuzzleClient;
 use Illuminate\Support\Facades\Cache;
+use function implode;
+use function is_string;
 use Pdp\CurlHttpClient;
 use Pdp\HttpClient;
 use Pdp\Manager;
@@ -22,10 +26,6 @@ use Pdp\Rules;
 use Pdp\TopLevelDomains;
 use Psr\SimpleCache\CacheInterface;
 use TypeError;
-use function array_keys;
-use function config;
-use function implode;
-use function is_string;
 
 final class Adapter
 {
@@ -112,6 +112,8 @@ final class Adapter
 
     /**
      * Returns a Pdp\Manager instance.
+     *
+     * @param array $config
      */
     private static function getManager(array $config): Manager
     {
@@ -121,11 +123,13 @@ final class Adapter
     /**
      * Returns a Psr\SimpleCache\CacheInterface instance.
      *
+     * @param array $config
+     *
      * @throws MisconfiguredExtension if the cache_client index is missing
      */
     private static function getCache(array $config): CacheInterface
     {
-        if (!isset($config['cache_client'])) {
+        if (! isset($config['cache_client'])) {
             throw new MisconfiguredExtension(sprintf(
                 'the cache store must be one of your Application cache store identifier OR a %s instance.',
                 CacheInterface::class
@@ -143,11 +147,13 @@ final class Adapter
     /**
      * Returns a Pdp\HttpClient instance.
      *
+     * @param array $config
+     *
      * @throws MisconfiguredExtension if the http_client index are missing
      */
     private static function getHttpClient(array $config): HttpClient
     {
-        if (!isset($config['http_client'])) {
+        if (! isset($config['http_client'])) {
             throw new MisconfiguredExtension(sprintf(
                 'the `http_client` must be a %s instance or one of the following string %s.',
                 HttpClient::class,
@@ -155,7 +161,7 @@ final class Adapter
             ));
         }
 
-        if (!is_string($config['http_client'])) {
+        if (! is_string($config['http_client'])) {
             return $config['http_client'];
         }
 
@@ -175,6 +181,8 @@ final class Adapter
 
     /**
      * Returns a Curl implementation of the Pdp\HttpClient.
+     *
+     * @param array $options
      */
     private static function getCurlClient(array $options): HttpClient
     {
@@ -183,6 +191,8 @@ final class Adapter
 
     /**
      * Returns a Guzzle 6 implementation of the Pdp\HttpClient.
+     *
+     * @param array $options
      */
     private static function getGuzzleClient(array $options): HttpClient
     {

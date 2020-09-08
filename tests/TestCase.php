@@ -55,6 +55,9 @@ abstract class TestCase extends Orchestra
     }
 
     /**
+     * @param string $viewName
+     * @param array  $withParameters
+     *
      * @return array|string
      */
     public function renderView(string $viewName, array $withParameters = [])

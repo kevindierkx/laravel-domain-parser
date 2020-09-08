@@ -98,7 +98,8 @@ final class Directives
      * returned as is otherwise the domain name is normalized
      * into its lowercased ascii representation.
      *
-     * @param  mixed $domain
+     * @param mixed $domain
+     *
      * @return mixed
      */
     public static function toAscii($domain)
@@ -117,7 +118,8 @@ final class Directives
      * returned as is otherwise the domain name is normalized
      * into its lowercased unicode representation.
      *
-     * @param  mixed $domain
+     * @param mixed $domain
+     *
      * @return mixed
      */
     public static function toUnicode($domain)

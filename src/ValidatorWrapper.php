@@ -25,7 +25,7 @@ final class ValidatorWrapper
      *
      * @param callable $callable a callable that takes one argument
      *                           and returns true if the argument is valid
-     *                           or false otherwise.
+     *                           or false otherwise
      */
     public function __construct(callable $callable)
     {
@@ -36,6 +36,8 @@ final class ValidatorWrapper
      * @param mixed                                      $value     evaluate using the callable argument
      *                                                              and Laravel Validator::extend method
      * @param \Illuminate\Contracts\Validation\Validator $validator
+     * @param string                                     $attribute
+     * @param array                                      $params
      */
     public function __invoke(string $attribute, $value, array $params = [], $validator): bool
     {
