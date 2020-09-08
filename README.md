@@ -1,134 +1,40 @@
-Laravel Domain Parser
-============
+# Laravel Domain Parser
 
-[![Author][ico-author]][link-author]
-[![Build Status][ico-travis]][link-travis]
-[![Total Downloads][ico-packagist]][link-packagist]
-[![Latest Stable Version][ico-release]][link-release]
-[![Software License][ico-license]][link-license]
+[![Latest Version](https://img.shields.io/github/tag/kevindierkx/laravel-domain-parser.svg?style=flat-square)](https://github.com/kevindierkx/laravel-domain-parser/tags)
+[![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](https://github.com/kevindierkx/laravel-domain-parser/blob/master/LICENSE)
+[![Build Status](https://img.shields.io/travis/kevindierkx/laravel-domain-parser.svg?style=flat-square)](https://travis-ci.org/kevindierkx/laravel-domain-parser)
+[![Scrutinizer](https://img.shields.io/scrutinizer/g/kevindierkx/laravel-domain-parser.svg?style=flat-square)](https://scrutinizer-ci.com/g/kevindierkx/laravel-domain-parser/)
+[![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/kevindierkx/laravel-domain-parser.svg?style=flat-square)](https://scrutinizer-ci.com/g/kevindierkx/laravel-domain-parser/?branch=master)
 
-A Laravel package to ease [PHP Domain Parser](https://github.com/jeremykendall/php-domain-parser) v5.4+ integration in your Laravel application.
+A Laravel package to ease [PHP Domain Parser](https://github.com/jeremykendall/php-domain-parser) integration in your Laravel application.
 
-Usage
--------
+## Version Compatibility
 
-Once installed and configured, in your Laravel application, you will be able to:
+ Laravel  | Package
+:---------|:----------
+ 5.x      | >= 0.3
+ 6.x      | >= 0.4
+ 7.x      | >= 0.4
 
-use the following facades:
+## Installation
 
-```php
-$domain = Rules::resolve('www.ulb.ac.be'); //$domain is a Pdp\Domain object
-echo $domain->getContent();            // 'www.ulb.ac.be'
-echo $domain->getPublicSuffix();       // 'ac.be'
-echo $domain->getRegistrableDomain();  // 'ulb.ac.be'
-echo $domain->getSubDomain();          // 'www'
-$domain->isResolvable();               // returns true
-$domain->isKnown();                    // returns true
-$domain->isICANN();                    // returns true
-$domain->isPrivate();                  // returns false
+Install the package via composer: `composer require kevindierkx/laravel-domain-parser`
 
-TopLevelDomains::contains('localhost'); // return false
-```
+*This package implements Laravel's Package Discovery, no further changes are needed to your application configs. For more information [please refer to the Laravel documentation](https://laravel.com/docs/packages#package-discovery).*
 
-Access additional validation rules:
+### Configuration
 
-```php
-$validator = Validator::make($request->all(), [
-    'tld' => 'is_tld',
-    'domain' => 'is_icann_suffix',
-]);
+In order to edit the default configuration you need to publish the package configuration to your application config directory:
 
-//or
+`php artisan vendor:publish --provider="Bakame\Laravel\Pdp\ServiceProvider" --tag=config`
 
-$request->validate([
-    'tld' => 'required|is_tld',
-    'domain' => 'required|is_icann_suffix',
-]);
-```
+The config file will be published in `config/domain-parser.php`. Please refer to the [config file](https://github.com/kevindierkx/laravel-domain-parser/blob/master/config/domain-parser.php) for an overview of the available options.
 
-Use conditionnal Blade directives:
+## Usage
 
-```blade
-@contains_tld('example.localhost')
-OK
-@else
-KO
-@endcontains_tld
-{{-- KO --}}
+The package provides some useful Laravel implementations in the form of validation rules, Blade directives and Blade conditionals. Additionally it provides a bridge with the [PHP Domain Parser](https://github.com/jeremykendall/php-domain-parser) base package, please refer to the [documentation](https://github.com/jeremykendall/php-domain-parser#documentation) for an overview of all functionality.
 
-@domain_to_unicode('www.xn--85x722f.xn--55qx5d.cn') {{-- www.食狮.公司.cn --}}
-@domain_to_ascii('www.食狮.公司.cn') {{-- www.xn--85x722f.xn--55qx5d.cn --}}
-```
-
-System Requirements
--------
-
-You need:
-
-- **PHP >= 7.1.3** but the latest stable version of PHP is recommended
-- you need Laravel **5.5** but the latest stable version is recommended
-
-Installation
---------
-
-```bash
-$ composer require bakame/laravel-domain-parser
-```
-
-The package will automatically register itself.
-
-
-Configuration
---------
-
-This is the contents of the published config file
-
-```php
-return [
-    /**
-     * Name of the cache to use. If a string is given it will be one of
-     * the store listed in the `stores` configuration array in
-     * your `cache` configuration file.
-     */
-    'cache_client' => 'file',
-    /**
-     * Cache TTL.
-     * - Can be a DateInterval object
-     * - If a DateTimeInterface object is given, the TTL will represents
-     *   the difference between the given object and the current timestamp
-     * - If a string is given is must be usable by DateInterval::createFromDateString
-     * - If an int is given, it is consireded as the TTL is seconds
-     */
-    'cache_ttl' => '1 DAY',
-    /**
-     * Name of the HTTP Client to use. If a string is given it must be of
-     * of the following curl, guzzle.
-     * Otherwise you can give an instance of a Pdp\HttpClient implementing object.
-     */
-    'http_client' => 'curl',
-    /**
-     * HTTP client options (optional).
-     * Additionals options to use when instantiating the curl and/or the guzzle client
-     * For the curl client the options takes a array usable by curl_setopt_array
-     * For the guzzle client the options will be used on instantiation
-     * Not use or check if a Pdp\HttpClient implementing object is given to http_client.
-     */
-    'http_client_options' => [],
-    /**
-     * External Public Suffix List URL (optional)
-     * If not present or equals to `null` the package will default to the official URL
-     */
-    'url_psl' => 'https://publicsuffix.org/list/public_suffix_list.dat',
-    /**
-     * External Root Zone Database URL (optional)
-     * If not present or equals to `null` the package will default to the official URL
-     */
-    'url_rzd' => 'https://data.iana.org/TLD/tlds-alpha-by-domain.txt',
-];
-```
-
-Documentation
--------
+*Please note:* By default the `Rules` and `TopLevelDomains` facades will be registered during package discovery. In the following examples we will use these facades directly.
 
 ### Validation rules
 
@@ -141,8 +47,14 @@ Documentation
 | `is_icann_suffix` | Tells whether the submitted value is a Domain Name with an ICANN suffix |
 | `is_private_suffix` | Tells whether the submitted value is a Domain Name with a Private suffix |
 
-### Blade if statement directives
+```php
+$validator = Validator::make($request->all(), [
+    'tld' => 'is_tld',
+    'domain' => 'is_icann_suffix',
+]);
+```
 
+### Blade if statement directives
 | If statement     | Description |
 | ---------------- | :----       |
 | `domain_name` | Tells whether the submitted value represents a Domain Name |
@@ -152,38 +64,67 @@ Documentation
 | `icann_suffix` | Tells whether the submitted value is a Domain Name with an ICANN suffix |
 | `private_suffix` | Tells whether the submitted value is a Domain Name with a Private suffix |
 
-### Blade directives
+```blade
+@contains_tld('example.localhost')
+OK
+@else
+KO
+@endcontains_tld
+{{-- KO --}}
+```
 
+### Blade directives
 | directive    | Description |
 | ---------------- | :----       |
 | `domain_to_unicode` | Converts the hostname into its Unicode representation |
 | `domain_to_ascii` | Converts the hostname into its Ascii representation |
 
+```blade
+@domain_to_unicode('www.xn--85x722f.xn--55qx5d.cn') {{-- www.食狮.公司.cn --}}
+@domain_to_ascii('www.食狮.公司.cn') {{-- www.xn--85x722f.xn--55qx5d.cn --}}
+```
+
 ### Facades
+- `Rules` is a Laravel Facade for [`Pdp\Rules`](https://github.com/jeremykendall/php-domain-parser/blob/master/src/Rules.php) loaded using the configuration files settings.
 
-- `Rules` is a Laravel Facade for `Pdp\Rules` loaded using the configuration files settings.
-- `TopLevelDomains` is a Laravel Facade for `Pdp\TopLevelDomains` loaded using the configuration files settings.
+```php
+$domain = Rules::resolve('www.ulb.ac.be'); //$domain is a Pdp\Domain object
+echo $domain->getContent();            // 'www.ulb.ac.be'
+echo $domain->getPublicSuffix();       // 'ac.be'
+echo $domain->getRegistrableDomain();  // 'ulb.ac.be'
+echo $domain->getSubDomain();          // 'www'
+$domain->isResolvable();               // returns true
+$domain->isKnown();                    // returns true
+$domain->isICANN();                    // returns true
+$domain->isPrivate();                  // returns false
 
-Maintenance
--------
+- `TopLevelDomains` is a Laravel Facade for [`Pdp\TopLevelDomains`](https://github.com/jeremykendall/php-domain-parser/blob/master/src/TopLevelDomains.php) loaded using the configuration files settings.
+
+```php
+TopLevelDomains::contains('localhost'); // return false
+```
+
+## Maintenance
 
 ### Refresh Cache Command
 
-You can warm and/or update the cache information using the bundled refresh cache command manually. You can choose to refresh:
+You can warm and/or update the cache information using the bundled refresh cache command manually.
 
-- the Public Suffix List
+You can choose to refresh:
+
+- The Public Suffix List
 
 ```bash
 php artisan domain-parser:refresh --rules
 ```
 
-- the IANA Root Zone Database
+- The IANA Root Zone Database
 
 ```bash
 php artisan domain-parser:refresh --tlds
 ```
 
-- both set of data in a single call (default action)
+- Both data sets in a single call (default)
 
 ```bash
 php artisan domain-parser:refresh
@@ -191,7 +132,7 @@ php artisan domain-parser:refresh
 
 ### Scheduling
 
-It is, however, recommended to schedule this command so you don't have to manually run `domain-parser:resfresh` everytime you need to update your cache or directly when a user interact with your application on production.
+It is recommended to schedule the refresh command so you don't have to manually run `domain-parser:refresh` every time you need to update your cache.
 
 The command can be scheduled in Laravel's console kernel, just like any other command.
 
@@ -203,24 +144,14 @@ protected function schedule(Schedule $schedule)
 }
 ```
 
-Changelog
--------
-
+## Changelog
 Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
 
-Contributing
--------
+## Contributing
 
-Contributions are welcome and will be fully credited. Please see [CONTRIBUTING](.github/CONTRIBUTING.md) and [CONDUCT](CONDUCT.md) for details.
+Contributions are welcome and will be fully credited. Please see [CONTRIBUTING](.github/CONTRIBUTING.md) for details.
 
-Testing
--------
-
-The library has a :
-
-- a [PHPUnit](https://phpunit.de) test suite
-- a coding style compliance test suite using [PHP CS Fixer](http://cs.sensiolabs.org/).
-- a code analysis compliance test suite using [PHPStan](https://github.com/phpstan/phpstan).
+## Testing
 
 To run the tests, run the following command from the project folder.
 
@@ -228,30 +159,16 @@ To run the tests, run the following command from the project folder.
 $ composer test
 ```
 
-Security
--------
+## Security
 
-If you discover any security related issues, please email nyamsprod@gmail.com instead of using the issue tracker.
+If you discover a security vulnerability within this package, please send an e-mail to Kevin Dierkx via kevin@distortedfusion.com. All security vulnerabilities will be promptly addressed.
 
-Credits
--------
+## Credits
 
 - [ignace nyamagana butera](https://github.com/nyamsprod)
-- [All Contributors](https://github.com/bakame-php/laravel-domain-parser/contributors)
+- [Kevin Dierkx](https://github.com/kevindierkx)
+- [All Contributors](https://github.com/kevindierkx/laravel-domain-parser/contributors)
 
-License
--------
+## License
 
 The MIT License (MIT). Please see [License File](LICENSE) for more information.
-
-[ico-author]: https://img.shields.io/badge/author-@nyamsprod-blue.svg?style=flat-square
-[ico-travis]: https://img.shields.io/travis/bakame-php/laravel-domain-parser/master.svg?style=flat-square
-[ico-packagist]: https://img.shields.io/packagist/dt/bakame/laravel-domain-parser.svg?style=flat-square
-[ico-release]: https://img.shields.io/github/release/bakame-php/laravel-domain-parser.svg?style=flat-square
-[ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
-
-[link-author]: https://twitter.com/nyamsprod
-[link-travis]: https://travis-ci.org/bakame-php/laravel-domain-parser
-[link-packagist]: https://packagist.org/packages/bakame/laravel-domain-parser
-[link-release]: https://github.com/bakame-php/laravel-domain-parser/releases
-[link-license]: https://github.com/bakame-php/laravel-domain-parser/blob/master/LICENSE

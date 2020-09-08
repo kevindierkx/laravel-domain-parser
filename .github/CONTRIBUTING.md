@@ -1,16 +1,16 @@
 # Contributing
 
-Contributions are **welcome** and will be fully **credited**.
+All contributions are **welcome**, [all contributors](https://github.com/kevindierkx/laravel-domain-parser/graphs/contributors) will be fully **credited**.
 
 ## Bug Report
 
-We accept bug reports via issues created on [Github](https://github.com/bakame-php/laravel-domain-parser/issues).
+We accept bug reports via issues created on [Github](https://github.com/kevindierkx/laravel-domain-parser/issues).
 
 ### Prior to submitting your report
 
 - **Always search the issue or pull request list first** - The odds are good that if you've found a problem, someone else has found it, too.
 
-- **Always try the [master branch](https://github.com/bakame-php/laravel-domain-parser)** - to see if the reported bug has not already been fixed.
+- **Always try the [master branch](https://github.com/kevindierkx/laravel-domain-parser)** - It's possible a reported bug is fixed but, hasn't been tagged yet.
 
 ### When submitting your report
 
@@ -22,28 +22,22 @@ We accept bug reports via issues created on [Github](https://github.com/bakame-p
 
 ## Pull Request
 
-We accept contributions via Pull Requests on [Github](https://github.com/bakame-php/laravel-domain-parser/pull).
+We accept contributions via Pull Requests on [Github](https://github.com/kevindierkx/laravel-domain-parser/pull).
 
-- **[PSR-2 Coding Standard](http://www.php-fig.org/psr/psr-2/)** - Your patch won't be accepted if it doesn't pass the package coding style test suite.
+- **[PSR-2 Coding Standard](https://www.php-fig.org/psr/psr-2/)** - Your patch won't be accepted if it doesn't pass the package coding style test suite.
 
-- **Add tests!** - Your patch won't be accepted if it doesn't have tests.
+- **Adding tests** - Your patch won't be accepted if it doesn't have tests.
 
 - **Document any change in behaviour** - Make sure the README and any other relevant documentation are kept up-to-date.
 
-- **Consider our release cycle** - We try to follow semver. Randomly breaking public APIs is not an option.
-
-- **Create topic branches** - Don't ask us to pull from your master branch.
+- **Breaking changes** - We try to follow semantic versioning. Breaking public APIs randomly is not an option.
 
 - **One pull request per feature** - If you want to do more than one thing, send multiple pull requests.
 
 - **Send coherent history** - Make sure each individual commit in your pull request is meaningful. If you had to make multiple intermediate commits while developing, please squash them before submitting.
 
-
-## Running Tests
+- **Run the test suite** - If you want your PR to be reviewed ASAP please consider running this command before submitting it.
 
 ``` bash
 $ composer test
 ```
-
-
-**Happy coding**!
