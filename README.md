@@ -18,7 +18,11 @@ A Laravel package to ease [PHP Domain Parser](https://github.com/jeremykendall/p
 
 ## Installation
 
-Install the package via composer: `composer require kevindierkx/laravel-domain-parser`
+Install the package via composer:
+
+```bash
+$ composer require kevindierkx/laravel-domain-parser
+```
 
 *This package implements Laravel's Package Discovery, no further changes are needed to your application configs. For more information [please refer to the Laravel documentation](https://laravel.com/docs/packages#package-discovery).*
 
@@ -26,7 +30,9 @@ Install the package via composer: `composer require kevindierkx/laravel-domain-p
 
 In order to edit the default configuration you need to publish the package configuration to your application config directory:
 
-`php artisan vendor:publish --provider="Bakame\Laravel\Pdp\ServiceProvider" --tag=config`
+```bash
+php artisan vendor:publish --provider="Bakame\Laravel\Pdp\ServiceProvider" --tag=config
+```
 
 The config file will be published in `config/domain-parser.php`. Please refer to the [config file](https://github.com/kevindierkx/laravel-domain-parser/blob/master/config/domain-parser.php) for an overview of the available options.
 
@@ -97,6 +103,7 @@ $domain->isResolvable();               // returns true
 $domain->isKnown();                    // returns true
 $domain->isICANN();                    // returns true
 $domain->isPrivate();                  // returns false
+```
 
 - `TopLevelDomains` is a Laravel Facade for [`Pdp\TopLevelDomains`](https://github.com/jeremykendall/php-domain-parser/blob/master/src/TopLevelDomains.php) loaded using the configuration files settings.
 
@@ -153,7 +160,7 @@ Contributions are welcome and will be fully credited. Please see [CONTRIBUTING](
 
 ## Testing
 
-To run the tests, run the following command from the project folder.
+To run the tests, run the following command from the project folder:
 
 ``` bash
 $ composer test
