@@ -22,10 +22,17 @@ matrix:
     - php: 7.3
       env:
         - COLLECT_COVERAGE=true
-        - IGNORE_PLATFORMS=true
-        - RUN_PHPSTAN=false
-        - RUN_INFECTION=false
-        - VALIDATE_CODING_STYLE=false
+        - IGNORE_PLATFORMS=false
+        - RUN_PHPSTAN=true
+        - RUN_INFECTION=true
+        - VALIDATE_CODING_STYLE=true
+    - php: 7.4
+      env:
+        - COLLECT_COVERAGE=true
+        - IGNORE_PLATFORMS=false
+        - RUN_PHPSTAN=true
+        - RUN_INFECTION=true
+        - VALIDATE_CODING_STYLE=true
     - php: nightly
       env:
         - COLLECT_COVERAGE=false
