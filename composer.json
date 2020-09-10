@@ -1,15 +1,15 @@
 {
     "name": "bakame/laravel-domain-parser",
     "description": "Laravel package to integrate PHP Domain parser.",
-    "homepage": "https://github.com/bakame-php/laravel-domain-parser",
+    "homepage": "https://github.com/kevindierkx/laravel-domain-parser",
     "license": "MIT",
-    "keywords": [
-        "laravel",
-        "icann",
-        "iana",
-        "domain parser"
-    ],
+    "keywords": ["distortedfusion", "laravel", "icann", "iana", "domain parser"],
     "authors": [
+        {
+            "name": "Kevin Dierkx",
+            "email": "kevin@distortedfusion.com",
+            "homepage": "https://distortedfusion.com"
+        },
         {
             "name": "Ignace Nyamagana Butera",
             "homepage": "http://nyamsprod.com",
@@ -17,7 +17,7 @@
         },
         {
             "name": "Contributors",
-            "homepage": "https://github.com/bakame-php/laravel-domain-parser/graphs/contributors"
+            "homepage": "https://github.com/kevindierkx/laravel-domain-parser/graphs/contributors"
         }
     ],
     "require": {
