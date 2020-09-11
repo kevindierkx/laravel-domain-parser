@@ -154,10 +154,6 @@ protected function schedule(Schedule $schedule)
 ## Changelog
 Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
 
-## Contributing
-
-Contributions are welcome and will be fully credited. Please see [CONTRIBUTING](.github/CONTRIBUTING.md) for details.
-
 ## Testing
 
 To run the tests, run the following command from the project folder:
