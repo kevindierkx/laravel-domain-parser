@@ -27,7 +27,7 @@
         "illuminate/config": "^6.0 || ^7.0"
     },
     "require-dev": {
-        "distortedfusion/php-cs-fixer-config": "^1.0",
+        "distortedfusion/php-cs-fixer-config": "^1.1",
         "guzzlehttp/guzzle": "^6.3",
         "nunomaduro/larastan": "^0.6.1",
         "orchestra/testbench": "^4.0 || ^5.0",
@@ -47,7 +47,7 @@
         }
     },
     "scripts": {
-        "phpcs-fix" : "php-cs-fixer fix --using-cache=no --rules=-psr0,-psr4 --ansi",
+        "phpcs-fix" : "php-cs-fixer fix --using-cache=no --allow-risky=yes --ansi",
         "phpcs": "php-cs-fixer fix -v --diff --dry-run --allow-risky=yes --ansi",
         "phpstan-src": "phpstan analyse -l max -c phpstan.src.neon src",
         "phpstan-tests": "phpstan analyse -l max -c phpstan.tests.neon tests",
