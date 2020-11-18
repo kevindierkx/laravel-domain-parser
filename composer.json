@@ -23,8 +23,8 @@
     "require": {
         "php": "^7.2",
         "jeremykendall/php-domain-parser": "^5.4",
-        "illuminate/support": "^6.0 || ^7.0",
-        "illuminate/config": "^6.0 || ^7.0"
+        "illuminate/support": "^6.0 || ^7.0 || ^8.0",
+        "illuminate/config": "^6.0 || ^7.0 || ^8.0"
     },
     "require-dev": {
         "distortedfusion/php-cs-fixer-config": "^1.1.1",
@@ -34,7 +34,7 @@
         "phpstan/phpstan": "^0.12.0",
         "phpstan/phpstan-phpunit": "^0.12.0",
         "phpstan/phpstan-strict-rules": "^0.12.0",
-        "phpunit/phpunit": "^8.0"
+        "phpunit/phpunit": "^8.0 || ^9.0"
     },
     "autoload": {
         "psr-4": {
