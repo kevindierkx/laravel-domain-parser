@@ -5,15 +5,16 @@
 [![Build Status](https://img.shields.io/github/workflow/status/kevindierkx/laravel-domain-parser/CI-CD/master?style=flat-square)](https://github.com/kevindierkx/laravel-domain-parser/actions)
 [![Code Coverage](https://img.shields.io/codecov/c/github/kevindierkx/laravel-domain-parser?style=flat-square&token=JBWSCLFCPW)](https://codecov.io/gh/kevindierkx/laravel-domain-parser)
 
-A Laravel package to ease [PHP Domain Parser](https://github.com/jeremykendall/php-domain-parser) integration in your Laravel application.
+A Laravel package to ease [PHP Domain Parser](https://github.com/jeremykendall/php-domain-parser) _(PDP)_ integration in your Laravel application.
 
 ## Version Compatibility
 
-| Laravel | Package | PHP  |
-| ------- | ------- | ---- |
-| 5.x     | >= 0.3  | ^7.1 |
-| 6.x     | >= 0.4  | ^7.2 |
-| 7.x     | >= 0.4  | ^7.2 |
+| Laravel | PHP            | Package | PDP  | NOTES |
+| ------- | -------------- | ------- | ---- | ------|
+| 5.x     | ^7.1           | >= 0.3  | ^5.4 |       |
+| 6.x     | ^7.2           | >= 0.4  | ^5.4 |       |
+| 7.x     | ^7.2           | >= 0.4  | ^5.4 |       |
+| 8.x     | ^7.2 \|\| ^8.0 | >= 0.5  | ^5.4 | **PHP 8.0 isn't officially supported in this version of the base package** |
 
 ## Installation
 
