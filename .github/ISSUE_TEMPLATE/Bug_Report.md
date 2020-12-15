@@ -1,6 +1,6 @@
 ---
-name: 🐛 Bug Report
-about: Something is broken? 🔨
+name: Bug Report 🐛
+about: Did something break?
 ---
 
 ### Bug Report
@@ -15,7 +15,7 @@ _(Fill in the relevant information below to help triage your issue.)_
 
 #### Summary
 
-_(Please explain in plain english your bug)_
+_(Please explain your bug in plain english)_
 
 #### Standalone code, or other way to reproduce the problem
 

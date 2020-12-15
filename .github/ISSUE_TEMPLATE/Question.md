@@ -1,5 +1,5 @@
 ---
-name: ❓ Question
+name: Question ❓
 about: Are you unsure about something?
 ---
 
@@ -11,4 +11,4 @@ _(Fill in the relevant information below to help triage your issue.)_
 
 ### Question
 
-_(Please explain in plain english your question)_
+_(Please explain, in plain english, your question)_

@@ -53,6 +53,7 @@ abstract class TestCase extends Orchestra
      */
     public function renderView(string $viewName, array $withParameters = [])
     {
+        /** @phpstan-var view-string $viewName */
         return view($viewName)->with($withParameters)->render();
     }
 }
