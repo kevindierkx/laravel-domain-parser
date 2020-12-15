@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Bakame\Laravel\Pdp;
 
+use Illuminate\Contracts\Validation\Validator;
+
 final class ValidatorWrapper
 {
     /**
@@ -24,13 +26,12 @@ final class ValidatorWrapper
     }
 
     /**
-     * @param mixed                                      $value     evaluate using the callable argument
-     *                                                              and Laravel Validator::extend method
-     * @param \Illuminate\Contracts\Validation\Validator $validator
      * @param string                                     $attribute
+     * @param mixed                                      $value
      * @param array                                      $params
+     * @param \Illuminate\Contracts\Validation\Validator $validator
      */
-    public function __invoke(string $attribute, $value, array $params = [], $validator): bool
+    public function __invoke(string $attribute, $value, array $params, Validator $validator): bool
     {
         return ($this->callable)($value);
     }
