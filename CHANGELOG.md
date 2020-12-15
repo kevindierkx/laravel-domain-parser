@@ -1,12 +1,12 @@
 # Changelog
 
-All Notable changes to `Laravel Domain Parser` will be documented in this file
+All Notable changes will be documented in this file
 
-## Next - TBD
+## 0.5.0 - 2020-12-15
 
 ### Added
 
-- None
+- Experimental support for Laravel 8.x on both PHP 7.4 and PHP 8.x.
 
 ### Fixed
 
