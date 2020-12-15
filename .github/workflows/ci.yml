@@ -67,3 +67,8 @@ jobs:
 
       - name: Execute PHPUnit
         run: composer phpunit
+
+      - name: Code coverage
+        if: ${{ github.ref == 'refs/heads/master' }}
+        run: |
+          bash <(curl -s https://codecov.io/bash)
