@@ -2,19 +2,18 @@
 
 [![Latest Version](https://img.shields.io/github/tag/kevindierkx/laravel-domain-parser.svg?style=flat-square)](https://github.com/kevindierkx/laravel-domain-parser/tags)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](https://github.com/kevindierkx/laravel-domain-parser/blob/master/LICENSE)
-[![Build Status](https://img.shields.io/travis/kevindierkx/laravel-domain-parser.svg?style=flat-square)](https://travis-ci.org/kevindierkx/laravel-domain-parser)
-[![Scrutinizer](https://img.shields.io/scrutinizer/g/kevindierkx/laravel-domain-parser.svg?style=flat-square)](https://scrutinizer-ci.com/g/kevindierkx/laravel-domain-parser/)
-[![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/kevindierkx/laravel-domain-parser.svg?style=flat-square)](https://scrutinizer-ci.com/g/kevindierkx/laravel-domain-parser/?branch=master)
+[![Build Status](https://img.shields.io/github/workflow/status/kevindierkx/laravel-domain-parser/CI-CD/master?style=flat-square)](https://github.com/kevindierkx/laravel-domain-parser/actions)
+[![Code Coverage](https://img.shields.io/codecov/c/github/kevindierkx/laravel-domain-parser?style=flat-square&token=JBWSCLFCPW)](https://codecov.io/gh/kevindierkx/laravel-domain-parser)
 
 A Laravel package to ease [PHP Domain Parser](https://github.com/jeremykendall/php-domain-parser) integration in your Laravel application.
 
 ## Version Compatibility
 
- Laravel  | Package
-:---------|:----------
- 5.x      | >= 0.3
- 6.x      | >= 0.4
- 7.x      | >= 0.4
+| Laravel | Package | PHP  |
+| ------- | ------- | ---- |
+| 5.x     | >= 0.3  | ^7.1 |
+| 6.x     | >= 0.4  | ^7.2 |
+| 7.x     | >= 0.4  | ^7.2 |
 
 ## Installation
 
@@ -44,13 +43,13 @@ The package provides some useful Laravel implementations in the form of validati
 
 ### Validation rules
 
-| Rules            | Description |
-| ---------------- | :----       |
-| `is_domain_name` | Tells whether the submitted value represents a Domain Name |
-| `is_tld` | Tells whether the submitted value is a TLD |
-| `contains_tld` | Tells whether the submitted value is a Domain Name with a known TLD |
-| `is_known_suffix` | Tells whether the submitted value is a Domain Name with a known suffix |
-| `is_icann_suffix` | Tells whether the submitted value is a Domain Name with an ICANN suffix |
+| Rules               | Description |
+| ------------------- | ----------- |
+| `is_domain_name`    | Tells whether the submitted value represents a Domain Name |
+| `is_tld`            | Tells whether the submitted value is a TLD |
+| `contains_tld`      | Tells whether the submitted value is a Domain Name with a known TLD |
+| `is_known_suffix`   | Tells whether the submitted value is a Domain Name with a known suffix |
+| `is_icann_suffix`   | Tells whether the submitted value is a Domain Name with an ICANN suffix |
 | `is_private_suffix` | Tells whether the submitted value is a Domain Name with a Private suffix |
 
 ```php
@@ -62,12 +61,12 @@ $validator = Validator::make($request->all(), [
 
 ### Blade if statement directives
 | If statement     | Description |
-| ---------------- | :----       |
-| `domain_name` | Tells whether the submitted value represents a Domain Name |
-| `tld` | Tells whether the submitted value is a TLD |
-| `contains_tld` | Tells whether the submitted value is a Domain Name with a known TLD |
-| `known_suffix` | Tells whether the submitted value is a Domain Name with a Known suffix |
-| `icann_suffix` | Tells whether the submitted value is a Domain Name with an ICANN suffix |
+| ---------------- | ----------- |
+| `domain_name`    | Tells whether the submitted value represents a Domain Name |
+| `tld`            | Tells whether the submitted value is a TLD |
+| `contains_tld`   | Tells whether the submitted value is a Domain Name with a known TLD |
+| `known_suffix`   | Tells whether the submitted value is a Domain Name with a Known suffix |
+| `icann_suffix`   | Tells whether the submitted value is a Domain Name with an ICANN suffix |
 | `private_suffix` | Tells whether the submitted value is a Domain Name with a Private suffix |
 
 ```blade
@@ -80,10 +79,10 @@ KO
 ```
 
 ### Blade directives
-| directive    | Description |
-| ---------------- | :----       |
+| directive           | Description |
+| ------------------- | ----------- |
 | `domain_to_unicode` | Converts the hostname into its Unicode representation |
-| `domain_to_ascii` | Converts the hostname into its Ascii representation |
+| `domain_to_ascii`   | Converts the hostname into its Ascii representation |
 
 ```blade
 @domain_to_unicode('www.xn--85x722f.xn--55qx5d.cn') {{-- www.食狮.公司.cn --}}
