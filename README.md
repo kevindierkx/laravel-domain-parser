@@ -21,7 +21,7 @@ A Laravel package to ease [PHP Domain Parser](https://github.com/jeremykendall/p
 Install the package via composer:
 
 ```bash
-$ composer require kevindierkx/laravel-domain-parser
+$ composer require bakame/laravel-domain-parser
 ```
 
 *This package implements Laravel's Package Discovery, no further changes are needed to your application configs. For more information [please refer to the Laravel documentation](https://laravel.com/docs/packages#package-discovery).*
