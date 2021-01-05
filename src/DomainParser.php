@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Bakame\Laravel\Pdp;
 
 use Bakame\Laravel\Pdp\Http\RequestFactory;
+use DateTime;
 use Illuminate\Support\Facades\Cache;
 use Pdp\PublicSuffixList;
 use Pdp\ResourceUri;
@@ -41,7 +42,7 @@ class DomainParser
     public function getRules(bool $fresh = false): PublicSuffixList
     {
         $uri = $this->config->uriPublicSuffixList ?: $this->getDefaultPublicSuffixListUri();
-        $ttl = $this->config->cacheTtl;
+        $ttl = $this->convertTtlToDateTime($this->config->cacheTtl);
 
         $factory = $this->getStorageFactory();
         $storage = $factory->createPublicSuffixListStorage('', $ttl);
@@ -63,7 +64,7 @@ class DomainParser
     public function getTopLevelDomains(bool $fresh = false): TopLevelDomainList
     {
         $uri = $this->config->uriTopLevelDomainList ?: $this->getDefaultTopLevelDomainListUri();
-        $ttl = $this->config->cacheTtl;
+        $ttl = $this->convertTtlToDateTime($this->config->cacheTtl);
 
         $factory = $this->getStorageFactory();
         $storage = $factory->createTopLevelDomainListStorage('', $ttl);
@@ -127,5 +128,18 @@ class DomainParser
     public function getDefaultTopLevelDomainListUri(): string
     {
         return ResourceUri::TOP_LEVEL_DOMAIN_LIST_URI;
+    }
+
+    /**
+     * Convert a TTL into a date time object.
+     *
+     * @param int $ttl
+     * @return \DateTime
+     *
+     * @return \DateTime
+     */
+    protected function convertTtlToDateTime(int $ttl): DateTime
+    {
+        return (new DateTime())->modify("+{$ttl} minutes");
     }
 }
