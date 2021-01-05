@@ -103,7 +103,9 @@ class ServiceProvider extends BaseServiceProvider
         );
 
         $this->app->singleton('pdp.parser', function ($app) {
-            return new DomainParser($app->make('config')->get('domain-parser'));
+            $config = new DomainParserConfig($app->make('config')->get('domain-parser'));
+
+            return new DomainParser($config);
         });
 
         $this->app->singleton('pdp.rules', function ($app) {

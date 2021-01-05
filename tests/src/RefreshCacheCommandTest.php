@@ -42,16 +42,29 @@ class RefreshCacheCommandTest extends TestCase
             ->assertExitCode(0);
     }
 
+    /**
+     * @environment-setup useFaultyConfig
+     */
     public function testExceptionsAreCaught(): void
     {
-        $this->app['config']->set('domain-parser.url_psl', 'https://example.com');
-        $this->app['config']->set('domain-parser.url_rzd', 'https://example.com');
-
         $this->artisan('domain-parser:refresh')
             ->expectsOutput(self::INFO_INTRO)
             ->expectsOutput(self::ERROR_INTRO)
             ->expectsOutput(self::ERROR_DESCRIPTION)
             ->expectsOutput(self::ERROR_HEADER)
             ->assertExitCode(1);
+    }
+
+    /**
+     * Define a faulty environment setup.
+     *
+     * @param \Illuminate\Foundation\Application $app
+     *
+     * @return void
+     */
+    protected function useFaultyConfig($app): void
+    {
+        $app['config']->set('domain-parser.uri_public_suffix_list', 'https://example.com');
+        $app['config']->set('domain-parser.uri_top_level_domain_list', 'https://example.com');
     }
 }

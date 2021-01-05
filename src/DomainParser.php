@@ -12,20 +12,21 @@ use Pdp\Storage\PsrStorageFactory;
 use Pdp\TopLevelDomainList;
 use Psr\Http\Client\ClientInterface;
 use Psr\SimpleCache\CacheInterface;
+use RuntimeException;
 
 class DomainParser
 {
     /**
-     * @var array
+     * @var \Bakame\Laravel\Pdp\DomainParserConfig
      */
-    protected array $config;
+    protected DomainParserConfig $config;
 
     /**
      * Create a new domain parser instance.
      *
-     * @param array $config
+     * @param \Bakame\Laravel\Pdp\DomainParserConfig $config
      */
-    public function __construct(array $config)
+    public function __construct(DomainParserConfig $config)
     {
         $this->config = $config;
     }
@@ -39,8 +40,8 @@ class DomainParser
      */
     public function getRules(bool $fresh = false): PublicSuffixList
     {
-        $uri = $this->config['url_psl'] ?? $this->getDefaultPublicSuffixListUri();
-        $ttl = $this->config['cache_ttl'] ?? null;
+        $uri = $this->config->uriPublicSuffixList ?: $this->getDefaultPublicSuffixListUri();
+        $ttl = $this->config->cacheTtl;
 
         $factory = $this->getStorageFactory();
         $storage = $factory->createPublicSuffixListStorage('', $ttl);
@@ -61,8 +62,8 @@ class DomainParser
      */
     public function getTopLevelDomains(bool $fresh = false): TopLevelDomainList
     {
-        $uri = $this->config['url_rzd'] ?? $this->getDefaultTopLevelDomainListUri();
-        $ttl = $this->config['cache_ttl'] ?? null;
+        $uri = $this->config->uriTopLevelDomainList ?: $this->getDefaultTopLevelDomainListUri();
+        $ttl = $this->config->cacheTtl;
 
         $factory = $this->getStorageFactory();
         $storage = $factory->createTopLevelDomainListStorage('', $ttl);
@@ -95,9 +96,7 @@ class DomainParser
      */
     private function getCacheInstance(): CacheInterface
     {
-        $driver = $this->config['cache_driver'] ?? null;
-
-        return Cache::store($driver);
+        return Cache::store($this->config->cacheDriver);
     }
 
     /**
@@ -107,9 +106,7 @@ class DomainParser
      */
     private function getHttpClientInstance(): ClientInterface
     {
-        $options = $this->config['http_client_options'] ?? [];
-
-        return new \GuzzleHttp\Client($options);
+        return new \GuzzleHttp\Client($this->config->httpClientOptions);
     }
 
     /**
