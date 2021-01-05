@@ -132,13 +132,16 @@ class DomainParser
     /**
      * Convert a TTL into a date time object.
      *
-     * @param int $ttl
+     * @param int|null $ttl
      *
      * @return \DateTime
-     * @return \DateTime
      */
-    protected function convertTtlToDateTime(int $ttl): DateTime
+    protected function convertTtlToDateTime(int $ttl = null): ? DateTime
     {
+        if (is_null($ttl)) {
+            return null;
+        }
+
         return (new DateTime())->modify("+{$ttl} minutes");
     }
 }
