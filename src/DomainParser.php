@@ -61,7 +61,7 @@ class DomainParser
      */
     public function getTopLevelDomains(bool $fresh = false): TopLevelDomainList
     {
-        $uri = $this->config['url_rzd'] ?? $this->getDefaultTldListUri();
+        $uri = $this->config['url_rzd'] ?? $this->getDefaultTopLevelDomainListUri();
         $ttl = $this->config['cache_ttl'] ?? null;
 
         $factory = $this->getStorageFactory();
@@ -123,11 +123,11 @@ class DomainParser
     }
 
     /**
-     * Get the default URI used to fetch the TLDs list.
+     * Get the default URI used to fetch the Top Level Domain list.
      *
      * @return string
      */
-    public function getDefaultTldListUri(): string
+    public function getDefaultTopLevelDomainListUri(): string
     {
         return ResourceUri::TOP_LEVEL_DOMAIN_LIST_URI;
     }

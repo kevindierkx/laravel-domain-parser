@@ -2,9 +2,6 @@
 
 namespace BakameTest\Laravel\Pdp;
 
-use Illuminate\Support\Facades\Artisan;
-use Psr\SimpleCache\CacheInterface;
-
 class RefreshCacheCommandTest extends TestCase
 {
     const INFO_INTRO = 'Starting refreshing PHP Domain Parser lists cache...';
@@ -12,8 +9,11 @@ class RefreshCacheCommandTest extends TestCase
     const INFO_OUTRO_PUBLIC_SUFFIX_LIST = 'The Public Suffix List cache is updated.';
     const INFO_INTRO_TOP_LEVEL_DOMAINS_LIST = 'Updating the IANA Root Zone Database cache.';
     const INFO_OUTRO_TOP_LEVEL_DOMAINS_LIST = 'The IANA Root Zone Database cache is updated.';
+    const ERROR_INTRO = 'The PHP Domain Parser lists cache could not be updated.';
+    const ERROR_DESCRIPTION = 'An error occurred during the update.';
+    const ERROR_HEADER = '----- Error Message -----';
 
-    public function testRefreshRules(): void
+    public function testRefreshingRulesOnly(): void
     {
         $this->artisan('domain-parser:refresh', ['--rules' => true])
             ->expectsOutput(self::INFO_INTRO)
@@ -22,7 +22,7 @@ class RefreshCacheCommandTest extends TestCase
             ->assertExitCode(0);
     }
 
-    public function testRefreshTopLevelDomains(): void
+    public function testRefreshingTldsOnly(): void
     {
         $this->artisan('domain-parser:refresh', ['--tlds' => true])
             ->expectsOutput(self::INFO_INTRO)
@@ -31,7 +31,7 @@ class RefreshCacheCommandTest extends TestCase
             ->assertExitCode(0);
     }
 
-    public function testRefreshAll(): void
+    public function testRefreshingAll(): void
     {
         $this->artisan('domain-parser:refresh')
             ->expectsOutput(self::INFO_INTRO)
@@ -40,5 +40,18 @@ class RefreshCacheCommandTest extends TestCase
             ->expectsOutput(self::INFO_INTRO_TOP_LEVEL_DOMAINS_LIST)
             ->expectsOutput(self::INFO_OUTRO_TOP_LEVEL_DOMAINS_LIST)
             ->assertExitCode(0);
+    }
+
+    public function testExceptionsAreCaught(): void
+    {
+        $this->app['config']->set('domain-parser.url_psl', 'https://example.com');
+        $this->app['config']->set('domain-parser.url_rzd', 'https://example.com');
+
+        $this->artisan('domain-parser:refresh')
+            ->expectsOutput(self::INFO_INTRO)
+            ->expectsOutput(self::ERROR_INTRO)
+            ->expectsOutput(self::ERROR_DESCRIPTION)
+            ->expectsOutput(self::ERROR_HEADER)
+            ->assertExitCode(1);
     }
 }

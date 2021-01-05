@@ -43,17 +43,17 @@ class RefreshCacheCommand extends Command
         }
 
         try {
-            if ($refreshRulesList && ! $this->updatePublicSuffixList()) {
-                return 1;
+            if ($refreshRulesList) {
+                $this->updatePublicSuffixList();
             }
 
-            if ($refreshTldList && ! $this->updateTldList()) {
-                return 1;
+            if ($refreshTldList) {
+                $this->updateTldList();
             }
         } catch (Throwable $e) {
             $this->error('The PHP Domain Parser lists cache could not be updated.');
             $this->error('An error occurred during the update.');
-            $this->error('----- Error Message ----');
+            $this->error('----- Error Message -----');
             $this->error($e->getMessage());
 
             return 1;

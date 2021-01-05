@@ -3,9 +3,8 @@
 namespace BakameTest\Laravel\Pdp;
 
 use Bakame\Laravel\Pdp\DomainParser;
-use Bakame\Laravel\Pdp\MisconfiguredExtension;
 use Bakame\Laravel\Pdp\Facades\Rules;
-use Bakame\Laravel\Pdp\Facades\TopLevelDomains;
+use Bakame\Laravel\Pdp\MisconfiguredExtension;
 use ErrorException;
 use InvalidArgumentException;
 use Pdp\ResolvedDomain;
