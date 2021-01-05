@@ -13,7 +13,6 @@ use Pdp\Storage\PsrStorageFactory;
 use Pdp\TopLevelDomainList;
 use Psr\Http\Client\ClientInterface;
 use Psr\SimpleCache\CacheInterface;
-use RuntimeException;
 
 class DomainParser
 {
@@ -134,8 +133,8 @@ class DomainParser
      * Convert a TTL into a date time object.
      *
      * @param int $ttl
-     * @return \DateTime
      *
+     * @return \DateTime
      * @return \DateTime
      */
     protected function convertTtlToDateTime(int $ttl): DateTime

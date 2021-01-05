@@ -2,11 +2,9 @@
 
 namespace BakameTest\Laravel\Pdp;
 
-use Bakame\Laravel\Pdp\Facades\DomainParser;
 use Bakame\Laravel\Pdp\Facades\Rules;
 use InvalidArgumentException;
 use Pdp\ResolvedDomain;
-use Pdp\ResourceUri;
 
 class DomainParserConfigTest extends TestCase
 {
