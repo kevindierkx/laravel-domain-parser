@@ -2,102 +2,43 @@
 
 namespace BakameTest\Laravel\Pdp;
 
-use Artisan;
+use Illuminate\Support\Facades\Artisan;
 use Psr\SimpleCache\CacheInterface;
 
-final class RefreshCacheCommandTest extends TestCase
+class RefreshCacheCommandTest extends TestCase
 {
+    const INFO_INTRO = 'Starting refreshing PHP Domain Parser lists cache...';
+    const INFO_INTRO_PUBLIC_SUFFIX_LIST = 'Updating the Public Suffix list cache.';
+    const INFO_OUTRO_PUBLIC_SUFFIX_LIST = 'The Public Suffix List cache is updated.';
+    const INFO_INTRO_TOP_LEVEL_DOMAINS_LIST = 'Updating the IANA Root Zone Database cache.';
+    const INFO_OUTRO_TOP_LEVEL_DOMAINS_LIST = 'The IANA Root Zone Database cache is updated.';
+
     public function testRefreshRules(): void
     {
-        self::assertSame(0, Artisan::call('domain-parser:refresh', ['--rules' => true]));
+        $this->artisan('domain-parser:refresh', ['--rules' => true])
+            ->expectsOutput(self::INFO_INTRO)
+            ->expectsOutput(self::INFO_INTRO_PUBLIC_SUFFIX_LIST)
+            ->expectsOutput(self::INFO_OUTRO_PUBLIC_SUFFIX_LIST)
+            ->assertExitCode(0);
     }
 
-    public function testRefreshTLDs(): void
+    public function testRefreshTopLevelDomains(): void
     {
-        self::assertSame(0, Artisan::call('domain-parser:refresh', ['--tlds' => true]));
+        $this->artisan('domain-parser:refresh', ['--tlds' => true])
+            ->expectsOutput(self::INFO_INTRO)
+            ->expectsOutput(self::INFO_INTRO_TOP_LEVEL_DOMAINS_LIST)
+            ->expectsOutput(self::INFO_OUTRO_TOP_LEVEL_DOMAINS_LIST)
+            ->assertExitCode(0);
     }
 
     public function testRefreshAll(): void
     {
-        self::assertSame(0, Artisan::call('domain-parser:refresh'));
-    }
-
-    public function testMissingCache(): void
-    {
-        $this->app['config']->set('domain-parser.cache_client', null);
-        self::assertSame(1, Artisan::call('domain-parser:refresh'));
-    }
-
-    public function testWithRefreshError(): void
-    {
-        $cachePool = new class() implements CacheInterface {
-            /**
-             * {@inheritdoc}
-             */
-            public function get($key, $default = null)
-            {
-                return null;
-            }
-
-            /**
-             * {@inheritdoc}
-             */
-            public function set($key, $value, $ttl = null)
-            {
-                return false;
-            }
-
-            /**
-             * {@inheritdoc}
-             */
-            public function delete($key)
-            {
-                return true;
-            }
-
-            /**
-             * {@inheritdoc}
-             */
-            public function clear()
-            {
-                return true;
-            }
-
-            /**
-             * {@inheritdoc}
-             */
-            public function getMultiple($keys, $default = null)
-            {
-                return [];
-            }
-
-            /**
-             * {@inheritdoc}
-             */
-            public function setMultiple($values, $ttl = null)
-            {
-                return true;
-            }
-
-            /**
-             * {@inheritdoc}
-             */
-            public function deleteMultiple($keys)
-            {
-                return true;
-            }
-
-            /**
-             * {@inheritdoc}
-             */
-            public function has($key)
-            {
-                return true;
-            }
-        };
-
-        $this->app['config']->set('domain-parser.cache_client', $cachePool);
-        self::assertSame(1, Artisan::call('domain-parser:refresh', ['--rules' => true]));
-        self::assertSame(1, Artisan::call('domain-parser:refresh', ['--tlds' => true]));
+        $this->artisan('domain-parser:refresh')
+            ->expectsOutput(self::INFO_INTRO)
+            ->expectsOutput(self::INFO_INTRO_PUBLIC_SUFFIX_LIST)
+            ->expectsOutput(self::INFO_OUTRO_PUBLIC_SUFFIX_LIST)
+            ->expectsOutput(self::INFO_INTRO_TOP_LEVEL_DOMAINS_LIST)
+            ->expectsOutput(self::INFO_OUTRO_TOP_LEVEL_DOMAINS_LIST)
+            ->assertExitCode(0);
     }
 }

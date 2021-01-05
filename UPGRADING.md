@@ -4,6 +4,6 @@ Please refer to the [jeremykendall/php-domain-parser upgrading guide](https://gi
 
 ## Upgrading to 1.x
 
-In to stay compatible with the base package, this package dropped the support of all versions before and including PHP 7.3. The minimum supported PHP version is now PHP 7.4 and the minimum supported Laravel version is 8.x.
+In order to stay compatible with the base package, this package dropped all support for PHP versions before and including 7.3. The minimum supported PHP version is now PHP 7.4 and the minimum supported Laravel version is 8.x.
 
 ### Backwards compatibility changes

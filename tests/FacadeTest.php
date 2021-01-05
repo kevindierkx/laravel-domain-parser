@@ -2,19 +2,19 @@
 
 namespace BakameTest\Laravel\Pdp;
 
-use Bakame\Laravel\Pdp\RulesFacade as Rules;
-use Bakame\Laravel\Pdp\TopLevelDomainsFacade as TopLevelDomains;
-use Pdp\Domain;
+use Bakame\Laravel\Pdp\Facades\Rules;
+use Bakame\Laravel\Pdp\Facades\TopLevelDomains;
+use Pdp\ResolvedDomain;
 
-final class FacadeTest extends TestCase
+class FacadeTest extends TestCase
 {
-    public function testRulesReturnsAnInstanceOfRules(): void
+    public function testRulesFacadeReturnsAnInstanceOfRules(): void
     {
-        self::assertInstanceOf(Domain::class, Rules::resolve('bbc.co.uk'));
+        self::assertInstanceOf(ResolvedDomain::class, Rules::resolve('bbc.co.uk'));
     }
 
-    public function testTopLevelDomainsReturnsAnInstanceOfTopLevelDomains(): void
+    public function testTopLevelDomainsFacadeReturnsAnInstanceOfTopLevelDomains(): void
     {
-        self::assertInstanceOf(Domain::class, TopLevelDomains::resolve('bbc.co.uk'));
+        self::assertInstanceOf(ResolvedDomain::class, TopLevelDomains::resolve('bbc.co.uk'));
     }
 }

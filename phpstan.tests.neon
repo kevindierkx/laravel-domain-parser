@@ -4,7 +4,5 @@ includes:
     - vendor/phpstan/phpstan-phpunit/extension.neon
     - vendor/phpstan/phpstan-phpunit/rules.neon
 parameters:
-    ignoreErrors:
-        - "#Call to static method PHPUnit\\\\Framework\\\\Assert::assertInstanceOf\\(\\) with 'Pdp\\\\\\\\Domain' and Pdp\\\\Domain will always evaluate to true.#"
     reportUnmatchedIgnoredErrors: true
     checkMissingIterableValueType: false

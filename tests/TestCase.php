@@ -2,14 +2,14 @@
 
 namespace BakameTest\Laravel\Pdp;
 
-use Artisan;
-use Bakame\Laravel\Pdp\RulesFacade;
+use Bakame\Laravel\Pdp\Facades\Rules;
+use Bakame\Laravel\Pdp\Facades\TopLevelDomains;
 use Bakame\Laravel\Pdp\ServiceProvider;
-use Bakame\Laravel\Pdp\TopLevelDomainsFacade;
 use Illuminate\Foundation\Application;
+use Illuminate\Support\Facades\Artisan;
 use Orchestra\Testbench\TestCase as Orchestra;
 
-abstract class TestCase extends Orchestra
+class TestCase extends Orchestra
 {
     public function setUp(): void
     {
@@ -32,8 +32,8 @@ abstract class TestCase extends Orchestra
     protected function getPackageAliases($app): array
     {
         return [
-            'Rules' => RulesFacade::class,
-            'TopLevelDomains' => TopLevelDomainsFacade::class,
+            'Rules' => Rules::class,
+            'TopLevelDomains' => TopLevelDomains::class,
         ];
     }
 

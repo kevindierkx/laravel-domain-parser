@@ -1,0 +1,134 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Bakame\Laravel\Pdp;
+
+use Bakame\Laravel\Pdp\Http\RequestFactory;
+use Illuminate\Support\Facades\Cache;
+use Pdp\PublicSuffixList;
+use Pdp\ResourceUri;
+use Pdp\Storage\PsrStorageFactory;
+use Pdp\TopLevelDomainList;
+use Psr\Http\Client\ClientInterface;
+use Psr\SimpleCache\CacheInterface;
+
+class DomainParser
+{
+    /**
+     * @var array
+     */
+    protected array $config;
+
+    /**
+     * Create a new domain parser instance.
+     *
+     * @param array $config
+     */
+    public function __construct(array $config)
+    {
+        $this->config = $config;
+    }
+
+    /**
+     * Get the Public Suffix List instance.
+     *
+     * @param bool $fresh
+     *
+     * @return \Pdp\PublicSuffixList
+     */
+    public function getRules(bool $fresh = false): PublicSuffixList
+    {
+        $uri = $this->config['url_psl'] ?? $this->getDefaultPublicSuffixListUri();
+        $ttl = $this->config['cache_ttl'] ?? null;
+
+        $factory = $this->getStorageFactory();
+        $storage = $factory->createPublicSuffixListStorage('', $ttl);
+
+        if ($fresh) {
+            $storage->delete($uri);
+        }
+
+        return $storage->get($uri);
+    }
+
+    /**
+     * Get the Top Level Domains List instance.
+     *
+     * @param bool $fresh
+     *
+     * @return \Pdp\TopLevelDomainList
+     */
+    public function getTopLevelDomains(bool $fresh = false): TopLevelDomainList
+    {
+        $uri = $this->config['url_rzd'] ?? $this->getDefaultTldListUri();
+        $ttl = $this->config['cache_ttl'] ?? null;
+
+        $factory = $this->getStorageFactory();
+        $storage = $factory->createTopLevelDomainListStorage('', $ttl);
+
+        if ($fresh) {
+            $storage->delete($uri);
+        }
+
+        return $storage->get($uri);
+    }
+
+    /**
+     * Resolve the PDP storage factory instance.
+     *
+     * @return \Pdp\Storage\PsrStorageFactory
+     */
+    private function getStorageFactory(): PsrStorageFactory
+    {
+        return new PsrStorageFactory(
+            $this->getCacheInstance(),
+            $this->getHttpClientInstance(),
+            new RequestFactory()
+        );
+    }
+
+    /**
+     * Resolve the cache instance that should be used by PDP.
+     *
+     * @return \Psr\SimpleCache\CacheInterface
+     */
+    private function getCacheInstance(): CacheInterface
+    {
+        $driver = $this->config['cache_driver'] ?? null;
+
+        return Cache::store($driver);
+    }
+
+    /**
+     * Resolve the HTTP client instance that should be used by PDP.
+     *
+     * @return \Psr\Http\Client\ClientInterface
+     */
+    private function getHttpClientInstance(): ClientInterface
+    {
+        $options = $this->config['http_client_options'] ?? [];
+
+        return new \GuzzleHttp\Client($options);
+    }
+
+    /**
+     * Get the default URI used to fetch the public suffix list.
+     *
+     * @return string
+     */
+    public function getDefaultPublicSuffixListUri(): string
+    {
+        return ResourceUri::PUBLIC_SUFFIX_LIST_URI;
+    }
+
+    /**
+     * Get the default URI used to fetch the TLDs list.
+     *
+     * @return string
+     */
+    public function getDefaultTldListUri(): string
+    {
+        return ResourceUri::TOP_LEVEL_DOMAIN_LIST_URI;
+    }
+}

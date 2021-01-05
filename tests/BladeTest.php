@@ -2,7 +2,7 @@
 
 namespace BakameTest\Laravel\Pdp;
 
-final class BladeTest extends TestCase
+class BladeTest extends TestCase
 {
     /**
      * @dataProvider isDomainNameProvider
