@@ -2,6 +2,20 @@
 
 All Notable changes will be documented in this file
 
+## 0.5.1 - 2021-01-12
+
+### Added
+
+- None
+
+### Fixed
+
+- Fixed #14: Made sure the config file is suffixed with .php when publishing the config.
+
+### Removed
+
+- None
+
 ## 0.5.0 - 2020-12-15
 
 ### Added

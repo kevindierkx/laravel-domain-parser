@@ -21,7 +21,7 @@ final class ServiceProvider extends BaseServiceProvider
     public function boot(): void
     {
         $this->publishes([
-            dirname(__DIR__).'/config/domain-parser.php' => config_path('domain-parser'),
+            dirname(__DIR__).'/config/domain-parser.php' => config_path('domain-parser.php'),
         ], 'config');
 
         if ($this->app->runningInConsole()) {
