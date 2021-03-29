@@ -2,6 +2,7 @@
 
 namespace BakameTest\Laravel\Pdp;
 
+use Bakame\Laravel\Pdp\DomainParser as PdpDomainParser;
 use Bakame\Laravel\Pdp\Facades\DomainParser;
 use Pdp\ResourceUri;
 
@@ -15,5 +16,10 @@ class DomainParserTest extends TestCase
     public function testTheTopLevelDomainListUriMatchesPdp(): void
     {
         self::assertEquals(DomainParser::getDefaultTopLevelDomainListUri(), ResourceUri::TOP_LEVEL_DOMAIN_LIST_URI);
+    }
+
+    public function testConvertingATtlToDateTimeUsingNullReturnsNull(): void
+    {
+        self::assertNull($this->callMethod(app('pdp.parser'), 'convertTtlToDateTime', [null]));
     }
 }

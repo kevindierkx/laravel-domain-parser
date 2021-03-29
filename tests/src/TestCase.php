@@ -4,6 +4,7 @@ namespace BakameTest\Laravel\Pdp;
 
 use Illuminate\Contracts\View\Factory as ViewFactory;
 use Illuminate\Support\Facades\Artisan;
+use ReflectionClass;
 
 class TestCase extends \Orchestra\Testbench\TestCase
 {
@@ -67,5 +68,22 @@ class TestCase extends \Orchestra\Testbench\TestCase
     public function renderView(string $viewName, array $withParameters = [])
     {
         return app(ViewFactory::class)->make($viewName, $withParameters)->render();
+    }
+
+    /**
+     * Call a protected or private method on an object.
+     *
+     * @param mixed $obj
+     * @param string $name
+     * @param array $args
+     *
+     * @return mixed
+     */
+    public function callMethod($obj, string $name, array $args) {
+        $class = new ReflectionClass($obj);
+        $method = $class->getMethod($name);
+        $method->setAccessible(true);
+
+        return $method->invokeArgs($obj, $args);
     }
 }

@@ -15,7 +15,9 @@ class RefreshCacheCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'domain-parser:refresh {--rules} {--tlds}';
+    protected $signature = 'domain-parser:refresh
+                            {--rules}
+                            {--tlds}';
 
     /**
      * The console command description.
@@ -31,7 +33,7 @@ class RefreshCacheCommand extends Command
      */
     public function handle(): int
     {
-        $this->info('Starting refreshing PHP Domain Parser lists cache...');
+        $this->info('Refreshing PHP Domain Parser lists cache...');
 
         $refreshRulesList = $this->option('rules');
         $refreshTldList = $this->option('tlds');

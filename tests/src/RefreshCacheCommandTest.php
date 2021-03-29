@@ -4,7 +4,7 @@ namespace BakameTest\Laravel\Pdp;
 
 class RefreshCacheCommandTest extends TestCase
 {
-    const INFO_INTRO = 'Starting refreshing PHP Domain Parser lists cache...';
+    const INFO_INTRO = 'Refreshing PHP Domain Parser lists cache...';
     const INFO_INTRO_PUBLIC_SUFFIX_LIST = 'Updating the Public Suffix list cache.';
     const INFO_OUTRO_PUBLIC_SUFFIX_LIST = 'The Public Suffix List cache is updated.';
     const INFO_INTRO_TOP_LEVEL_DOMAINS_LIST = 'Updating the IANA Root Zone Database cache.';
