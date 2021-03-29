@@ -1,8 +1,8 @@
 # Laravel Domain Parser
 
-[![Latest Version](https://img.shields.io/github/tag/kevindierkx/laravel-domain-parser.svg?style=flat-square)](https://github.com/kevindierkx/laravel-domain-parser/tags)
-[![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](https://github.com/kevindierkx/laravel-domain-parser/blob/master/LICENSE)
-[![Build Status](https://img.shields.io/github/workflow/status/kevindierkx/laravel-domain-parser/CI-CD/master?style=flat-square)](https://github.com/kevindierkx/laravel-domain-parser/actions)
+[![Latest Version](https://img.shields.io/github/tag/kevindierkx/laravel-domain-parser.svg?style=flat-square)](tags)
+[![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE)
+[![Build Status](https://img.shields.io/github/workflow/status/kevindierkx/laravel-domain-parser/CI-CD/master?style=flat-square)](actions)
 [![Code Coverage](https://img.shields.io/codecov/c/github/kevindierkx/laravel-domain-parser?style=flat-square&token=JBWSCLFCPW)](https://codecov.io/gh/kevindierkx/laravel-domain-parser)
 
 A Laravel package to ease [PHP Domain Parser](https://github.com/jeremykendall/php-domain-parser) _(PDP)_ integration in your Laravel application.
@@ -14,7 +14,8 @@ A Laravel package to ease [PHP Domain Parser](https://github.com/jeremykendall/p
 | 5.x     | ^7.1           | >= 0.3  | ^5.4 |       |
 | 6.x     | ^7.2           | >= 0.4  | ^5.4 |       |
 | 7.x     | ^7.2           | >= 0.4  | ^5.4 |       |
-| 8.x     | ^7.2 \|\| ^8.0 | >= 0.5  | ^5.4 | **PHP 8.0 isn't officially supported in this version of the base package** |
+| 8.x     | ^7.2 \|\| ^8.0 | >= 0.5  | ^5.4 | PHP 8.0 isn't officially supported in this version |
+| 8.x     | ^7.4 \|\| ^8.0 | >= 1.0  | ^6.0 |       |
 
 ## Installation
 
@@ -34,13 +35,21 @@ In order to edit the default configuration you need to publish the package confi
 php artisan vendor:publish --provider="Bakame\Laravel\Pdp\ServiceProvider" --tag=config
 ```
 
-The config file will be published in `config/domain-parser.php`. Please refer to the [config file](https://github.com/kevindierkx/laravel-domain-parser/blob/master/config/domain-parser.php) for an overview of the available options.
+The config file will be published in `config/domain-parser.php`. Please refer to the [config file](./config/domain-parser.php) for an overview of the available options.
 
 ## Usage
 
 The package provides some useful Laravel implementations in the form of validation rules, Blade directives and Blade conditionals. Additionally it provides a bridge with the [PHP Domain Parser](https://github.com/jeremykendall/php-domain-parser) base package, please refer to the [documentation](https://github.com/jeremykendall/php-domain-parser#documentation) for an overview of all functionality.
 
-*Please note:* By default the `Rules` and `TopLevelDomains` facades will be registered during package discovery. In the following examples we will use these facades directly.
+### Facades
+
+- `DomainParser` is a Laravel Facade for the [`\Bakame\Laravel\Pdp\DomainParser`](./src/Facades/DomainParser.php) instance and contains helper methods for interacting with the [PHP Domain Parser](https://github.com/jeremykendall/php-domain-parser) base package.
+
+- `Rules` is a Laravel Facade for the [`\Pdp\PublicSuffixList`](https://github.com/jeremykendall/php-domain-parser/blob/master/src/PublicSuffixList.php) instance, also available as `pdp.rules` from the IOC container.
+
+- `TopLevelDomains` is a Laravel Facade for the [`\Pdp\TopLevelDomainsList`](https://github.com/jeremykendall/php-domain-parser/blob/master/src/TopLevelDomainList.php) instance, also available as `pdp.tld` from the IOC container.
+
+*Please note:* By default all facades will be registered during package discovery. In the following examples we will use these facades directly.
 
 ### Validation rules
 
@@ -61,6 +70,7 @@ $validator = Validator::make($request->all(), [
 ```
 
 ### Blade if statement directives
+
 | If statement     | Description |
 | ---------------- | ----------- |
 | `domain_name`    | Tells whether the submitted value represents a Domain Name |
@@ -88,27 +98,6 @@ KO
 ```blade
 @domain_to_unicode('www.xn--85x722f.xn--55qx5d.cn') {{-- www.食狮.公司.cn --}}
 @domain_to_ascii('www.食狮.公司.cn') {{-- www.xn--85x722f.xn--55qx5d.cn --}}
-```
-
-### Facades
-- `Rules` is a Laravel Facade for [`Pdp\Rules`](https://github.com/jeremykendall/php-domain-parser/blob/master/src/Rules.php) loaded using the configuration files settings.
-
-```php
-$domain = Rules::resolve('www.ulb.ac.be'); //$domain is a Pdp\Domain object
-echo $domain->getContent();            // 'www.ulb.ac.be'
-echo $domain->getPublicSuffix();       // 'ac.be'
-echo $domain->getRegistrableDomain();  // 'ulb.ac.be'
-echo $domain->getSubDomain();          // 'www'
-$domain->isResolvable();               // returns true
-$domain->isKnown();                    // returns true
-$domain->isICANN();                    // returns true
-$domain->isPrivate();                  // returns false
-```
-
-- `TopLevelDomains` is a Laravel Facade for [`Pdp\TopLevelDomains`](https://github.com/jeremykendall/php-domain-parser/blob/master/src/TopLevelDomains.php) loaded using the configuration files settings.
-
-```php
-TopLevelDomains::contains('localhost'); // return false
 ```
 
 ## Maintenance
@@ -152,6 +141,7 @@ protected function schedule(Schedule $schedule)
 ```
 
 ## Changelog
+
 Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
 
 ## Testing
@@ -168,7 +158,7 @@ If you discover a security vulnerability within this package, please send an e-m
 
 ## Contributing
 
-Contributions are welcome and will be [fully credited](https://github.com/kevindierkx/laravel-domain-parser/graphs/contributors). Please see [CONTRIBUTING](.github/CONTRIBUTING.md) for details.
+Contributions are welcome and will be [fully credited](graphs/contributors). Please see [CONTRIBUTING](.github/CONTRIBUTING.md) for details.
 
 ## License
 

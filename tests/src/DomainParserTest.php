@@ -2,7 +2,6 @@
 
 namespace BakameTest\Laravel\Pdp;
 
-use Bakame\Laravel\Pdp\DomainParser as PdpDomainParser;
 use Bakame\Laravel\Pdp\Facades\DomainParser;
 use Pdp\ResourceUri;
 

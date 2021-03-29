@@ -136,7 +136,7 @@ class DomainParser
      *
      * @return \DateTime
      */
-    protected function convertTtlToDateTime(int $ttl = null): ? DateTime
+    protected function convertTtlToDateTime(int $ttl = null): ?DateTime
     {
         if (is_null($ttl)) {
             return null;

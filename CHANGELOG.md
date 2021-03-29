@@ -2,6 +2,22 @@
 
 All Notable changes will be documented in this file
 
+## 1.0.0 - 2021-03-30
+
+### Added
+
+- Upgraded to [PHP Domain Parser](https://github.com/jeremykendall/php-domain-parser) 6.0, please refer to the [upgrading guide](UPGRADING.md) for breaking changes.
+
+### Fixed
+
+- None
+
+### Removed
+
+- Support for PHP 7.3 and below has been dropped.
+- Support for custom HTTP clients has been dropped, please refer to the [upgrading guide](UPGRADING.md).
+- Various namespace and config changes, please refer to the [upgrading guide](UPGRADING.md).
+
 ## 0.5.1 - 2021-01-12
 
 ### Added

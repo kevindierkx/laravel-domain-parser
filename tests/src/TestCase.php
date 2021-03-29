@@ -73,13 +73,14 @@ class TestCase extends \Orchestra\Testbench\TestCase
     /**
      * Call a protected or private method on an object.
      *
-     * @param mixed $obj
+     * @param mixed  $obj
      * @param string $name
-     * @param array $args
+     * @param array  $args
      *
      * @return mixed
      */
-    public function callMethod($obj, string $name, array $args) {
+    public function callMethod($obj, string $name, array $args)
+    {
         $class = new ReflectionClass($obj);
         $method = $class->getMethod($name);
         $method->setAccessible(true);
