@@ -6,7 +6,7 @@ namespace Bakame\Laravel\Pdp;
 
 use Illuminate\Contracts\Validation\Validator;
 
-final class ValidatorWrapper
+class ValidatorWrapper
 {
     /**
      * @var callable

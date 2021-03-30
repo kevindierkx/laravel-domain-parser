@@ -2,9 +2,9 @@
 
 namespace BakameTest\Laravel\Pdp;
 
-use Validator;
+use Illuminate\Support\Facades\Validator;
 
-final class ValidatorTest extends TestCase
+class ValidatorTest extends TestCase
 {
     /**
      * @dataProvider validatorProvider

@@ -21,20 +21,22 @@
         }
     ],
     "require": {
-        "php": "^7.2 || ^8.0",
-        "jeremykendall/php-domain-parser": "^5.4",
-        "illuminate/support": "^6.0 || ^7.0 || ^8.0",
-        "illuminate/config": "^6.0 || ^7.0 || ^8.0"
+        "php": "^7.4 || ^8.0",
+        "distortedfusion/php-cs-fixer-config": "^1.1",
+        "guzzlehttp/guzzle": "^7.0.1",
+        "illuminate/config": "^8.0",
+        "illuminate/support": "^8.0",
+        "jeremykendall/php-domain-parser": "^6.0",
+        "psr/http-factory": "^1.0",
+        "psr/simple-cache": "^1.0"
     },
     "require-dev": {
-        "distortedfusion/php-cs-fixer-config": "^1.1.1",
-        "guzzlehttp/guzzle": "^6.3 || ^7.0",
         "nunomaduro/larastan": "^0.6.1",
-        "orchestra/testbench": "^4.0 || ^5.0 || ^6.0",
+        "orchestra/testbench": "^6.0",
         "phpstan/phpstan": "^0.12.0",
         "phpstan/phpstan-phpunit": "^0.12.0",
         "phpstan/phpstan-strict-rules": "^0.12.0",
-        "phpunit/phpunit": "^8.0 || ^9.0"
+        "phpunit/phpunit": "^9.3.3"
     },
     "autoload": {
         "psr-4": {
@@ -43,7 +45,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "BakameTest\\Laravel\\Pdp\\": "tests/"
+            "BakameTest\\Laravel\\Pdp\\": "tests/src/"
         }
     },
     "scripts": {
@@ -68,7 +70,6 @@
         "test": "Runs all tests"
     },
     "suggest": {
-        "curl": "To use the default HTTP client",
         "guzzlehttp/guzzle": "To use an alternate HTTP Client"
     },
     "extra": {
@@ -80,8 +81,8 @@
                 "Bakame\\Laravel\\Pdp\\ServiceProvider"
             ],
             "aliases": {
-                "Rules": "Bakame\\Laravel\\Pdp\\RulesFacade",
-                "TopLevelDomains": "Bakame\\Laravel\\Pdp\\TopLevelDomainsFacade"
+                "Rules": "Bakame\\Laravel\\Pdp\\Facades\\Rules",
+                "TopLevelDomains": "Bakame\\Laravel\\Pdp\\Facades\\TopLevelDomains"
             }
         }
     },

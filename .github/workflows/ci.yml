@@ -9,8 +9,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php: [7.3, 7.4, 8.0]
-        laravel: [6.*, 7.*, 8.*]
+        php: [7.4, 8.0]
+        laravel: [8.*]
         stability: [prefer-stable]
         composer-flags: ['']
         experimental: [false]
@@ -52,7 +52,6 @@ jobs:
 
       - name: Execute PHPStan
         run: composer phpstan
-        if: ${{ matrix.php != '7.3' }}
 
       - name: Execute PHPUnit
         run: vendor/bin/phpunit --verbose --coverage-text --coverage-clover=coverage.clover

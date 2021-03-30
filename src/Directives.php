@@ -4,33 +4,46 @@ declare(strict_types=1);
 
 namespace Bakame\Laravel\Pdp;
 
-use Bakame\Laravel\Pdp\RulesFacade as Rules;
-use Bakame\Laravel\Pdp\TopLevelDomainsFacade as TopLevelDomains;
+use Bakame\Laravel\Pdp\Facades\Rules;
+use Bakame\Laravel\Pdp\Facades\TopLevelDomains;
 use Pdp\Domain;
+use Pdp\Suffix;
 use Throwable;
 
-final class Directives
+class Directives
 {
     /**
      * Tells whether the submitted tld is a Top Level Domain
      * according to the IANA Root Database.
      *
      * @param mixed $tld
+     *
+     * @return bool
      */
     public static function isTLD($tld): bool
     {
-        return TopLevelDomains::contains($tld);
+        $tld = Suffix::fromUnknown($tld);
+
+        foreach (TopLevelDomains::getIterator() as $knownTld) {
+            if ($knownTld === $tld->toAscii()->toString()) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
-     * Tells whether the submitted domain is a domain name.
+     * Determine if the domain is a valid domain name.
      *
      * @param mixed $domain
+     *
+     * @return bool
      */
     public static function isDomain($domain): bool
     {
         try {
-            new Domain($domain);
+            Rules::getICANNDomain($domain);
 
             return true;
         } catch (Throwable $e) {
@@ -39,55 +52,55 @@ final class Directives
     }
 
     /**
-     * Tells whether the submitted domain contains a known suffix.
+     * Determine if the domain contains an ICANN suffix.
      *
      * @param mixed $domain
-     */
-    public static function isKnownSuffix($domain): bool
-    {
-        return Rules::resolve($domain)->isKnown();
-    }
-
-    /**
-     * Tells whether the submitted domain contains an ICANN suffix.
      *
-     * @param mixed $domain
+     * @return bool
      */
     public static function isICANNSuffix($domain): bool
     {
-        return Rules::resolve($domain)->isICANN();
+        return Rules::resolve($domain)->suffix()->isICANN();
     }
 
     /**
-     * Tells whether the submitted domain contains an private suffix.
+     * Determine if the domain contains a private suffix.
      *
      * @param mixed $domain
+     *
+     * @return bool
      */
     public static function isPrivateSuffix($domain): bool
     {
-        return Rules::resolve($domain)->isPrivate();
+        return Rules::resolve($domain)->suffix()->isPrivate();
     }
 
     /**
-     * Tells whether the submitted domain contains an a Top Level Domain.
+     * Determine if the domain contains a known suffix.
      *
      * @param mixed $domain
+     *
+     * @return bool
+     */
+    public static function isKnownSuffix($domain): bool
+    {
+        return Rules::resolve($domain)->suffix()->isKnown();
+    }
+
+    /**
+     * Determine if the domain contains a known Top Level Domain suffix.
+     *
+     * @param mixed $domain
+     *
+     * @return bool
      */
     public static function containsTLD($domain): bool
     {
-        try {
-            return TopLevelDomains::contains((new Domain($domain))->getLabel(0));
-        } catch (Throwable $e) {
-            return false;
-        }
+        return TopLevelDomains::resolve($domain)->suffix()->isKnown();
     }
 
     /**
-     * Converts the domain into its ascii form.
-     *
-     * If the domain is not a valid domain name it will be
-     * returned as is otherwise the domain name is normalized
-     * into its lowercased ascii representation.
+     * Convert the domain into its ASCII form.
      *
      * @param mixed $domain
      *
@@ -95,19 +108,11 @@ final class Directives
      */
     public static function toAscii($domain)
     {
-        try {
-            return (new Domain($domain))->toAscii()->getContent() ?? $domain;
-        } catch (Throwable $e) {
-            return $domain;
-        }
+        return Rules::resolve($domain)->toAscii()->toString() ?: $domain;
     }
 
     /**
-     * Converts the domain into its unicode form.
-     *
-     * If the domain is not a valid domain name it will be
-     * returned as is otherwise the domain name is normalized
-     * into its lowercased unicode representation.
+     * Convert the domain into its unicode form.
      *
      * @param mixed $domain
      *
@@ -115,10 +120,6 @@ final class Directives
      */
     public static function toUnicode($domain)
     {
-        try {
-            return (new Domain($domain))->toUnicode()->getContent() ?? $domain;
-        } catch (Throwable $e) {
-            return $domain;
-        }
+        return Rules::resolve($domain)->toUnicode()->toString() ?: $domain;
     }
 }

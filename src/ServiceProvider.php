@@ -5,27 +5,21 @@ declare(strict_types=1);
 namespace Bakame\Laravel\Pdp;
 
 use Closure;
-use function config_path;
-use function dirname;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
-use Pdp\Rules;
-use Pdp\TopLevelDomains;
 
-final class ServiceProvider extends BaseServiceProvider
+class ServiceProvider extends BaseServiceProvider
 {
     /**
      * {@inheritdoc}
      */
     public function boot(): void
     {
-        $this->publishes([
-            dirname(__DIR__).'/config/domain-parser.php' => config_path('domain-parser.php'),
-        ], 'config');
+        $this->defineConfigPublishing();
 
         if ($this->app->runningInConsole()) {
-            $this->commands([RefreshCacheCommand::class]);
+            $this->commands([Commands\RefreshCacheCommand::class]);
         }
 
         $is_domain = [Directives::class, 'isDomain'];
@@ -43,12 +37,14 @@ final class ServiceProvider extends BaseServiceProvider
 
         Blade::directive('domain_to_unicode', $domain_to_unicode);
         Blade::directive('domain_to_ascii', $domain_to_ascii);
+
         Blade::if('domain_name', Closure::fromCallable($is_domain));
         Blade::if('tld', Closure::fromCallable($is_tld));
         Blade::if('contains_tld', Closure::fromCallable($contains_tld));
         Blade::if('known_suffix', Closure::fromCallable($is_known_suffix));
         Blade::if('icann_suffix', Closure::fromCallable($is_icann_suffix));
         Blade::if('private_suffix', Closure::fromCallable($is_private_suffix));
+
         Validator::extend(
             'is_domain_name',
             Closure::fromCallable(new ValidatorWrapper($is_domain)),
@@ -82,16 +78,41 @@ final class ServiceProvider extends BaseServiceProvider
     }
 
     /**
+     * Define the configuration publishing.
+     *
+     * @return void
+     */
+    public function defineConfigPublishing()
+    {
+        $this->publishes([
+            LARAVEL_PDP_PATH.'/config/domain-parser.php' => config_path('domain-parser.php'),
+        ], 'config');
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function register(): void
     {
-        $this->mergeConfigFrom(dirname(__DIR__).'/config/domain-parser.php', 'domain-parser');
+        if (! defined('LARAVEL_PDP_PATH')) {
+            define('LARAVEL_PDP_PATH', realpath(__DIR__.'/../'));
+        }
 
-        $this->app->singleton('domain-rules', Closure::fromCallable([Adapter::class, 'getRules']));
-        $this->app->singleton('domain-toplevel', Closure::fromCallable([Adapter::class, 'getTLDs']));
+        $this->mergeConfigFrom(
+            LARAVEL_PDP_PATH.'/config/domain-parser.php', 'domain-parser'
+        );
 
-        $this->app->alias('domain-rules', Rules::class);
-        $this->app->alias('domain-toplevel', TopLevelDomains::class);
+        $this->app->singleton('pdp.parser', function ($app) {
+            $config = new DomainParserConfig($app->make('config')->get('domain-parser'));
+
+            return new DomainParser($config);
+        });
+
+        $this->app->singleton('pdp.rules', function ($app) {
+            return $app->make('pdp.parser')->getRules();
+        });
+        $this->app->singleton('pdp.tld', function ($app) {
+            return $app->make('pdp.parser')->getTopLevelDomains();
+        });
     }
 }

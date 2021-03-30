@@ -5,6 +5,6 @@ includes:
     - vendor/phpstan/phpstan-phpunit/rules.neon
 parameters:
     ignoreErrors:
-        - "#Call to static method PHPUnit\\\\Framework\\\\Assert::assertInstanceOf\\(\\) with 'Pdp\\\\\\\\Domain' and Pdp\\\\Domain will always evaluate to true.#"
+        - '#Cannot call method expectsOutput\(\) on Illuminate\\Testing\\PendingCommand\|int.#'
     reportUnmatchedIgnoredErrors: true
     checkMissingIterableValueType: false
