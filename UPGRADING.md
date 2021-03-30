@@ -20,16 +20,16 @@ The following changes might directly impact you installation.
 + \Bakame\Laravel\Pdp\DomainParser::class
 ```
 
-```diff
-<?php
-+ \Bakame\Laravel\Pdp\Facades\DomainParser::class
-```
-
 - The `Adapter::getTLDs()` method has been replaced with `DomainParser::getTopLevelDomains()`.
 
 - The `Adapter::refreshRules()` and `Adapter::refreshTLDs()` methods have been removed. Please use the `domain-parser:refresh` artisan command to refresh the cache instead.
 
 - Facade classes are now in their own namespace:
+
+```diff
+<?php
++ \Bakame\Laravel\Pdp\Facades\DomainParser::class
+```
 
 ```diff
 <?php
@@ -51,7 +51,7 @@ The following changes might directly impact you installation.
 + \Bakame\Laravel\Pdp\Commands\RefreshCacheCommand::class
 ```
 
-#### HTTP Client removed
+#### Custom HTTP Client support removed
 
 Previously you could choose a HTTP client implementing `\Pdp\HttpClient`. This has been removed from the base package without a replacement.
 
@@ -61,9 +61,7 @@ Since Laravel comes with [guzzle/guzzle](https://github.com/guzzle/guzzle) by de
 
 - The `http_client` option has been removed.
 
-We now only support [guzzle/guzzle](https://github.com/guzzle/guzzle).
-
-- The `cache_client` option has been renamed to `cache_driver` and only accepts string|null.
+- The `cache_client` option has been renamed to `cache_driver`.
 
 This option refers to a cache driver configured in `config/cache.php`. When set to `null` the default application cache driver is used.
 
