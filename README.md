@@ -22,7 +22,7 @@ A Laravel package to ease [PHP Domain Parser](https://github.com/jeremykendall/p
 Install the package via composer:
 
 ```bash
-$ composer require bakame/laravel-domain-parser
+composer require bakame/laravel-domain-parser
 ```
 
 *This package implements Laravel's Package Discovery, no further changes are needed to your application configs. For more information [please refer to the Laravel documentation](https://laravel.com/docs/packages#package-discovery).*
@@ -149,7 +149,7 @@ Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed re
 To run the tests, run the following command from the project folder:
 
 ``` bash
-$ composer test
+composer test
 ```
 
 ## Security
