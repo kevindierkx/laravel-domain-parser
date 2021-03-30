@@ -1,8 +1,8 @@
 # Laravel Domain Parser
 
-[![Latest Version](https://img.shields.io/github/tag/kevindierkx/laravel-domain-parser.svg?style=flat-square)](tags)
+[![Latest Version](https://img.shields.io/github/tag/kevindierkx/laravel-domain-parser.svg?style=flat-square)](https://github.com/kevindierkx/laravel-domain-parser/tags)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE)
-[![Build Status](https://img.shields.io/github/workflow/status/kevindierkx/laravel-domain-parser/CI-CD/master?style=flat-square)](actions)
+[![Build Status](https://img.shields.io/github/workflow/status/kevindierkx/laravel-domain-parser/CI-CD/master?style=flat-square)](https://github.com/kevindierkx/laravel-domain-parser/actions)
 [![Code Coverage](https://img.shields.io/codecov/c/github/kevindierkx/laravel-domain-parser?style=flat-square&token=JBWSCLFCPW)](https://codecov.io/gh/kevindierkx/laravel-domain-parser)
 
 A Laravel package to ease [PHP Domain Parser](https://github.com/jeremykendall/php-domain-parser) _(PDP)_ integration in your Laravel application.
@@ -158,7 +158,7 @@ If you discover a security vulnerability within this package, please send an e-m
 
 ## Contributing
 
-Contributions are welcome and will be [fully credited](graphs/contributors). Please see [CONTRIBUTING](.github/CONTRIBUTING.md) for details.
+Contributions are welcome and will be [fully credited](https://github.com/kevindierkx/laravel-domain-parser/graphs/contributors). Please see [CONTRIBUTING](.github/CONTRIBUTING.md) for details.
 
 ## License
 
