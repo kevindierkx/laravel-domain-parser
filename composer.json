@@ -22,7 +22,6 @@
     ],
     "require": {
         "php": "^7.4 || ^8.0",
-        "distortedfusion/php-cs-fixer-config": "^1.1",
         "guzzlehttp/guzzle": "^7.0.1",
         "illuminate/config": "^8.0",
         "illuminate/support": "^8.0",
@@ -36,7 +35,8 @@
         "phpstan/phpstan": "^0.12.0",
         "phpstan/phpstan-phpunit": "^0.12.0",
         "phpstan/phpstan-strict-rules": "^0.12.0",
-        "phpunit/phpunit": "^9.3.3"
+        "phpunit/phpunit": "^9.3.3",
+        "distortedfusion/php-cs-fixer-config": "^1.1"
     },
     "autoload": {
         "psr-4": {
