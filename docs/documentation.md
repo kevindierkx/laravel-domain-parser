@@ -1,0 +1,3 @@
+- [Introduction](/docs/{{repository}}/introduction)
+- [Installation](/docs/{{repository}}/installation)
+- [Usage](/docs/{{repository}}/usage)
