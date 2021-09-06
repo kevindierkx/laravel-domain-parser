@@ -41,7 +41,7 @@ $validator = Validator::make($request->all(), [
 | `icann_suffix`   | Tells whether the submitted value is a Domain Name with an ICANN suffix |
 | `private_suffix` | Tells whether the submitted value is a Domain Name with a Private suffix |
 
-```blade
+```php
 @contains_tld('example.localhost')
 OK
 @else
@@ -57,7 +57,7 @@ KO
 | `domain_to_unicode` | Converts the hostname into its Unicode representation |
 | `domain_to_ascii`   | Converts the hostname into its Ascii representation |
 
-```blade
+```php
 @domain_to_unicode('www.xn--85x722f.xn--55qx5d.cn') {{-- www.食狮.公司.cn --}}
 @domain_to_ascii('www.食狮.公司.cn') {{-- www.xn--85x722f.xn--55qx5d.cn --}}
 ```
