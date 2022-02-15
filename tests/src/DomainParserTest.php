@@ -19,6 +19,6 @@ class DomainParserTest extends TestCase
 
     public function testConvertingATtlToDateTimeUsingNullReturnsNull(): void
     {
-        self::assertNull($this->callMethod(app('pdp.parser'), 'convertTtlToDateTime', [null]));
+        self::assertNull($this->callMethodOnBinding('pdp.parser', 'convertTtlToDateTime', [null]));
     }
 }

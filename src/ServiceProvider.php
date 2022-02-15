@@ -12,11 +12,42 @@ use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 class ServiceProvider extends BaseServiceProvider
 {
     /**
-     * {@inheritdoc}
+     * Register any application services.
+     *
+     * @return void
+     */
+    public function register(): void
+    {
+        if (! defined('LARAVEL_PDP_PATH')) {
+            define('LARAVEL_PDP_PATH', realpath(__DIR__.'/../'));
+        }
+
+        $this->mergeConfigFrom(
+            LARAVEL_PDP_PATH.'/config/domain-parser.php', 'domain-parser'
+        );
+
+        $this->app->singleton('pdp.parser', function ($app) {
+            $config = new DomainParserConfig($app->make('config')->get('domain-parser'));
+
+            return new DomainParser($config);
+        });
+
+        $this->app->singleton('pdp.rules', function ($app) {
+            return $app->make('pdp.parser')->getRules();
+        });
+        $this->app->singleton('pdp.tld', function ($app) {
+            return $app->make('pdp.parser')->getTopLevelDomains();
+        });
+    }
+
+    /**
+     * Bootstrap any application services.
+     *
+     * @return void
      */
     public function boot(): void
     {
-        $this->defineConfigPublishing();
+        $this->offerPublishing();
 
         if ($this->app->runningInConsole()) {
             $this->commands([Commands\RefreshCacheCommand::class]);
@@ -82,37 +113,12 @@ class ServiceProvider extends BaseServiceProvider
      *
      * @return void
      */
-    public function defineConfigPublishing()
+    protected function offerPublishing(): void
     {
-        $this->publishes([
-            LARAVEL_PDP_PATH.'/config/domain-parser.php' => config_path('domain-parser.php'),
-        ], 'config');
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function register(): void
-    {
-        if (! defined('LARAVEL_PDP_PATH')) {
-            define('LARAVEL_PDP_PATH', realpath(__DIR__.'/../'));
+        if ($this->app->runningInConsole()) {
+            $this->publishes([
+                LARAVEL_PDP_PATH.'/config/domain-parser.php' => config_path('domain-parser.php'),
+            ], 'config');
         }
-
-        $this->mergeConfigFrom(
-            LARAVEL_PDP_PATH.'/config/domain-parser.php', 'domain-parser'
-        );
-
-        $this->app->singleton('pdp.parser', function ($app) {
-            $config = new DomainParserConfig($app->make('config')->get('domain-parser'));
-
-            return new DomainParser($config);
-        });
-
-        $this->app->singleton('pdp.rules', function ($app) {
-            return $app->make('pdp.parser')->getRules();
-        });
-        $this->app->singleton('pdp.tld', function ($app) {
-            return $app->make('pdp.parser')->getTopLevelDomains();
-        });
     }
 }

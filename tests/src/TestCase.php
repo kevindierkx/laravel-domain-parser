@@ -21,7 +21,7 @@ class TestCase extends \Orchestra\Testbench\TestCase
      *
      * @param \Illuminate\Foundation\Application $app
      *
-     * @return array
+     * @return array<int, class-string>
      */
     protected function getPackageProviders($app): array
     {
@@ -35,7 +35,7 @@ class TestCase extends \Orchestra\Testbench\TestCase
      *
      * @param \Illuminate\Foundation\Application $app
      *
-     * @return array
+     * @return array<string, class-string>
      */
     protected function getPackageAliases($app): array
     {
@@ -73,16 +73,18 @@ class TestCase extends \Orchestra\Testbench\TestCase
     /**
      * Call a protected or private method on an object.
      *
-     * @param mixed  $obj
-     * @param string $name
+     * @param string $abstract
+     * @param string $method
      * @param array  $args
      *
      * @return mixed
      */
-    public function callMethod($obj, string $name, array $args)
+    public function callMethodOnBinding(string $abstract, string $method, array $args)
     {
+        $obj = app($abstract);
+
         $class = new ReflectionClass($obj);
-        $method = $class->getMethod($name);
+        $method = $class->getMethod($method);
         $method->setAccessible(true);
 
         return $method->invokeArgs($obj, $args);

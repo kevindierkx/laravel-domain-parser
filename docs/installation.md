@@ -17,6 +17,7 @@ composer require bakame/laravel-domain-parser
 | 7.x     | ^7.2           | >= 0.4  | ^5.4 |       |
 | 8.x     | ^7.2 \|\| ^8.0 | >= 0.5  | ^5.4 | PHP 8.0 isn't officially supported in this version |
 | 8.x     | ^7.4 \|\| ^8.0 | >= 1.0  | ^6.0 |       |
+| 9.x     | ^8.0           | >= 1.1  | ^6.0 |       |
 
 ## Configuration
 

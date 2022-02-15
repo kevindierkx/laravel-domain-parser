@@ -22,7 +22,7 @@ class RefreshCacheCommand extends Command
     /**
      * The console command description.
      *
-     * @var string|null
+     * @var string
      */
     protected $description = 'Refresh and update the PHP Domain Parser lists cache.';
 

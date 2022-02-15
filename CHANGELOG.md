@@ -2,6 +2,20 @@
 
 All Notable changes will be documented in this file
 
+## 1.1.0 - 2022-02-15
+
+### Added
+
+- Support for Laravel 9.x
+
+### Fixed
+
+- None
+
+### Removed
+
+- Dropped support for older PHP version below 8.x
+
 ## 1.0.0 - 2021-03-30
 
 ### Added
