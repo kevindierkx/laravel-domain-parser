@@ -11,9 +11,9 @@ PHP Domain Parser is a resource based domain parser implemented in PHP. With it 
 
 This package doesn't intent to replace or reinvent the API offered by PDP, instead it offers you various entry points to PDP which can be used to validate or process your domain.
 
-## Installation
+## Documentation
 
-This package offers a wide variety of support for various Laravel versions. You can find the installation instructions, including a compatibility chart and full documentation on https://distortedfusion.com/docs/kevindierkx/laravel-domain-parser.
+You will find full documentation on the dedicated [documentation](https://distortedfusion.com/docs/kevindierkx/laravel-domain-parser) site.
 
 ## Changelog
 
