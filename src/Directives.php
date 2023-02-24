@@ -6,8 +6,10 @@ namespace Bakame\Laravel\Pdp;
 
 use Bakame\Laravel\Pdp\Facades\Rules;
 use Bakame\Laravel\Pdp\Facades\TopLevelDomains;
-use Pdp\Domain;
+use Pdp\DomainNameProvider;
+use Pdp\Host;
 use Pdp\Suffix;
+use Stringable;
 use Throwable;
 
 class Directives
@@ -16,7 +18,7 @@ class Directives
      * Tells whether the submitted tld is a Top Level Domain
      * according to the IANA Root Database.
      *
-     * @param mixed $tld
+     * @param int|DomainNameProvider|Host|string|Stringable|null $tld
      *
      * @return bool
      */
@@ -36,7 +38,7 @@ class Directives
     /**
      * Determine if the domain is a valid domain name.
      *
-     * @param mixed $domain
+     * @param int|DomainNameProvider|Host|string|Stringable|null $domain
      *
      * @return bool
      */
@@ -54,7 +56,7 @@ class Directives
     /**
      * Determine if the domain contains an ICANN suffix.
      *
-     * @param mixed $domain
+     * @param int|DomainNameProvider|Host|string|Stringable|null $domain
      *
      * @return bool
      */
@@ -66,7 +68,7 @@ class Directives
     /**
      * Determine if the domain contains a private suffix.
      *
-     * @param mixed $domain
+     * @param int|DomainNameProvider|Host|string|Stringable|null $domain
      *
      * @return bool
      */
@@ -78,7 +80,7 @@ class Directives
     /**
      * Determine if the domain contains a known suffix.
      *
-     * @param mixed $domain
+     * @param int|DomainNameProvider|Host|string|Stringable|null $domain
      *
      * @return bool
      */
@@ -90,7 +92,7 @@ class Directives
     /**
      * Determine if the domain contains a known Top Level Domain suffix.
      *
-     * @param mixed $domain
+     * @param int|DomainNameProvider|Host|string|Stringable|null $domain
      *
      * @return bool
      */
@@ -102,7 +104,7 @@ class Directives
     /**
      * Convert the domain into its ASCII form.
      *
-     * @param mixed $domain
+     * @param int|DomainNameProvider|Host|string|Stringable|null $domain
      *
      * @return mixed
      */
@@ -114,7 +116,7 @@ class Directives
     /**
      * Convert the domain into its unicode form.
      *
-     * @param mixed $domain
+     * @param int|DomainNameProvider|Host|string|Stringable|null $domain
      *
      * @return mixed
      */
