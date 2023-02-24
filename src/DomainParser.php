@@ -134,7 +134,7 @@ class DomainParser
      *
      * @param int|null $ttl
      *
-     * @return \DateTime
+     * @return DateTime
      */
     protected function convertTtlToDateTime(int $ttl = null): ?DateTime
     {
