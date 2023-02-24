@@ -18,14 +18,12 @@ composer require bakame/laravel-domain-parser
 
 ## Version Compatibility
 
-| Laravel | PHP            | Package | PDP  | NOTES |
-| ------- | -------------- | ------- | ---- | ------|
-| 5.x     | ^7.1           | >= 0.3  | ^5.4 |       |
-| 6.x     | ^7.2           | >= 0.4  | ^5.4 |       |
-| 7.x     | ^7.2           | >= 0.4  | ^5.4 |       |
-| 8.x     | ^7.2 \|\| ^8.0 | >= 0.5  | ^5.4 | PHP 8.0 isn't officially supported in this version |
-| 8.x     | ^7.4 \|\| ^8.0 | >= 1.0  | ^6.0 |       |
-| 9.x     | ^8.0           | >= 1.1  | ^6.0 |       |
+| Laravel | PHP            | Package | PDP  |
+| ------- | -------------- | ------- | ---- |
+| 9.x     | ^8.0           | >= 1.1  | ^6.0 |
+| 10.x    | ^8.1           | >= 1.2  | ^6.2 |
+
+*Only the currently supported PHP versions are listed. Please [refer to previous releases of this package](https://github.com/kevindierkx/laravel-domain-parser/tags) for support for older PHP or Laravel versions.*
 
 ## Configuration
 
