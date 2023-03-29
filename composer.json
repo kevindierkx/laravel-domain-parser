@@ -1,7 +1,11 @@
 {
     "name": "bakame/laravel-domain-parser",
     "description": "Laravel package to integrate PHP Domain parser.",
-    "homepage": "https://github.com/kevindierkx/laravel-domain-parser",
+    "homepage": "https://distortedfusion.com/docs/kevindierkx/laravel-domain-parser",
+    "support": {
+        "issues": "https://github.com/kevindierkx/laravel-domain-parser/issues",
+        "source": "https://github.com/kevindierkx/laravel-domain-parser"
+    },
     "license": "MIT",
     "keywords": [
         "distortedfusion",
