@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Bakame\Laravel\Pdp\Facades;
 
+use Bakame\Laravel\Pdp\DomainParser as BaseDomainParser;
 use Illuminate\Support\Facades\Facade;
-use \Bakame\Laravel\Pdp\DomainParser as BaseDomainParser;
 
 /**
  * @mixin BaseDomainParser
