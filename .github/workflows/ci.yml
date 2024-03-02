@@ -1,6 +1,8 @@
 name: CI-CD
 
-on: [push, pull_request]
+on:
+  - push
+  - pull_request
 
 jobs:
   php-test:
@@ -9,11 +11,14 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php: [8.1]
-        laravel: [10.*]
+        php: [8.1, '8.2']
+        laravel: ['10.*', '11.*']
         stability: [prefer-stable]
         composer-flags: ['']
         experimental: [false]
+        exclude:
+          - laravel: 11.*
+            php: 8.1
 
     continue-on-error: ${{ matrix.experimental }}
 
@@ -55,6 +60,6 @@ jobs:
         run: vendor/bin/phpunit --verbose --coverage-text --coverage-clover=coverage.clover
 
       - name: Code coverage
-        if: ${{ github.ref == 'refs/heads/master' }}
+        if: "${{ github.ref == 'refs/heads/master' }}"
         run: |
           bash <(curl -s https://codecov.io/bash)
