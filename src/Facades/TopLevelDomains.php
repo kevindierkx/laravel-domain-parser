@@ -5,9 +5,8 @@ declare(strict_types=1);
 namespace Bakame\Laravel\Pdp\Facades;
 
 use Illuminate\Support\Facades\Facade;
-use Pdp\TopLevelDomainList;
 
-/** @mixin TopLevelDomainList */
+/** @mixin \Pdp\TopLevelDomains */
 class TopLevelDomains extends Facade
 {
     /**
