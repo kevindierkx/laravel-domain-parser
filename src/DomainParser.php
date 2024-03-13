@@ -17,14 +17,14 @@ use Psr\SimpleCache\CacheInterface;
 class DomainParser
 {
     /**
-     * @var \Bakame\Laravel\Pdp\DomainParserConfig
+     * @var DomainParserConfig
      */
     protected DomainParserConfig $config;
 
     /**
      * Create a new domain parser instance.
      *
-     * @param \Bakame\Laravel\Pdp\DomainParserConfig $config
+     * @param DomainParserConfig $config
      */
     public function __construct(DomainParserConfig $config)
     {
@@ -36,7 +36,7 @@ class DomainParser
      *
      * @param bool $fresh
      *
-     * @return \Pdp\PublicSuffixList
+     * @return PublicSuffixList
      */
     public function getRules(bool $fresh = false): PublicSuffixList
     {
@@ -58,7 +58,7 @@ class DomainParser
      *
      * @param bool $fresh
      *
-     * @return \Pdp\TopLevelDomainList
+     * @return TopLevelDomainList
      */
     public function getTopLevelDomains(bool $fresh = false): TopLevelDomainList
     {
@@ -78,7 +78,7 @@ class DomainParser
     /**
      * Resolve the PDP storage factory instance.
      *
-     * @return \Pdp\Storage\PsrStorageFactory
+     * @return PsrStorageFactory
      */
     private function getStorageFactory(): PsrStorageFactory
     {
@@ -92,7 +92,7 @@ class DomainParser
     /**
      * Resolve the cache instance that should be used by PDP.
      *
-     * @return \Psr\SimpleCache\CacheInterface
+     * @return CacheInterface
      */
     private function getCacheInstance(): CacheInterface
     {
@@ -102,7 +102,7 @@ class DomainParser
     /**
      * Resolve the HTTP client instance that should be used by PDP.
      *
-     * @return \Psr\Http\Client\ClientInterface
+     * @return ClientInterface
      */
     private function getHttpClientInstance(): ClientInterface
     {
@@ -136,7 +136,7 @@ class DomainParser
      *
      * @return DateTime
      */
-    protected function convertTtlToDateTime(int $ttl = null): ?DateTime
+    protected function convertTtlToDateTime(?int $ttl = null): ?DateTime
     {
         if (is_null($ttl)) {
             return null;

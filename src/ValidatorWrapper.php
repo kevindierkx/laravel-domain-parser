@@ -26,10 +26,10 @@ class ValidatorWrapper
     }
 
     /**
-     * @param string                                     $attribute
-     * @param mixed                                      $value
-     * @param array                                      $params
-     * @param \Illuminate\Contracts\Validation\Validator $validator
+     * @param string    $attribute
+     * @param mixed     $value
+     * @param array     $params
+     * @param Validator $validator
      */
     public function __invoke(string $attribute, $value, array $params, Validator $validator): bool
     {
