@@ -22,6 +22,7 @@ composer require bakame/laravel-domain-parser
 | ------- | -------------- | ------- | ---- |
 | 9.x     | ^8.0           | >= 1.1  | ^6.0 |
 | 10.x    | ^8.1           | >= 1.2  | ^6.2 |
+| 11.x    | ^8.2           | >= 1.3  | ^6.2 |
 
 *Only the currently supported PHP versions are listed. Please [refer to previous releases of this package](https://github.com/kevindierkx/laravel-domain-parser/tags) for support for older PHP or Laravel versions.*
 
