@@ -57,7 +57,7 @@ jobs:
         run: composer phpstan
 
       - name: Execute PHPUnit
-        run: vendor/bin/phpunit --verbose --coverage-text --coverage-clover=coverage.clover
+        run: vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
 
       - name: Code coverage
         if: "${{ github.ref == 'refs/heads/master' }}"
