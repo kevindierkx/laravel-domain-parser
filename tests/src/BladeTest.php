@@ -15,20 +15,6 @@ class BladeTest extends TestCase
         self::assertSame($expected, $this->renderView('domain_name', ['domain' => $domain]));
     }
 
-    public function isDomainNameProvider(): iterable
-    {
-        return [
-            'valid domain name' => [
-                'domain' => 'bbc.co.uk',
-                'expected' => "OK\n",
-            ],
-            'invalid domain name' => [
-                'domain' => '[::1]',
-                'expected' => "KO\n",
-            ],
-        ];
-    }
-
     /**
      * @dataProvider isKnownDomainNameProvider
      *
@@ -38,20 +24,6 @@ class BladeTest extends TestCase
     public function testIsKnownDomainName(string $domain, string $expected): void
     {
         self::assertSame($expected, $this->renderView('known_suffix', ['domain' => $domain]));
-    }
-
-    public function isKnownDomainNameProvider(): iterable
-    {
-        return [
-            'valid domain name' => [
-                'domain' => 'bbc.co.uk',
-                'expected' => "OK\n",
-            ],
-            'invalid domain name' => [
-                'domain' => 'bakame-php.localhost',
-                'expected' => "KO\n",
-            ],
-        ];
     }
 
     /**
@@ -65,7 +37,46 @@ class BladeTest extends TestCase
         self::assertSame($expected, $this->renderView('icann_suffix', ['domain' => $domain]));
     }
 
-    public function isICANNDomainNameProvider(): iterable
+    /**
+     * @dataProvider domainConversionProvider
+     *
+     * @param string $domain
+     * @param string $expected
+     */
+    public function testDomainToUnicodeDirective(string $domain, string $expected): void
+    {
+        self::assertSame($expected, $this->renderView('domain_to_unicode', ['domain' => $domain]));
+    }
+
+    public static function isDomainNameProvider(): array
+    {
+        return [
+            'valid domain name' => [
+                'domain' => 'bbc.co.uk',
+                'expected' => "OK\n",
+            ],
+            'invalid domain name' => [
+                'domain' => '[::1]',
+                'expected' => "KO\n",
+            ],
+        ];
+    }
+
+    public static function isKnownDomainNameProvider(): array
+    {
+        return [
+            'valid domain name' => [
+                'domain' => 'bbc.co.uk',
+                'expected' => "OK\n",
+            ],
+            'invalid domain name' => [
+                'domain' => 'bakame-php.localhost',
+                'expected' => "KO\n",
+            ],
+        ];
+    }
+
+    public static function isICANNDomainNameProvider(): array
     {
         return [
             'valid domain name' => [
@@ -90,7 +101,7 @@ class BladeTest extends TestCase
         self::assertSame($expected, $this->renderView('private_suffix', ['domain' => $domain]));
     }
 
-    public function isPrivateDomainNameProvider(): iterable
+    public static function isPrivateDomainNameProvider(): array
     {
         return [
             'valid domain name' => [
@@ -115,7 +126,7 @@ class BladeTest extends TestCase
         self::assertSame($expected, $this->renderView('tld', ['domain' => $domain]));
     }
 
-    public function isTopLevelDomainProvider(): iterable
+    public static function isTopLevelDomainProvider(): array
     {
         return [
             'valid top level domain' => [
@@ -140,7 +151,7 @@ class BladeTest extends TestCase
         self::assertSame($expected, $this->renderView('contains_tld', ['domain' => $domain]));
     }
 
-    public function endsWithTopLevelDomainProvider(): iterable
+    public static function endsWithTopLevelDomainProvider(): array
     {
         return [
             'ends with valid top level domain' => [
@@ -158,18 +169,7 @@ class BladeTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider domainConversionProvider
-     *
-     * @param string $domain
-     * @param string $expected
-     */
-    public function testDomainToUnicodeDirective(string $domain, string $expected): void
-    {
-        self::assertSame($expected, $this->renderView('domain_to_unicode', ['domain' => $domain]));
-    }
-
-    public function domainConversionProvider(): iterable
+    public static function domainConversionProvider(): array
     {
         return [
             'ascii domain' => [

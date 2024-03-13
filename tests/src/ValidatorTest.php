@@ -27,7 +27,7 @@ class ValidatorTest extends TestCase
         }
     }
 
-    public function validatorProvider(): array
+    public static function validatorProvider(): array
     {
         return [
             'is_tld success' => [
