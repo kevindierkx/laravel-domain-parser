@@ -13,7 +13,7 @@ This package doesn't intent to replace or reinvent the API offered by PDP, inste
 
 ## Documentation
 
-You will find full documentation on the dedicated [documentation](https://distortedfusion.com/docs/kevindierkx/laravel-domain-parser) site.
+You will find full documentation on the dedicated [documentation](https://distortedfusion.com/docs/kevindierkx/laravel-domain-parser/getting-started) site.
 
 ## Changelog
 
