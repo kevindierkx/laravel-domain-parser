@@ -6,5 +6,5 @@ includes:
 parameters:
     ignoreErrors:
         - '#Cannot call method expectsOutput\(\) on Illuminate\\Testing\\PendingCommand\|int.#'
+        - identifier: missingType.iterableValue
     reportUnmatchedIgnoredErrors: true
-    checkMissingIterableValueType: false

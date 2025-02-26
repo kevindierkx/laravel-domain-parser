@@ -4,4 +4,5 @@ includes:
     - vendor/phpstan/phpstan-phpunit/rules.neon
 parameters:
     reportUnmatchedIgnoredErrors: true
-    checkMissingIterableValueType: false
+    ignoreErrors:
+        - identifier: missingType.iterableValue

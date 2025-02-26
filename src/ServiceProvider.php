@@ -18,12 +18,8 @@ class ServiceProvider extends BaseServiceProvider
      */
     public function register(): void
     {
-        if (! defined('LARAVEL_PDP_PATH')) {
-            define('LARAVEL_PDP_PATH', realpath(__DIR__.'/../'));
-        }
-
         $this->mergeConfigFrom(
-            LARAVEL_PDP_PATH.'/config/domain-parser.php', 'domain-parser'
+            $this->basePath().'/config/domain-parser.php', 'domain-parser'
         );
 
         $this->app->singleton('pdp.parser', function ($app) {
@@ -117,8 +113,13 @@ class ServiceProvider extends BaseServiceProvider
     {
         if ($this->app->runningInConsole()) {
             $this->publishes([
-                LARAVEL_PDP_PATH.'/config/domain-parser.php' => config_path('domain-parser.php'),
+                $this->basePath().'/config/domain-parser.php' => config_path('domain-parser.php'),
             ], 'config');
         }
+    }
+
+    private function basePath(): string
+    {
+        return realpath(rtrim(__DIR__, '/').'/../') ?: '/../';
     }
 }
