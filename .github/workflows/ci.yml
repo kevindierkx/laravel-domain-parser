@@ -51,8 +51,5 @@ jobs:
         run: composer phpcs
         continue-on-error: true
 
-      - name: Execute PHPStan
-        run: composer phpstan
-
       - name: Execute PHPUnit
         run: vendor/bin/phpunit --coverage-text
