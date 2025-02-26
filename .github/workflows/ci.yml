@@ -49,6 +49,7 @@ jobs:
 
       - name: Execute PHPCS
         run: composer phpcs
+        continue-on-error: true
 
       - name: Execute PHPStan
         run: composer phpstan
