@@ -54,9 +54,4 @@ jobs:
         run: composer phpstan
 
       - name: Execute PHPUnit
-        run: vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
-
-      - name: Code coverage
-        if: "${{ github.ref == 'refs/heads/master' }}"
-        run: |
-          bash <(curl -s https://codecov.io/bash)
+        run: vendor/bin/phpunit --coverage-text
