@@ -2,7 +2,8 @@
 
 [![Latest Version](https://img.shields.io/github/tag/kevindierkx/laravel-domain-parser.svg?style=flat-square)](https://github.com/kevindierkx/laravel-domain-parser/tags)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE)
-[![Build Status](https://img.shields.io/github/workflow/status/kevindierkx/laravel-domain-parser/CI-CD/master?style=flat-square)](https://github.com/kevindierkx/laravel-domain-parser/actions)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/kevindierkx/laravel-domain-parser/ci.yml?branch=master&style=flat-square)](https://github.com/kevindierkx/laravel-domain-parser/actions)
+
 
 This Laravel package eases [PHP Domain Parser](https://github.com/jeremykendall/php-domain-parser) _(PDP)_ integration in your Laravel application.
 
