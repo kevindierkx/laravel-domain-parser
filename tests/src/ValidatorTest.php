@@ -18,7 +18,7 @@ class ValidatorTest extends TestCase
         array $input,
         array $contraints,
         bool $expected,
-        string $errorMessage
+        string $errorMessage,
     ): void {
         $validator = Validator::make($input, $contraints);
         self::assertSame($expected, $validator->fails());
