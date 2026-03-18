@@ -42,11 +42,10 @@ class RefreshCacheCommandTest extends TestCase
             ->assertExitCode(0);
     }
 
-    /**
-     * @environment-setup useFaultyConfig
-     */
     public function testExceptionsAreCaught(): void
     {
+        $this->useFaultyConfig($this->app);
+
         $this->artisan('domain-parser:refresh')
             ->expectsOutput(self::INFO_INTRO)
             ->expectsOutput(self::ERROR_INTRO)
