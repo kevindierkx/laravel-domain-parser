@@ -2,47 +2,29 @@
 
 namespace BakameTest\Laravel\Pdp;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+
 class BladeTest extends TestCase
 {
-    /**
-     * @dataProvider isDomainNameProvider
-     *
-     * @param string $domain
-     * @param string $expected
-     */
+    #[DataProvider('isDomainNameProvider')]
     public function testIsDomainName(string $domain, string $expected): void
     {
         self::assertSame($expected, $this->renderView('domain_name', ['domain' => $domain]));
     }
 
-    /**
-     * @dataProvider isKnownDomainNameProvider
-     *
-     * @param string $domain
-     * @param string $expected
-     */
+    #[DataProvider('isKnownDomainNameProvider')]
     public function testIsKnownDomainName(string $domain, string $expected): void
     {
         self::assertSame($expected, $this->renderView('known_suffix', ['domain' => $domain]));
     }
 
-    /**
-     * @dataProvider isICANNDomainNameProvider
-     *
-     * @param string $domain
-     * @param string $expected
-     */
+    #[DataProvider('isICANNDomainNameProvider')]
     public function testIsICANNDomainName(string $domain, string $expected): void
     {
         self::assertSame($expected, $this->renderView('icann_suffix', ['domain' => $domain]));
     }
 
-    /**
-     * @dataProvider domainConversionProvider
-     *
-     * @param string $domain
-     * @param string $expected
-     */
+    #[DataProvider('domainConversionProvider')]
     public function testDomainToUnicodeDirective(string $domain, string $expected): void
     {
         self::assertSame($expected, $this->renderView('domain_to_unicode', ['domain' => $domain]));
@@ -90,12 +72,7 @@ class BladeTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider isPrivateDomainNameProvider
-     *
-     * @param string $domain
-     * @param string $expected
-     */
+    #[DataProvider('isPrivateDomainNameProvider')]
     public function testIsPrivateDomainName(string $domain, string $expected): void
     {
         self::assertSame($expected, $this->renderView('private_suffix', ['domain' => $domain]));
@@ -115,12 +92,7 @@ class BladeTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider isTopLevelDomainProvider
-     *
-     * @param string $domain
-     * @param string $expected
-     */
+    #[DataProvider('isTopLevelDomainProvider')]
     public function testIsTopLevelDomain(string $domain, string $expected): void
     {
         self::assertSame($expected, $this->renderView('tld', ['domain' => $domain]));
@@ -140,12 +112,7 @@ class BladeTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider endsWithTopLevelDomainProvider
-     *
-     * @param string $domain
-     * @param string $expected
-     */
+    #[DataProvider('endsWithTopLevelDomainProvider')]
     public function testEndsWithTopLevelDomain(string $domain, string $expected): void
     {
         self::assertSame($expected, $this->renderView('contains_tld', ['domain' => $domain]));

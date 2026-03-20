@@ -3,17 +3,11 @@
 namespace BakameTest\Laravel\Pdp;
 
 use Illuminate\Support\Facades\Validator;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class ValidatorTest extends TestCase
 {
-    /**
-     * @dataProvider validatorProvider
-     *
-     * @param array  $input
-     * @param array  $contraints
-     * @param bool   $expected
-     * @param string $errorMessage
-     */
+    #[DataProvider('validatorProvider')]
     public function testValidator(
         array $input,
         array $contraints,
